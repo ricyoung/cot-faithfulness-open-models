@@ -1,0 +1,152 @@
+% ============================================================
+% RESULTS — target: 800--1200 words
+% Cardinal rule: REPORT ONLY. No interpretation.
+% ============================================================
+
+\section{Results}
+
+\subsection{Classifier Validation}
+
+[TODO: Report Cohen's $\kappa$ and per-stage accuracy on 200 hand-labeled examples.
+Report Stage~1 (pattern matching) precision/recall and Stage~2 (LLM judge) accuracy
+on the subset that passes through.]
+
+\subsection{Baseline Accuracy}
+
+To establish model capability independent of hint injection, we first report accuracy
+on the 500 unhinted questions.
+
+% Table 2: Baseline accuracy by model
+% \begin{table}[H]
+%   \centering
+%   \caption{Baseline accuracy (\%) on MMLU (300 questions) and GPQA Diamond
+%   (200 questions) without hint injection. Models sorted by overall accuracy.}
+%   \label{tab:baseline}
+%   \begin{tabular}{lccc}
+%     \toprule
+%     \textbf{Model} & \textbf{MMLU} & \textbf{GPQA} & \textbf{Overall} \\
+%     \midrule
+%     [TODO: Fill after experiments] \\
+%     \bottomrule
+%   \end{tabular}
+% \end{table}
+
+[TODO: Report baseline accuracy results. Reference Table~\ref{tab:baseline}.]
+
+\subsection{Hint Influence Rates}
+
+Before measuring faithfulness, we report the rate at which each hint type
+successfully influenced model answers.
+
+% Figure 1: Hint influence rate heatmap (model x hint type)
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=\textwidth]{fig1_influence_heatmap.pdf}
+%   \caption{Hint influence rate (\%) by model and hint type. Darker cells
+%   indicate higher susceptibility to the hint. [KEY TAKEAWAY].}
+%   \label{fig:influence}
+% \end{figure}
+
+[TODO: Report influence rates. Which models are most/least susceptible?
+Which hint types are most effective? Reference Figure~\ref{fig:influence}.]
+
+\subsection{Faithfulness Rates by Model and Hint Type (H1)}
+
+To examine whether faithfulness rates vary across model families (H1), we
+computed faithfulness rates for each model-hint combination.
+
+% Figure 2: Main result — faithfulness rate heatmap (model x hint type)
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=\textwidth]{fig2_faithfulness_heatmap.pdf}
+%   \caption{Faithfulness rate (\%) by model and hint type. Values represent
+%   the proportion of hint-influenced responses where the CoT explicitly
+%   acknowledges the hint. 95\% bootstrap CIs in parentheses.
+%   [KEY TAKEAWAY].}
+%   \label{fig:faithfulness}
+% \end{figure}
+
+% Table 3: Full faithfulness results with CIs
+% \begin{table}[H]
+%   \centering
+%   \caption{Faithfulness rates (\%) with 95\% bootstrap confidence intervals.
+%   Bold indicates highest faithfulness per hint type.}
+%   \label{tab:faithfulness}
+%   [TODO: 12 rows x 7 columns (model + 6 hint types + overall)]
+% \end{table}
+
+[TODO: Report faithfulness rates. Reference Figure~\ref{fig:faithfulness} and
+Table~\ref{tab:faithfulness}. Report McNemar's test results for pairwise
+model comparisons. State whether H1 is supported.]
+
+\subsection{Hint-Type Patterns (H2)}
+
+To examine whether certain hint types exhibit consistently lower faithfulness
+across all models (H2), we compared faithfulness rates across the six hint
+categories.
+
+% Figure 3: Faithfulness by hint type (box plots across models)
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=0.8\textwidth]{fig3_faithfulness_by_hint.pdf}
+%   \caption{Distribution of faithfulness rates across 12 models for each
+%   hint type. Box plots show median, IQR, and range. [KEY TAKEAWAY].}
+%   \label{fig:by_hint}
+% \end{figure}
+
+[TODO: Report per-hint-type results. Which hints are most faithfully
+reported? Which are systematically underreported? State whether H2 is
+supported.]
+
+\subsection{Scaling Analysis}
+
+To examine the relationship between model scale and faithfulness, we plot
+faithfulness rates against active parameter count.
+
+% Figure 4: Faithfulness vs. scale (scatter with regression line)
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=0.8\textwidth]{fig4_faithfulness_vs_scale.pdf}
+%   \caption{Faithfulness rate vs.\ active parameter count (log scale).
+%   Each point is one model; error bars show 95\% CIs. Dashed line shows
+%   log-linear regression ($R^2 = $ [TODO], $p = $ [TODO]).}
+%   \label{fig:scaling}
+% \end{figure}
+
+[TODO: Report scaling analysis. Is there a correlation between model size and
+faithfulness? Reference Figure~\ref{fig:scaling}. Report regression
+statistics.]
+
+\subsection{CoT Length Analysis}
+
+Following Chen et al.~\cite{chen2025reasoning}, we compare the length of faithful
+vs.\ unfaithful CoTs.
+
+% Figure 5: CoT length distribution (faithful vs. unfaithful)
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=0.8\textwidth]{fig5_cot_length.pdf}
+%   \caption{Distribution of CoT token counts for faithful (hint acknowledged)
+%   and unfaithful (hint not acknowledged) responses, pooled across all
+%   models. [KEY TAKEAWAY regarding length differences].}
+%   \label{fig:cot_length}
+% \end{figure}
+
+[TODO: Report whether unfaithful CoTs are longer, replicating the finding
+of Chen et al. Reference Figure~\ref{fig:cot_length}. Report median
+lengths and statistical test.]
+
+\subsection{Replication of Chen et al.}
+
+To validate our methodology, we compare our DeepSeek-R1 results with those
+reported by Chen et al.~\cite{chen2025reasoning}.
+
+[TODO: Report side-by-side comparison of our DeepSeek-R1 faithfulness rates
+vs.\ Chen et al.'s reported 39\%. Discuss any discrepancies and their
+likely causes.]
+
+\subsection{Summary}
+
+[TODO: ``In summary, results [supported/did not support] H1 and [supported/did
+not support] H2. The key findings are: (1)~[FINDING], (2)~[FINDING],
+(3)~[FINDING]. These results are examined in the following section.'']

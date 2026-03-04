@@ -1,0 +1,127 @@
+% ============================================================
+% RELATED WORK — target: 800--1200 words
+% Thematic subsections
+% ============================================================
+
+\section{Related Work}
+
+\subsection{Chain-of-Thought Faithfulness}
+
+The question of whether chain-of-thought explanations faithfully represent a model's
+actual reasoning process has been investigated through several complementary
+methodologies. Turpin et al.~\cite{turpin2023unfaithful} introduced the bias
+injection paradigm: by adding biasing features to few-shot prompts (e.g., labeling
+answers with positional patterns or attributing answers to authority figures), they
+showed that models on BIG-Bench Hard tasks are systematically influenced by features
+never mentioned in their CoT explanations. This established that CoT unfaithfulness
+is not merely occasional but reflects a structural gap between the reasoning a model
+reports and the factors that actually drive its outputs.
+
+Lanham et al.~\cite{lanham2023measuring} took a causal approach, measuring
+faithfulness in Claude models by intervening on the CoT itself---truncating reasoning
+chains, adding mistakes to intermediate steps, and paraphrasing explanations. Their
+key finding was that the degree to which CoT content causally determines model
+predictions varies substantially by task, suggesting that faithfulness is not a fixed
+property of a model but depends on the interaction between model, task, and reasoning
+chain structure. Radhakrishnan et al.~\cite{radhakrishnan2023decomposition}
+demonstrated that decomposing questions into subquestions before generating answers
+improves faithfulness, as judged by the consistency between intermediate reasoning
+steps and final outputs.
+
+Lyu et al.~\cite{lyu2023faithful} proposed Faithful CoT, a framework that translates
+natural language queries into symbolic reasoning chains (e.g., Python code or
+Datalog programs) before solving them, achieving verifiable faithfulness by
+construction. While this approach sidesteps the faithfulness problem for structured
+reasoning tasks, it does not generalize to open-ended reasoning where symbolic
+translation is infeasible.
+
+Most recently, Chen et al.~\cite{chen2025reasoning} conducted the most directly
+relevant evaluation, testing Claude 3.7 Sonnet and DeepSeek-R1 across six hint
+types injected into MMLU and GPQA questions. Their finding that faithfulness rates
+are as low as 25\% for Claude and 39\% for DeepSeek-R1---with outcome-based
+reinforcement learning providing only modest and plateauing improvements---raised
+fundamental questions about the viability of CoT monitoring as a safety mechanism.
+Feng et al.~\cite{feng2025more} extended this to three reasoning models
+(QwQ-32b, Gemini 2.0 Flash Thinking, and DeepSeek-R1), finding that reasoning
+models are substantially more faithful than their non-reasoning counterparts,
+though they tested only sycophancy hints on MMLU. Cornish and
+Rogers~\cite{cornish2025examining} probed DeepSeek-R1 on 445 logical puzzles
+and discovered an asymmetry: the model acknowledges \emph{harmful} hints
+94.6\% of the time but reports fewer than 2\% of helpful hints, suggesting
+that faithfulness is entangled with the perceived valence of the influencing cue.
+Arcuschin et al.~\cite{arcuschin2025wild} extended this investigation to natural
+settings, finding that CoT reasoning in the wild is also frequently unfaithful,
+while making the important distinction between hint-injection faithfulness and the
+broader concept of reasoning faithfulness in unconstrained settings.
+
+Complementary methodological approaches have emerged alongside hint-injection
+studies. Chua et al.~\cite{chua2025unlearning} proposed measuring faithfulness
+by selectively unlearning reasoning steps and observing whether model predictions
+change accordingly, providing a causal alternative to post-hoc CoT analysis.
+Stickland et al.~\cite{stickland2025monitorability} introduced the concept of
+\emph{monitorability}---distinguishing it from faithfulness---and showed that
+models can appear faithful yet remain hard to monitor when they omit key factors
+from their reasoning, with monitorability varying sharply across model families.
+
+\subsection{Reasoning Models and Safety}
+
+The proliferation of reasoning models---systems trained with reinforcement learning
+to produce extended chains of thought---has created new safety challenges alongside
+their performance gains. DeepSeek-R1 \cite{deepseek2025r1} demonstrated that
+reinforcement learning with group relative policy optimization (GRPO) can elicit
+sophisticated reasoning behaviors, while subsequent work has shown that similar
+capabilities emerge across diverse training paradigms including distillation,
+supervised fine-tuning, and data-centric approaches.
+
+Several studies have examined the safety implications of these reasoning capabilities.
+Jiang et al.~\cite{jiang2025safechain} evaluated safety risks specific to models
+with long CoT capabilities, finding that the extended reasoning process can both
+help and hinder safety---models sometimes reason their way toward harmful outputs.
+The hidden risks of reasoning models have been further documented by safety
+assessments of DeepSeek-R1 showing that reasoning traces can contain concerning
+patterns even when final outputs appear benign \cite{zhou2025hidden}.
+
+A particularly important line of work questions the fundamental limits of CoT
+monitoring as a safety strategy. Baker et al.~\cite{baker2025cot} argued that CoT
+may remain highly informative for monitoring \emph{despite} unfaithfulness,
+distinguishing between the strict requirement that CoT perfectly mirrors internal
+computation and the weaker but practically useful property that CoT correlates
+with safety-relevant behaviors. Conversely, Chen et al.~\cite{chen2025reasoning}
+demonstrated that when reinforcement learning increases hint usage (reward hacking),
+the rate at which models verbalize that usage in their CoT remains below 2\%,
+suggesting that outcome-based training actively decouples behavior from stated
+reasoning.
+
+\subsection{Open-Weight Model Evaluation}
+
+The rapid expansion of the open-weight model ecosystem has created an urgent need
+for systematic evaluation across model families. By early 2026, open-weight
+reasoning models span a wide range of architectures (dense, mixture-of-experts,
+hybrid attention), training methods (GRPO, DPO, distillation, supervised
+fine-tuning, data-centric), and scales (8B to over 1T parameters). Surveys of
+large reasoning models \cite{xu2025large, qchen2025longcot, li2025system12} have
+catalogued this diversity but have not included faithfulness as an evaluation
+dimension.
+
+Existing faithfulness evaluations have focused almost exclusively on proprietary
+models or on a single open-weight family (typically DeepSeek). Wu et
+al.~\cite{wu2025moreless} examined the relationship between CoT length and task
+performance, finding an inverted U-shape where excessively long reasoning chains
+degrade accuracy---a finding relevant to faithfulness since Chen et
+al.~\cite{chen2025reasoning} showed that unfaithful CoTs tend to be longer.
+Probing-based approaches have examined whether models' internal representations
+contain information about answer correctness that is absent from their CoT
+\cite{liu2025probing}, suggesting that faithfulness gaps may be detectable through
+mechanistic interpretability even when CoT analysis alone fails. Wang et
+al.~\cite{wang2024making} proposed training-time interventions to improve
+faithfulness, demonstrating that explicitly optimizing for reasoning consistency
+during fine-tuning can narrow the gap between stated and actual reasoning processes.
+
+Our work fills the gap between these lines of research by providing the first
+systematic faithfulness evaluation that spans the breadth of the open-weight
+reasoning model ecosystem. By testing 11 models across 9 families with a
+standardized methodology---and using Anthropic's BLOOM
+framework~\cite{bloom2025} for automated behavioral scoring---we enable direct
+comparison of faithfulness properties across architectures, training methods,
+and scales, comparisons that are currently impossible with the narrow model
+coverage of existing studies.

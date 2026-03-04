@@ -1,0 +1,157 @@
+% ============================================================
+% PAPER TEMPLATE — PRIMEarxiv (arXiv + Overleaf ready)
+% ============================================================
+% WORKFLOW:
+%   1. Copy this entire 00_template/ directory to a new folder
+%   2. Rename the folder to your paper name
+%   3. Edit PAPER METADATA below (title, authors, running header)
+%   4. Fill in each sections/XX_*.tex file
+%   5. Add figures to figures/ as figN_descriptive_name.pdf
+%   6. Add references to references.bib
+%   7. Compile:
+%        pdflatex main.tex && bibtex main && pdflatex main.tex && pdflatex main.tex
+%      Or: latexmk -pdf main.tex
+%   8. For arXiv submission, zip:
+%        main.tex + sections/ + figures/ + PRIMEarxiv.sty
+%        + references.bib + main.bbl + 00README.json
+%
+% WRITING GUIDE: See WRITING_GUIDE.md for structure, abstract
+%   formula, 4-paragraph intro pattern, and section-level guidance.
+% ============================================================
+
+\documentclass{article}
+
+% --- Core style ---
+\usepackage{PRIMEarxiv}
+
+% --- Encoding ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% --- Links ---
+\usepackage{hyperref}
+\usepackage{url}
+
+% --- Tables ---
+\usepackage{booktabs}
+\usepackage{multirow}
+
+% --- Figures ---
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{{figures/}}
+
+% --- Math ---
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{nicefrac}
+
+% --- Typography ---
+\usepackage{microtype}
+
+% --- Color ---
+\usepackage{xcolor}
+\usepackage{colortbl}
+
+% --- Header/footer ---
+\usepackage{fancyhdr}
+
+% --- Hyperref config ---
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue
+}
+
+\raggedbottom
+
+% ============================================================
+% PAPER METADATA — edit these for each new paper
+% ============================================================
+\pagestyle{fancy}
+\thispagestyle{empty}
+\rhead{\textit{ }}
+
+% Running header (short title for page headers)
+\fancyhead[LO]{CoT Faithfulness in Open Reasoning Models}
+
+% Full title
+\title{Do Open Reasoning Models Say What They Think? \\ Chain-of-Thought Faithfulness Across 11 Models and 9 Families}
+
+% Authors
+\author{
+  Richard J. Young \\
+  University of Nevada Las Vegas \\
+  Department of Neuroscience \\
+  Las Vegas, NV, USA \\
+  \texttt{ryoung@unlv.edu} \\
+  %
+  % For multi-author papers, add co-authors with \And:
+  %
+  % \And
+  % Co-Author Name \\
+  % Institution \\
+  % Department \\
+  % City, State, Country \\
+  % \texttt{email@example.com} \\
+}
+
+% ============================================================
+\begin{document}
+\maketitle
+
+% ============================================================
+% ABSTRACT
+% ============================================================
+\begin{abstract}
+\input{sections/01_abstract}
+\end{abstract}
+
+% Keywords — separate with \and
+\keywords{Chain-of-Thought \and Faithfulness \and Reasoning Models \and AI Safety \and Open-Weight Models}
+
+% ============================================================
+% BODY
+% ============================================================
+\input{sections/02_introduction}
+\input{sections/03_related_work}
+\input{sections/04_methods}
+\input{sections/05_results}
+\input{sections/06_discussion}
+\input{sections/07_conclusion}
+
+% ============================================================
+% ACKNOWLEDGMENTS (optional — uncomment as needed)
+% ============================================================
+% \section*{Acknowledgments}
+% The authors thank ...
+
+% ============================================================
+% ETHICS STATEMENT (optional — uncomment as needed)
+% ============================================================
+% \section*{Ethics Statement}
+% This study was approved by ... (IRB protocol \#XXXX).
+
+% ============================================================
+% DATA AND CODE AVAILABILITY
+% ============================================================
+\section*{Data and Code Availability}
+Code, evaluation prompts, and faithfulness annotations are available at \url{https://github.com/ricyoung/cot-faithfulness-open-models}.
+Raw inference outputs and classified results are available at \url{https://huggingface.co/datasets/richardyoung/cot-faithfulness-open-models}.
+
+% ============================================================
+% REFERENCES
+% ============================================================
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+% ============================================================
+% APPENDIX
+% ============================================================
+\newpage
+\appendix
+\input{sections/08_appendix}
+
+\end{document}

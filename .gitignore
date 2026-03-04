@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environment
+.env
+venv/
+.venv/
+
+# Data (large files)
+data/raw/
+results/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Downloaded papers (copyrighted)
+papers/*.pdf
+
+# Jupyter
+.ipynb_checkpoints/
+
+# LaTeX build artifacts
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.log
+paper/*.out
+paper/*.pdf
+paper/*.fls
+paper/*.fdb_latexmk
+paper/*.synctex.gz

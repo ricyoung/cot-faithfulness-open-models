@@ -1,0 +1,25 @@
+% ============================================================
+% ABSTRACT — target: 150--250 words
+% ============================================================
+
+Chain-of-thought (CoT) monitoring has emerged as a promising safety mechanism
+for understanding the intentions and reasoning processes of large language
+models, yet its effectiveness depends on whether models faithfully verbalize
+their actual reasoning. Recent work demonstrated that proprietary reasoning
+models frequently fail to acknowledge reasoning hints that influenced their
+answers---Claude 3.7 Sonnet verbalizes such hints only 25\% of the time, and
+DeepSeek-R1 only 39\%---but this evaluation covered just two reasoning models.
+We present the first systematic cross-family evaluation of CoT faithfulness in
+open-weight reasoning models, testing 11 models spanning 9 architectural
+families and ranging from 7B to over 1T parameters. Using 500 multiple-choice
+questions from MMLU and GPQA Diamond with six categories of injected reasoning
+hints (sycophancy, consistency, visual pattern, metadata, grader hacking, and
+unethical information), we measure the rate at which models acknowledge
+hint influence in their chain-of-thought when hints successfully alter their
+answers. Across 38,500 inference runs, we find that [RESULTS: faithfulness
+rates, model-family differences, hint-type patterns, scaling trends]. Our
+results reveal [KEY FINDING] and demonstrate that [IMPLICATION for CoT-based
+safety monitoring]. These findings establish that CoT faithfulness varies
+substantially across the open-weight reasoning model ecosystem and carry direct
+implications for the reliability of CoT monitoring in safety-critical
+deployments.

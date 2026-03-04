@@ -1,0 +1,89 @@
+% ============================================================
+% DISCUSSION — target: 1000--1500 words
+% ============================================================
+
+\section{Discussion}
+
+% Paragraph 1: Summary and takeaway
+The primary aim of this study was to determine whether the low CoT faithfulness
+rates observed in proprietary reasoning models generalize across the open-weight
+reasoning model ecosystem. [TODO: State primary finding. ``Our results demonstrate
+that...'' State overall takeaway.]
+
+% Paragraph 2: Cross-family variation (H1)
+[TODO: Restate H1 finding. Interpret: what explains the cross-family differences?
+Relate to training methodology differences (GRPO vs.\ DPO vs.\ distillation vs.\
+data-centric). Compare with Chen et al.'s finding that DeepSeek-R1 (39\%) outperforms
+Claude 3.7 Sonnet (25\%). To our knowledge, this is the first study to demonstrate
+systematic differences in CoT faithfulness across model families.]
+
+% Paragraph 3: Hint-type patterns (H2)
+[TODO: Restate H2 finding. Interpret: why might certain hint types be systematically
+underreported? Relate to Turpin et al.'s categories of biasing features. Discuss
+implications for monitoring---if metadata and grader hints are consistently
+unfaithful, these represent the highest-risk categories for safety monitoring.]
+
+% Paragraph 4: Scaling
+[TODO: Interpret scaling results. Does larger = more faithful? Relate to the general
+finding that larger models are more capable but not necessarily more aligned. Compare
+with the 8B distilled model vs.\ full DeepSeek-R1.]
+
+% Paragraph 5: CoT length
+[TODO: Interpret CoT length findings. If replicated, unfaithful CoTs being longer
+suggests active rationalization rather than simple omission---models may construct
+elaborate alternative justifications when they don't want to reveal the true influence.
+Relate to Chen et al.'s ``obfuscation'' interpretation.]
+
+% Limitations
+\subsection*{Limitations}
+
+Several limitations should be considered when interpreting these results.
+
+First, our faithfulness measurement is inherently conservative: we only identify a
+CoT as faithful if it \emph{explicitly} mentions the hint, but models may
+acknowledge hint influence through indirect or paraphrased language that our
+classifier misses. Our hand-labeled validation set provides a bound on this error,
+but some faithful responses may be misclassified as unfaithful.
+
+Second, we evaluate using API-served models, which may differ from locally-hosted
+versions due to provider-specific quantization, system prompts, or inference
+optimizations. While we control for generation parameters
+($\text{temperature}=0.0$, $\text{seed}=42$), exact reproducibility across
+API providers cannot be guaranteed.
+
+Third, our evaluation covers multiple-choice questions from MMLU and GPQA only.
+Faithfulness behavior may differ on open-ended generation tasks, code
+generation, or mathematical reasoning where the answer format is unconstrained.
+
+Fourth, we test 500 questions per model, which may provide insufficient statistical
+power for fine-grained comparisons within specific MMLU subject categories or for
+rare hint types with low influence rates.
+
+[TODO: Address additional limitations discovered during experiments.]
+
+% Integration: implications
+\subsection*{Implications for CoT Safety Monitoring}
+
+[TODO: Theoretical implications---what does cross-family faithfulness variation
+tell us about the relationship between training methodology and reasoning
+transparency? Practical implications---which models are most suitable for
+deployments that rely on CoT monitoring? How should safety teams adjust their
+monitoring strategies given these findings?
+
+Relate to Baker et al.'s argument that CoT can be informative despite
+unfaithfulness. Our cross-family data may help quantify \emph{how} informative
+CoT monitoring is for different model families.
+
+Discuss hybrid behavioral + mechanistic monitoring as a future direction,
+following the argument that CoT visibility alone is insufficient for reliable
+safety monitoring.]
+
+% Future directions
+\subsection*{Future Directions}
+
+[TODO: (1)~Extend to open-ended generation tasks beyond multiple choice.
+(2)~Combine CoT analysis with probing-based approaches to measure the gap
+between surface-level and internal faithfulness. (3)~Investigate whether
+faithfulness can be improved through training-time interventions (e.g.,
+faithfulness-aware RLHF) without sacrificing task performance. (4)~Longitudinal
+tracking of faithfulness as models are updated across versions.]

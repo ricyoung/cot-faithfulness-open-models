@@ -1,0 +1,68 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cot-faithfulness"
+version = "0.1.0"
+description = "Measuring Chain-of-Thought faithfulness on open reasoning models"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "Richard J. Young", email = "ryoung@unlv.edu"},
+]
+dependencies = [
+    "openai>=1.40.0",
+    "httpx>=0.27.0",
+    "tenacity>=8.2.0",
+    "datasets>=3.0.0",
+    "click>=8.1.0",
+    "pydantic>=2.5.0",
+    "pydantic-settings>=2.1.0",
+    "pandas>=2.1.0",
+    "matplotlib>=3.8.0",
+    "seaborn>=0.13.0",
+    "scipy>=1.11.0",
+    "rich>=13.7.0",
+    "tqdm>=4.66.0",
+    "numpy>=1.26.0",
+    "jsonlines>=4.0.0",
+    "python-dotenv>=1.0.0",
+    "huggingface-hub>=0.25.0",
+    "statsmodels>=0.14.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.4.0",
+    "mypy>=1.8.0",
+    "ipykernel>=6.29.0",
+]
+
+[project.scripts]
+cot-faithfulness = "cot_faithfulness.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cot_faithfulness"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/cot_faithfulness"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-v --tb=short"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true

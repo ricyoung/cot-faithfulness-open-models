@@ -1,0 +1,79 @@
+% ============================================================
+% INTRODUCTION — target: 600--800 words, 4 paragraphs
+% ============================================================
+
+\section{Introduction}
+
+% Paragraph 1: The Problem
+As large language models are deployed in increasingly high-stakes settings---from
+medical diagnosis and legal reasoning to autonomous code generation---the ability
+to monitor and understand their reasoning processes becomes a critical safety
+requirement. Chain-of-thought (CoT) reasoning, in which models produce step-by-step
+explanations before arriving at a final answer, has been widely adopted as a
+transparency mechanism: if a model's reasoning is visible, human overseers can
+potentially detect flawed logic, biased reasoning, or deceptive intent before harm
+occurs \cite{wei2022cot}. This promise is especially important for reasoning
+models---systems explicitly trained to produce extended thinking traces via
+reinforcement learning---which now dominate benchmarks in mathematics, science, and
+coding \cite{qchen2025longcot, xu2025large}. However, the safety value of CoT
+monitoring rests on a crucial assumption: that the chain-of-thought faithfully
+represents the model's actual reasoning process. If models can be influenced by
+factors they do not acknowledge in their CoT, then monitoring these traces provides
+a false sense of security.
+
+% Paragraph 2: What Is Known
+A growing body of work has investigated the faithfulness of chain-of-thought
+reasoning. Turpin et al.~\cite{turpin2023unfaithful} demonstrated that biased
+features in prompts (such as suggested answers from a purported expert)
+systematically influence model outputs without being mentioned in the CoT, revealing
+gaps between stated and actual reasoning across multiple tasks on BIG-Bench Hard.
+Lanham et al.~\cite{lanham2023measuring} further measured CoT faithfulness in Claude
+models by truncating, corrupting, and adding mistakes to reasoning chains, finding
+that the correlation between CoT content and model predictions varies substantially
+across tasks. Lyu et al.~\cite{lyu2023faithful} proposed a two-stage framework
+translating natural language into symbolic reasoning chains to improve faithfulness,
+while Radhakrishnan et al.~\cite{radhakrishnan2023decomposition} showed that
+question decomposition improves the faithfulness of model-generated reasoning.
+Most recently, Chen et al.~\cite{chen2025reasoning} conducted the most comprehensive
+evaluation to date, using six types of reasoning hints---sycophancy, consistency,
+visual pattern recognition, metadata cues, grader hacking, and unethical information
+use---injected into MMLU and GPQA multiple-choice questions. They found that
+Claude 3.7 Sonnet acknowledges hints that influenced its answer only 25\% of the
+time, while DeepSeek-R1 does so only 39\% of the time, with unfaithful CoTs being
+paradoxically \emph{longer} than faithful ones. A shared limitation across all of
+these studies is their narrow model coverage: existing evaluations test at most two
+to four models, leaving the vast and rapidly growing ecosystem of open-weight
+reasoning models almost entirely unexamined.
+
+% Paragraph 3: The Gap
+What remains unknown is whether the low faithfulness rates observed in Claude and
+DeepSeek-R1 generalize across the broader open-weight reasoning model
+ecosystem---or whether they reflect properties specific to particular architectures,
+training methods, or model scales. Since early 2025, a diverse set of open-weight
+reasoning models has emerged spanning dense architectures from 8B to 32B parameters,
+mixture-of-experts (MoE) models exceeding 1T total parameters, and training
+pipelines ranging from pure reinforcement learning (GRPO, DPO) to distillation,
+data-centric methods, and hybrid approaches. No study has systematically compared
+CoT faithfulness across these model families, leaving a critical gap in our
+understanding of which models---and which training paradigms---produce reasoning
+traces that can be reliably monitored for safety purposes.
+
+% Paragraph 4: Your Solution
+We address this gap with the first large-scale, cross-family evaluation of CoT
+faithfulness in open-weight reasoning models. We evaluate 11 models spanning 9
+architectural families---including DeepSeek, Qwen, Zhipu (GLM), Moonshot (Kimi),
+MiniMax, OpenAI, Baidu, and AI2---all accessed via the OpenRouter API. Using 500
+multiple-choice questions (300 from MMLU and 200 from GPQA Diamond) with the same
+six hint categories established by Chen et al.~\cite{chen2025reasoning}, we conduct
+38,500 inference runs to measure faithfulness rates across model families, parameter
+scales (7B to 1T), and training methodologies. We employ Anthropic's BLOOM
+framework~\cite{bloom2025} for automated behavioral scoring of faithfulness,
+validated against 200 hand-labeled examples. We hypothesize that (H1)~faithfulness rates vary significantly across
+model families, reflecting differences in training methodology rather than scale
+alone, and (H2)~certain hint types---particularly metadata and grader
+hacking---exhibit consistently lower faithfulness across all models, suggesting
+category-specific blind spots in CoT monitoring. Our evaluation employs a two-stage
+faithfulness classifier combining regex-based pattern matching with an LLM
+judge, validated against 200 hand-labeled examples. We release all code, prompts,
+model outputs, and faithfulness annotations to support future research on CoT
+monitoring reliability.
