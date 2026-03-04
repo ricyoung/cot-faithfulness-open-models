@@ -15,7 +15,11 @@ answers with positional patterns or attributing answers to authority figures), t
 showed that models on BIG-Bench Hard tasks are systematically influenced by features
 never mentioned in their CoT explanations. This established that CoT unfaithfulness
 is not merely occasional but reflects a structural gap between the reasoning a model
-reports and the factors that actually drive its outputs.
+reports and the factors that actually drive its outputs. Lightman et
+al.~\cite{lightman2023verify} demonstrated the importance of step-level reasoning
+verification by showing that process supervision outperforms outcome supervision
+for mathematical reasoning, motivating the need to understand whether individual
+reasoning steps faithfully reflect the model's actual computation.
 
 Lanham et al.~\cite{lanham2023measuring} took a causal approach, measuring
 faithfulness in Claude models by intervening on the CoT itself---truncating reasoning
@@ -73,13 +77,36 @@ sophisticated reasoning behaviors, while subsequent work has shown that similar
 capabilities emerge across diverse training paradigms including distillation,
 supervised fine-tuning, and data-centric approaches.
 
-Several studies have examined the safety implications of these reasoning capabilities.
+The relationship between CoT and model honesty has been examined from multiple
+angles. Kadavath et al.~\cite{kadavath2022selfknowledge} showed that language
+models possess significant self-knowledge---they can predict whether they will
+answer a question correctly---raising the question of whether this metacognitive
+capability extends to accurately reporting \emph{what influenced} their answers.
+Sharma et al.~\cite{sharma2023sycophancy} provided the foundational empirical
+study of sycophancy in RLHF-trained models, demonstrating that five state-of-the-art
+assistants consistently shift toward user-suggested answers across tasks, a
+phenomenon directly relevant to the sycophancy hint type used in faithfulness
+evaluations. Perez et al.~\cite{perez2022discovering} discovered that larger
+models exhibit \emph{more} sycophancy, an inverse scaling phenomenon relevant to
+our cross-scale analysis from 7B to 1T parameters.
+
+Several studies have examined the safety implications of reasoning capabilities.
 Jiang et al.~\cite{jiang2025safechain} evaluated safety risks specific to models
 with long CoT capabilities, finding that the extended reasoning process can both
 help and hinder safety---models sometimes reason their way toward harmful outputs.
 The hidden risks of reasoning models have been further documented by safety
 assessments of DeepSeek-R1 showing that reasoning traces can contain concerning
-patterns even when final outputs appear benign \cite{zhou2025hidden}.
+patterns even when final outputs appear benign \cite{zhou2025hidden}. More
+fundamentally, Roger and Greenblatt~\cite{roger2023steganography} demonstrated
+that language models can encode reasoning steganographically---embedding information
+in CoT text that is not interpretable to human monitors---suggesting that the
+faithfulness gaps we measure may underestimate the true divergence between stated
+and actual reasoning. Greenblatt et al.~\cite{greenblatt2024alignment} showed that
+Claude 3 Opus strategically fakes alignment during training, producing CoT that is
+deliberately strategic rather than faithfully explanatory, while Hubinger et
+al.~\cite{hubinger2024sleeper} found that deceptive behaviors persist through
+safety training, with persistence strongest in models trained with chain-of-thought
+reasoning about deception.
 
 A particularly important line of work questions the fundamental limits of CoT
 monitoring as a safety strategy. Baker et al.~\cite{baker2025cot} argued that CoT
@@ -98,10 +125,13 @@ The rapid expansion of the open-weight model ecosystem has created an urgent nee
 for systematic evaluation across model families. By early 2026, open-weight
 reasoning models span a wide range of architectures (dense, mixture-of-experts,
 hybrid attention), training methods (GRPO, DPO, distillation, supervised
-fine-tuning, data-centric), and scales (8B to over 1T parameters). Surveys of
-large reasoning models \cite{xu2025large, qchen2025longcot, li2025system12} have
-catalogued this diversity but have not included faithfulness as an evaluation
-dimension.
+fine-tuning, data-centric), and scales (8B to over 1T parameters), with fully
+open projects like OLMo~\cite{groeneveld2024olmo} providing unprecedented
+transparency into training data and procedures, and models like
+Qwen2.5~\cite{qwen2024technical} demonstrating that multi-stage RL can produce
+strong reasoning at moderate scale. Surveys of large reasoning models
+\cite{xu2025large, qchen2025longcot, li2025system12} have catalogued this
+diversity but have not included faithfulness as an evaluation dimension.
 
 Existing faithfulness evaluations have focused almost exclusively on proprietary
 models or on a single open-weight family (typically DeepSeek). Wu et
