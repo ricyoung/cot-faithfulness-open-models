@@ -118,13 +118,6 @@
   url     = {https://arxiv.org/abs/2510.27378}
 }
 
-@misc{bloom2025,
-  title  = {Bloom: An Open Source Tool for Automated Behavioral Evaluations},
-  author = {Gupta, Isha and Fronsdal, Kai and Sheshadri, Abhay and Michala, Jonathan and Tay, Jacqueline and Wang, Rowan and Bowman, Samuel R. and Price, Sara},
-  year   = {2025},
-  url    = {https://github.com/safety-research/bloom}
-}
-
 % --- Sycophancy and Metacognition ---
 
 @article{sharma2023sycophancy,
@@ -155,6 +148,121 @@
   eprint  = {2207.05221},
   archivePrefix = {arXiv},
   url     = {https://arxiv.org/abs/2207.05221}
+}
+
+% --- Faithfulness Definitions and Evaluation ---
+
+@inproceedings{jacovi2020faithfulness,
+  title     = {Towards Faithfully Interpretable {NLP} Systems: How Should We Define and Evaluate Faithfulness?},
+  author    = {Jacovi, Alon and Goldberg, Yoav},
+  booktitle = {Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics (ACL 2020)},
+  pages     = {4198--4205},
+  year      = {2020},
+  eprint    = {2004.03685},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2004.03685}
+}
+
+@inproceedings{zheng2023judging,
+  title     = {Judging {LLM}-as-a-Judge with {MT}-Bench and Chatbot Arena},
+  author    = {Zheng, Lianmin and Chiang, Wei-Lin and Sheng, Ying and Zhuang, Siyuan and Wu, Zhanghao and Zhuang, Yonghao and Lin, Zi and Li, Zhuohan and Li, Dacheng and Xing, Eric P. and Zhang, Hao and Gonzalez, Joseph E. and Stoica, Ion},
+  booktitle = {Advances in Neural Information Processing Systems 36 (NeurIPS 2023)},
+  year      = {2023},
+  eprint    = {2306.05685},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2306.05685}
+}
+
+@inproceedings{parcalabescu2023measuring,
+  title     = {On Measuring Faithfulness or Self-consistency of Natural Language Explanations},
+  author    = {Parcalabescu, Letitia and Frank, Anette},
+  booktitle = {Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (ACL 2023)},
+  year      = {2023},
+  eprint    = {2311.07466},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2311.07466}
+}
+
+@article{tanneru2024hardness,
+  title   = {On the Hardness of Faithful Chain-of-Thought Reasoning in Large Language Models},
+  author  = {Tanneru, Sree Harsha and Ley, Dan and Agarwal, Chirag and Lakkaraju, Himabindu},
+  journal = {arXiv preprint arXiv:2406.10625},
+  year    = {2024},
+  eprint  = {2406.10625},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2406.10625}
+}
+
+% --- Faithfulness Measurement (Thinking, Verbalization, Benchmarks) ---
+
+@article{xiong2025thinking,
+  title   = {Measuring the Faithfulness of Thinking Drafts in Large Reasoning Models},
+  author  = {Xiong, Zidi and Chen, Shan and Qi, Zhenting and Lakkaraju, Hima},
+  journal = {arXiv preprint arXiv:2505.13774},
+  year    = {2025},
+  eprint  = {2505.13774},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2505.13774}
+}
+
+@article{zaman2025verbalization,
+  title   = {Is Chain-of-Thought Really Not Explainability? {Chain-of-Thought} Can Be Faithful without Hint Verbalization},
+  author  = {Zaman, Kerem and Srivastava, Shashank},
+  journal = {arXiv preprint arXiv:2512.23032},
+  year    = {2025},
+  eprint  = {2512.23032},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2512.23032}
+}
+
+@article{shen2025faithcotbench,
+  title   = {{FaithCoT-Bench}: Benchmarking Instance-Level Faithfulness of Chain-of-Thought Reasoning},
+  author  = {Shen, Xu and Wang, Song and Tan, Zhen and Yao, Laura and others},
+  journal = {arXiv preprint arXiv:2510.04040},
+  year    = {2025},
+  eprint  = {2510.04040},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2510.04040}
+}
+
+@article{hu2025monica,
+  title   = {{MONICA}: Real-Time Monitoring and Calibration of Chain-of-Thought Sycophancy in Large Reasoning Models},
+  author  = {Hu, Jingyu and Yang, Shu and Gong, Xilin and Wang, Hongming and others},
+  journal = {arXiv preprint arXiv:2511.06419},
+  year    = {2025},
+  eprint  = {2511.06419},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2511.06419}
+}
+
+@article{yang2025monitorability,
+  title   = {Investigating {CoT} Monitorability in Large Reasoning Models},
+  author  = {Yang, Shu and Wu, Junchao and Gou, Xilin and Wu, Xuansheng and others},
+  journal = {arXiv preprint arXiv:2511.08525},
+  year    = {2025},
+  eprint  = {2511.08525},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2511.08525}
+}
+
+@article{ye2026faithfulness,
+  title   = {Mechanistic Evidence for Faithfulness Decay in Chain-of-Thought Reasoning},
+  author  = {Ye, D. and Loffgren, Max and Kotadia, Om and Wong, L.},
+  journal = {arXiv preprint arXiv:2602.11201},
+  year    = {2026},
+  eprint  = {2602.11201},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2602.11201}
+}
+
+@article{marks2025auditing,
+  title   = {Auditing Language Models for Hidden Objectives},
+  author  = {Marks, Samuel and Treutlein, Johannes and Benton, Joe and Grosse, Roger and Chen, Yanda and MacDiarmid, Monte and Denison, Carson and Bowman, Samuel R. and Perez, Ethan and Greenblatt, Ryan},
+  journal = {arXiv preprint arXiv:2503.05797},
+  year    = {2025},
+  eprint  = {2503.05797},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2503.05797}
 }
 
 % --- Steganography and Deception ---
@@ -319,26 +427,6 @@
 
 % --- Training Methods ---
 
-@article{mohammadi2025grpodpo,
-  title   = {Evaluating {GRPO} and {DPO} for Faithful Chain-of-Thought Reasoning in {LLMs}},
-  author  = {Mohammadi, Hadi and Kozak, Tamas and Giachanou, Anastasia},
-  journal = {arXiv preprint arXiv:2512.22631},
-  year    = {2025},
-  eprint  = {2512.22631},
-  archivePrefix = {arXiv},
-  url     = {https://arxiv.org/abs/2512.22631}
-}
-
-@article{mehta2026underreporting,
-  title   = {Can We Trust {AI} Explanations? Evidence of Systematic Underreporting in Chain-of-Thought Reasoning},
-  author  = {Mehta, Deep Pankajbhai},
-  journal = {arXiv preprint arXiv:2601.00830},
-  year    = {2026},
-  eprint  = {2601.00830},
-  archivePrefix = {arXiv},
-  url     = {https://arxiv.org/abs/2601.00830}
-}
-
 % --- Models ---
 
 @article{deepseek2025r1,
@@ -363,7 +451,17 @@
   url       = {https://arxiv.org/abs/2201.11903}
 }
 
-% --- Datasets ---
+% --- Datasets and Benchmarks ---
+
+@article{gema2024mmlu,
+  title   = {Are We Done with {MMLU}?},
+  author  = {Gema, Aryo Pradipta and Leang, Joshua Ong Jun and Hong, Giwon and Devoto, Alessio and Mancino, Alberto Carlo Maria and Saxena, Rohit and He, Xuanli and Zhao, Yu and Du, Xiaotang and Madotto, Andrea and Fomicheva, Marina and Raunak, Vikas and Miculicich, Lesly},
+  journal = {arXiv preprint arXiv:2406.04127},
+  year    = {2024},
+  eprint  = {2406.04127},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2406.04127}
+}
 
 @inproceedings{hendrycks2021mmlu,
   title     = {Measuring Massive Multitask Language Understanding},

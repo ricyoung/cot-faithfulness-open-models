@@ -1,0 +1,110 @@
+% ============================================================
+% PAPER 2 — Classifier Sensitivity in CoT Faithfulness
+% Short paper (4 pages + references)
+% ============================================================
+
+\documentclass{article}
+
+% --- Core style (reuse from Paper 1) ---
+\usepackage{../paper/PRIMEarxiv}
+
+% --- Encoding ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% --- Links ---
+\usepackage{hyperref}
+\usepackage{url}
+
+% --- Tables ---
+\usepackage{booktabs}
+\usepackage{multirow}
+
+% --- Figures ---
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{{figures/}}
+
+% --- Math ---
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% --- Typography ---
+\usepackage{microtype}
+
+% --- Color ---
+\usepackage{xcolor}
+\usepackage{colortbl}
+
+% --- Header/footer ---
+\usepackage{fancyhdr}
+
+% --- Hyperref config ---
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue
+}
+
+\raggedbottom
+
+% ============================================================
+% PAPER METADATA
+% ============================================================
+\pagestyle{fancy}
+\thispagestyle{empty}
+\rhead{\textit{ }}
+
+% Running header
+\fancyhead[LO]{Classifier Sensitivity in CoT Faithfulness}
+
+% Full title
+\title{Measuring Faithfulness Depends on How You Measure: \\ Classifier Sensitivity in LLM Chain-of-Thought Evaluation}
+
+% Authors
+\author{
+  Richard J. Young \\
+  University of Nevada Las Vegas \\
+  Department of Neuroscience \\
+  Las Vegas, NV, USA \\
+  \texttt{ryoung@unlv.edu} \\
+}
+
+% ============================================================
+\begin{document}
+\maketitle
+
+% ============================================================
+% ABSTRACT
+% ============================================================
+\begin{abstract}
+\input{sections/01_abstract}
+\end{abstract}
+
+% Keywords
+\keywords{Chain-of-Thought \and Faithfulness \and Classifier Sensitivity \and Reasoning Models \and Evaluation Methodology}
+
+% ============================================================
+% BODY
+% ============================================================
+\input{sections/02_introduction}
+\input{sections/03_setup}
+\input{sections/04_results}
+\input{sections/05_discussion}
+
+% ============================================================
+% DATA AND CODE AVAILABILITY
+% ============================================================
+\section*{Data and Code Availability}
+Code, classifier prompts, and per-case classification labels for all three classifiers are available at \url{https://github.com/ricyoung/cot-faithfulness-open-models}.
+Full inference outputs and classification results are available at \url{https://huggingface.co/datasets/richardyoung/cot-faithfulness-open-models}.
+
+% ============================================================
+% REFERENCES
+% ============================================================
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+\end{document}

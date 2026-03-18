@@ -1,0 +1,438 @@
+% ============================================================
+% REFERENCES — Paper 2: Classifier Sensitivity
+% Compile with: bibtex main
+% Style: unsrt (references appear in citation order)
+% ============================================================
+
+% --- Measurement methodology and annotation disagreement ---
+
+@inproceedings{gordon2021disagreement,
+  title     = {The Disagreement Deconvolution: Bringing Machine Learning Performance Metrics In Line With Reality},
+  author    = {Gordon, Mitchell L. and Lam, Michelle S. and Park, Joon Sung and Patel, Kayur and Hancock, Jeff and Hashimoto, Tatsunori and Bernstein, Michael S.},
+  booktitle = {Proceedings of the 2021 CHI Conference on Human Factors in Computing Systems},
+  year      = {2021},
+  doi       = {10.1145/3411764.3445423}
+}
+
+@inproceedings{plank2022problem,
+  title     = {The ``Problem'' of Human Label Variation: On Ground Truth in Data, Modeling and Evaluation},
+  author    = {Plank, Barbara},
+  booktitle = {Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
+  year      = {2022},
+  eprint    = {2211.02570},
+  archivePrefix = {arXiv}
+}
+
+@article{bean2025measuring,
+  title     = {Measuring what Matters: Construct Validity in Large Language Model Benchmarks},
+  author    = {Bean, Andrew M. and others},
+  journal   = {arXiv preprint arXiv:2511.04703},
+  year      = {2025},
+  eprint    = {2511.04703},
+  archivePrefix = {arXiv}
+}
+
+% --- LLM-as-Judge reliability ---
+
+@article{gu2024survey,
+  title     = {A Survey on {LLM}-as-a-Judge},
+  author    = {Gu, Jiawei and Jiang, Xuhui and Shi, Zhichao and Tan, Hexiang and Zhai, Xuehao and Xu, Chengjin and Li, Wei and Shen, Yinghan and Ma, Shengjie and Liu, Honghao and Wang, Saizhuo and Zhang, Kun and Wang, Yuanzhuo and Gao, Wen and Ni, Lionel and Guo, Jian},
+  journal   = {arXiv preprint arXiv:2411.15594},
+  year      = {2024},
+  eprint    = {2411.15594},
+  archivePrefix = {arXiv}
+}
+
+@article{ye2024justice,
+  title     = {Justice or Prejudice? Quantifying Biases in {LLM}-as-a-Judge},
+  author    = {Ye, Jiayi and Wang, Yanbo and Huang, Yue and Chen, Dongping and Zhang, Qihui and Moniz, Nuno and Gao, Tian and Geyer, Werner and Huang, Chao and Chen, Pin-Yu and Chawla, Nitesh V. and Zhang, Xiangliang},
+  journal   = {arXiv preprint arXiv:2410.02736},
+  year      = {2024},
+  eprint    = {2410.02736},
+  archivePrefix = {arXiv}
+}
+
+% --- CoT faithfulness (additional) ---
+
+@article{balasubramanian2025closer,
+  title     = {A Closer Look at Bias and Chain-of-Thought Faithfulness of Large (Vision) Language Models},
+  author    = {Balasubramanian, Sriram and Basu, Samyadeep and Feizi, Soheil},
+  journal   = {arXiv preprint arXiv:2505.23945},
+  year      = {2025},
+  eprint    = {2505.23945},
+  archivePrefix = {arXiv},
+  note      = {EMNLP 2025 Findings}
+}
+
+@article{yee2024dissociation,
+  title     = {Dissociation of Faithful and Unfaithful Reasoning in {LLMs}},
+  author    = {Yee, Evelyn and Li, Alice and Tang, Chenyu and Jung, Yeon Ho and Paturi, Ramamohan and Bergen, Leon},
+  journal   = {arXiv preprint arXiv:2405.15092},
+  year      = {2024},
+  eprint    = {2405.15092},
+  archivePrefix = {arXiv}
+}
+
+% --- CoT Faithfulness (core papers) ---
+
+@article{chen2025reasoning,
+  title   = {Reasoning Models Don't Always Say What They Think},
+  author  = {Chen, Yanda and Benton, Joe and Radhakrishnan, Ansh and Uesato, Jonathan and Denison, Carson and Schulman, John and Somani, Arushi and Hase, Peter and Wagner, Misha and Roger, Fabien and Mikulik, Vlad and Bowman, Samuel R. and Leike, Jan and Kaplan, Jared and Perez, Ethan},
+  journal = {arXiv preprint arXiv:2505.05410},
+  year    = {2025},
+  eprint  = {2505.05410},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2505.05410}
+}
+
+@inproceedings{turpin2023unfaithful,
+  title     = {Language Models Don't Always Say What They Think: Unfaithful Explanations in Chain-of-Thought Prompting},
+  author    = {Turpin, Miles and Michael, Julian and Perez, Ethan and Bowman, Samuel R.},
+  booktitle = {Advances in Neural Information Processing Systems 36 (NeurIPS 2023)},
+  year      = {2023},
+  eprint    = {2305.04388},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2305.04388}
+}
+
+@article{lanham2023measuring,
+  title   = {Measuring Faithfulness in Chain-of-Thought Reasoning},
+  author  = {Lanham, Tamera and Chen, Anna and Radhakrishnan, Ansh and Steiner, Benoit and Denison, Carson and Hernandez, Danny and Li, Dustin and Durmus, Esin and Hubinger, Evan and Kernion, Jackson and Lukosuite, Kamile and Nguyen, Karina and Cheng, Newton and Joseph, Nicholas and Schiefer, Nicholas and Rausch, Oliver and Larson, Robin and McCandlish, Sam and Kundu, Sandipan and Kadavath, Saurav and Yang, Shannon and Henighan, Thomas and Maxwell, Timothy and Telleen-Lawton, Timothy and Hume, Tristan and Hatfield-Dodds, Zac and Kaplan, Jared and Brauner, Jan and Bowman, Samuel R. and Perez, Ethan},
+  journal = {arXiv preprint arXiv:2307.13702},
+  year    = {2023},
+  eprint  = {2307.13702},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2307.13702}
+}
+
+@inproceedings{feng2025more,
+  title     = {Are {DeepSeek R1} and Other Reasoning Models More Faithful?},
+  author    = {Feng, Thomas and Chua, Colin and Steinhardt, Jacob},
+  booktitle = {ICLR 2025 Workshop on Foundation Models in the Wild},
+  year      = {2025},
+  eprint    = {2501.08156},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2501.08156}
+}
+
+@inproceedings{arcuschin2025wild,
+  title     = {Chain-of-Thought Reasoning In The Wild Is Not Always Faithful},
+  author    = {Arcuschin, Ivan and Janiak, Jett and Krzyzanowski, Robert and Rajamanoharan, Senthooran and Nanda, Neel and Conmy, Arthur},
+  booktitle = {ICLR 2025 Workshop on Reasoning and Planning for LLMs},
+  year      = {2025},
+  eprint    = {2503.08679},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2503.08679}
+}
+
+@inproceedings{chua2025unlearning,
+  title     = {Measuring Chain of Thought Faithfulness by Unlearning Reasoning Steps},
+  author    = {Chua, Colin and Feng, Thomas and Steinhardt, Jacob},
+  booktitle = {Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing (EMNLP 2025)},
+  pages     = {9224--9256},
+  year      = {2025},
+  eprint    = {2412.15335},
+  archivePrefix = {arXiv},
+  url       = {https://aclanthology.org/2025.emnlp-main.504/}
+}
+
+@inproceedings{wang2024making,
+  title     = {Making Reasoning Matter: Measuring and Improving Faithfulness of Chain-of-Thought Reasoning},
+  author    = {Paul, Debjit and West, Robert and Bosselut, Antoine and Faltings, Boi},
+  booktitle = {Findings of the Association for Computational Linguistics: EMNLP 2024},
+  pages     = {15012--15032},
+  year      = {2024},
+  eprint    = {2402.13950},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2402.13950}
+}
+
+@article{stickland2025monitorability,
+  title   = {Measuring Chain-of-Thought Monitorability Through Faithfulness and Verbosity},
+  author  = {Meek, Austin and Sprejer, Eitan and Arcuschin, Iv{\'a}n and Brockmeier, Austin J. and Basart, Steven},
+  journal = {arXiv preprint arXiv:2510.27378},
+  year    = {2025},
+  eprint  = {2510.27378},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2510.27378}
+}
+
+@inproceedings{lyu2023faithful,
+  title     = {Faithful Chain-of-Thought Reasoning},
+  author    = {Lyu, Qing and Havaldar, Shreya and Stein, Adam and Zhang, Li and Rao, Delip and Wong, Eric and Apidianaki, Marianna and Callison-Burch, Chris},
+  booktitle = {Proceedings of the 13th International Joint Conference on Natural Language Processing and the 3rd Conference of the Asia-Pacific Chapter of the Association for Computational Linguistics (IJCNLP-AACL 2023)},
+  pages     = {305--329},
+  year      = {2023},
+  eprint    = {2301.13379},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2301.13379}
+}
+
+@article{radhakrishnan2023decomposition,
+  title   = {Question Decomposition Improves the Faithfulness of Model-Generated Reasoning},
+  author  = {Radhakrishnan, Ansh and Nguyen, Karina and Chen, Anna and Chen, Carol and Denison, Carson and Hernandez, Danny and Durmus, Esin and Hubinger, Evan and Kernion, Jackson and Lukosuite, Kamile and Cheng, Newton and Joseph, Nicholas and Schiefer, Nicholas and Rausch, Oliver and McCandlish, Sam and El Showk, Sheer and Lanham, Tamera and Maxwell, Tim and Chandrasekaran, Venkatesa and Hatfield-Dodds, Zac and Kaplan, Jared and Brauner, Jan and Bowman, Samuel R. and Perez, Ethan},
+  journal = {arXiv preprint arXiv:2307.11768},
+  year    = {2023},
+  eprint  = {2307.11768},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2307.11768}
+}
+
+% --- Faithfulness Definitions and Evaluation ---
+
+@inproceedings{jacovi2020faithfulness,
+  title     = {Towards Faithfully Interpretable {NLP} Systems: How Should We Define and Evaluate Faithfulness?},
+  author    = {Jacovi, Alon and Goldberg, Yoav},
+  booktitle = {Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics (ACL 2020)},
+  pages     = {4198--4205},
+  year      = {2020},
+  eprint    = {2004.03685},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2004.03685}
+}
+
+% --- LLM-as-Judge ---
+
+@inproceedings{zheng2023judging,
+  title     = {Judging {LLM}-as-a-Judge with {MT}-Bench and Chatbot Arena},
+  author    = {Zheng, Lianmin and Chiang, Wei-Lin and Sheng, Ying and Zhuang, Siyuan and Wu, Zhanghao and Zhuang, Yonghao and Lin, Zi and Li, Zhuohan and Li, Dacheng and Xing, Eric P. and Zhang, Hao and Gonzalez, Joseph E. and Stoica, Ion},
+  booktitle = {Advances in Neural Information Processing Systems 36 (NeurIPS 2023)},
+  year      = {2023},
+  eprint    = {2306.05685},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2306.05685}
+}
+
+% --- Sycophancy ---
+
+@article{sharma2023sycophancy,
+  title   = {Towards Understanding Sycophancy in Language Models},
+  author  = {Sharma, Mrinank and Tong, Meg and Korbak, Tomasz and Duvenaud, David and Askell, Amanda and Bowman, Samuel R. and Cheng, Newton and Durmus, Esin and Hatfield-Dodds, Zac and Johnston, Scott R. and Kravec, Shauna and Maxwell, Timothy and McCandlish, Sam and Ndousse, Kamal and Rausch, Oliver and Schiefer, Nicholas and Yan, Da and Zhang, Miranda and Perez, Ethan},
+  journal = {arXiv preprint arXiv:2310.13548},
+  year    = {2023},
+  eprint  = {2310.13548},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2310.13548}
+}
+
+% --- Steganography and Deception ---
+
+@article{roger2023steganography,
+  title   = {Preventing Language Models From Hiding Their Reasoning},
+  author  = {Roger, Fabien and Greenblatt, Ryan},
+  journal = {arXiv preprint arXiv:2310.18512},
+  year    = {2023},
+  eprint  = {2310.18512},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2310.18512}
+}
+
+@article{greenblatt2024alignment,
+  title   = {Alignment Faking in Large Language Models},
+  author  = {Greenblatt, Ryan and Denison, Carson and Wright, Benjamin and Roger, Fabien and MacDiarmid, Monte and Marks, Sam and Treutlein, Johannes and Belonax, Tim and Chen, Jack and Duvenaud, David and Askell, Amanda and Ganguli, Deep and Schiefer, Nicholas and Hatfield-Dodds, Zac and Hubinger, Evan and Kaplan, Jared and Brauner, Jan and Bowman, Samuel R. and Perez, Ethan},
+  journal = {arXiv preprint arXiv:2412.14093},
+  year    = {2024},
+  eprint  = {2412.14093},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2412.14093}
+}
+
+@article{marks2025auditing,
+  title   = {Auditing Language Models for Hidden Objectives},
+  author  = {Marks, Samuel and Treutlein, Johannes and Benton, Joe and Grosse, Roger and Chen, Yanda and MacDiarmid, Monte and Denison, Carson and Bowman, Samuel R. and Perez, Ethan and Greenblatt, Ryan},
+  journal = {arXiv preprint arXiv:2503.05797},
+  year    = {2025},
+  eprint  = {2503.05797},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2503.05797}
+}
+
+% --- Safety and Monitoring ---
+
+@misc{baker2025cot,
+  title  = {{CoT} May Be Highly Informative Despite Unfaithfulness},
+  author = {{METR}},
+  year   = {2025},
+  url    = {https://metr.org/blog/2025-08-08-cot-may-be-highly-informative-despite-unfaithfulness/},
+  note   = {METR Blog, August 2025}
+}
+
+@article{liu2025probing,
+  title   = {Reasoning Models Know When They're Right: Probing Hidden States for Self-Verification},
+  author  = {Zhang, Anqi and Chen, Yulin and Pan, Jane and Zhao, Chen and Panda, Aurojit and Li, Jinyang and He, He},
+  journal = {arXiv preprint arXiv:2504.05419},
+  year    = {2025},
+  eprint  = {2504.05419},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2504.05419}
+}
+
+% --- Faithfulness Measurement and Evaluation ---
+
+@inproceedings{parcalabescu2023measuring,
+  title     = {On Measuring Faithfulness or Self-consistency of Natural Language Explanations},
+  author    = {Parcalabescu, Letitia and Frank, Anette},
+  booktitle = {Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (ACL 2023)},
+  year      = {2023},
+  eprint    = {2311.07466},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2311.07466}
+}
+
+@article{tanneru2024hardness,
+  title   = {On the Hardness of Faithful Chain-of-Thought Reasoning in Large Language Models},
+  author  = {Tanneru, Sree Harsha and Ley, Dan and Agarwal, Chirag and Lakkaraju, Himabindu},
+  journal = {arXiv preprint arXiv:2406.10625},
+  year    = {2024},
+  eprint  = {2406.10625},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2406.10625}
+}
+
+@article{xiong2025thinking,
+  title   = {Measuring the Faithfulness of Thinking Drafts in Large Reasoning Models},
+  author  = {Xiong, Zidi and Chen, Shan and Qi, Zhenting and Lakkaraju, Hima},
+  journal = {arXiv preprint arXiv:2505.13774},
+  year    = {2025},
+  eprint  = {2505.13774},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2505.13774}
+}
+
+@article{zaman2025verbalization,
+  title   = {Is Chain-of-Thought Really Not Explainability? {Chain-of-Thought} Can Be Faithful without Hint Verbalization},
+  author  = {Zaman, Kerem and Srivastava, Shashank},
+  journal = {arXiv preprint arXiv:2512.23032},
+  year    = {2025},
+  eprint  = {2512.23032},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2512.23032}
+}
+
+@article{shen2025faithcotbench,
+  title   = {{FaithCoT-Bench}: Benchmarking Instance-Level Faithfulness of Chain-of-Thought Reasoning},
+  author  = {Shen, Xu and Wang, Song and Tan, Zhen and Yao, Laura and others},
+  journal = {arXiv preprint arXiv:2510.04040},
+  year    = {2025},
+  eprint  = {2510.04040},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2510.04040}
+}
+
+@article{hu2025monica,
+  title   = {{MONICA}: Real-Time Monitoring and Calibration of Chain-of-Thought Sycophancy in Large Reasoning Models},
+  author  = {Hu, Jingyu and Yang, Shu and Gong, Xilin and Wang, Hongming and others},
+  journal = {arXiv preprint arXiv:2511.06419},
+  year    = {2025},
+  eprint  = {2511.06419},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2511.06419}
+}
+
+@article{yang2025monitorability,
+  title   = {Investigating {CoT} Monitorability in Large Reasoning Models},
+  author  = {Yang, Shu and Wu, Junchao and Gou, Xilin and Wu, Xuansheng and others},
+  journal = {arXiv preprint arXiv:2511.08525},
+  year    = {2025},
+  eprint  = {2511.08525},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2511.08525}
+}
+
+@article{ye2026faithfulness,
+  title   = {Mechanistic Evidence for Faithfulness Decay in Chain-of-Thought Reasoning},
+  author  = {Ye, D. and Loffgren, Max and Kotadia, Om and Wong, L.},
+  journal = {arXiv preprint arXiv:2602.11201},
+  year    = {2026},
+  eprint  = {2602.11201},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2602.11201}
+}
+
+% --- Foundational ---
+
+@inproceedings{wei2022cot,
+  title     = {Chain-of-Thought Prompting Elicits Reasoning in Large Language Models},
+  author    = {Wei, Jason and Wang, Xuezhi and Schuurmans, Dale and Bosma, Maarten and Ichter, Brian and Xia, Fei and Chi, Ed and Le, Quoc and Zhou, Denny},
+  booktitle = {Advances in Neural Information Processing Systems 35 (NeurIPS 2022)},
+  year      = {2022},
+  eprint    = {2201.11903},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2201.11903}
+}
+
+% --- Model Technical Reports ---
+
+@article{deepseek2025r1,
+  title   = {{DeepSeek-R1}: Incentivizing Reasoning Capability in {LLMs} via Reinforcement Learning},
+  author  = {{DeepSeek-AI}},
+  journal = {arXiv preprint arXiv:2501.12948},
+  year    = {2025},
+  eprint  = {2501.12948},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2501.12948}
+}
+
+@article{groeneveld2024olmo,
+  title   = {{OLMo 3}},
+  author  = {{OLMo Team}},
+  journal = {arXiv preprint arXiv:2512.13961},
+  year    = {2025},
+  eprint  = {2512.13961},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2512.13961}
+}
+
+@article{qwen2024technical,
+  title   = {Qwen3 Technical Report},
+  author  = {{Qwen Team}},
+  journal = {arXiv preprint arXiv:2505.09388},
+  year    = {2025},
+  eprint  = {2505.09388},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2505.09388}
+}
+
+% --- Datasets and Benchmarks ---
+
+@inproceedings{hendrycks2021mmlu,
+  title     = {Measuring Massive Multitask Language Understanding},
+  author    = {Hendrycks, Dan and Burns, Collin and Basart, Steven and Zou, Andy and Mazeika, Mantas and Song, Dawn and Steinhardt, Jacob},
+  booktitle = {Proceedings of the International Conference on Learning Representations (ICLR 2021)},
+  year      = {2021},
+  eprint    = {2009.03300},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2009.03300}
+}
+
+@article{mcnemar1947note,
+  title     = {Note on the sampling error of the difference between correlated proportions or percentages},
+  author    = {McNemar, Quinn},
+  journal   = {Psychometrika},
+  volume    = {12},
+  number    = {2},
+  pages     = {153--157},
+  year      = {1947},
+  doi       = {10.1007/BF02295996}
+}
+
+@article{cohen1960coefficient,
+  title     = {A coefficient of agreement for nominal scales},
+  author    = {Cohen, Jacob},
+  journal   = {Educational and Psychological Measurement},
+  volume    = {20},
+  number    = {1},
+  pages     = {37--46},
+  year      = {1960},
+  doi       = {10.1177/001316446002000104}
+}
+
+@inproceedings{rein2024gpqa,
+  title     = {{GPQA}: A Graduate-Level {Google}-Proof {Q\&A} Benchmark},
+  author    = {Rein, David and Hou, Betty Li and Stickland, Asa Cooper and Petty, Jackson and Pang, Richard Yuanzhe and Dirani, Julien and Michael, Julian and Bowman, Samuel R.},
+  booktitle = {Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics (NAACL 2024)},
+  year      = {2024},
+  eprint    = {2311.12022},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2311.12022}
+}

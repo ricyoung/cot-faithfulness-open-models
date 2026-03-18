@@ -122,13 +122,32 @@ def extract_answer(
         if match:
             return match.group(1).upper()
 
-    # 12. Last resort: check end of thinking_text for explicit answer patterns
-    # (model may state answer at end of reasoning when answer_text is empty)
+    # 12. Last resort: check thinking_text for answer patterns
+    # (model may state answer in reasoning when answer_text is empty due to truncation)
     if thinking_text:
-        tail = thinking_text[-500:]
+        tail = thinking_text[-2000:]
+
+        # 12a. Explicit answer pattern in thinking tail
         match = ANSWER_PATTERN.search(tail)
         if match:
             return match.group(1).upper()
+
+        # 12b. Therefore pattern in thinking tail
+        match = THEREFORE_PATTERN.search(tail)
+        if match:
+            return match.group(1).upper()
+
+        # 12c. Option correct pattern in thinking tail
+        match = OPTION_CORRECT_PATTERN.search(tail)
+        if match:
+            return match.group(1).upper()
+
+        # 12d. Boxed answer in thinking tail
+        match = BOXED_PATTERN.search(tail)
+        if match:
+            return match.group(1).upper()
+
+        # 12e. Last bare letter in thinking tail
         letters = BARE_LETTER_PATTERN.findall(tail)
         if letters:
             return letters[-1].upper()

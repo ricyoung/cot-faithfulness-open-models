@@ -2,13 +2,19 @@
 Click CLI for the CoT faithfulness pipeline.
 
 Commands:
-  prep   — Download and sample MMLU + GPQA questions
-  run    — Run base or hinted inference for a model
-  status — Show progress across all models
+  prep     — Download and sample MMLU + GPQA questions
+  run      — Run base or hinted inference for a model
+  run-all  — Run all 14 models sequentially
+  status   — Show progress across all models (live dashboard)
 """
 from __future__ import annotations
 
+import time
+
 import click
+from rich.console import Console
+from rich.live import Live
+from rich.table import Table
 
 from cot_faithfulness.config import HintType, MODEL_REGISTRY, Settings
 from cot_faithfulness.data_prep import load_questions, prepare_all
@@ -130,30 +136,214 @@ def run(model: str, hint_type: tuple[str, ...], dry_run: bool, budget: float | N
         raise SystemExit(1)
 
 
-@main.command()
-def status() -> None:
-    """Show progress for all models."""
-    settings = Settings()
+TOTAL_QUESTIONS = 498  # 300 MMLU + 198 GPQA Diamond
+
+
+def _cell_style(count: int, total: int) -> tuple[str, str]:
+    """Return (display_text, style) for a progress cell."""
+    if count == 0:
+        return "0", "dim"
+    if count >= total:
+        return f"{count}", "bold green"
+    pct = count * 100 // total
+    return f"{count} ({pct}%)", "yellow"
+
+
+def _build_status_table(settings: Settings) -> Table:
+    """Build a Rich table showing progress across all models."""
     paths = settings.paths
 
-    click.echo(f"\n{'Model':<30} {'Base':>6} {'Syco':>6} {'Cons':>6} {'Vis':>6} {'Meta':>6} {'Grad':>6} {'Uneth':>6}")
-    click.echo("-" * 84)
+    table = Table(
+        title="CoT Faithfulness — Experiment Progress",
+        caption=f"Target: {TOTAL_QUESTIONS} questions per cell  |  "
+                f"Total: 48,804 inference runs  |  14 models x 7 conditions",
+        show_lines=True,
+    )
+
+    table.add_column("Model", style="bold cyan", min_width=22)
+    table.add_column("Tier", justify="center", width=4)
+    table.add_column("Base", justify="right", width=12)
+    table.add_column("Syco", justify="right", width=12)
+    table.add_column("Cons", justify="right", width=12)
+    table.add_column("Visual", justify="right", width=12)
+    table.add_column("Meta", justify="right", width=12)
+    table.add_column("Grader", justify="right", width=12)
+    table.add_column("Uneth", justify="right", width=12)
+    table.add_column("Total", justify="right", width=10, style="bold")
+
+    grand_total = 0
+    grand_target = len(MODEL_REGISTRY) * 7 * TOTAL_QUESTIONS
 
     for model_name in sorted(MODEL_REGISTRY.keys()):
+        model_cfg = MODEL_REGISTRY[model_name]
+        tier = str(model_cfg.tier)
+
         base_path = paths.results_base / f"{model_name}.jsonl"
         base_count = len(load_results(base_path)) if base_path.exists() else 0
 
-        hint_counts = []
+        row_total = base_count
+        cells = []
+        base_text, base_style = _cell_style(base_count, TOTAL_QUESTIONS)
+        cells.append(f"[{base_style}]{base_text}[/{base_style}]")
+
         for ht in HintType:
             hp = paths.results_hinted / model_name / f"{ht.value}.jsonl"
-            hint_counts.append(len(load_results(hp)) if hp.exists() else 0)
+            count = len(load_results(hp)) if hp.exists() else 0
+            row_total += count
+            text, style = _cell_style(count, TOTAL_QUESTIONS)
+            cells.append(f"[{style}]{text}[/{style}]")
 
-        click.echo(
-            f"{model_name:<30} {base_count:>6}"
-            + "".join(f" {c:>6}" for c in hint_counts)
-        )
+        grand_total += row_total
+        model_target = 7 * TOTAL_QUESTIONS
+        pct = row_total * 100 // model_target if model_target > 0 else 0
+        total_style = "bold green" if row_total >= model_target else "bold yellow" if row_total > 0 else "dim"
+        total_text = f"[{total_style}]{row_total}/{model_target}[/{total_style}]"
 
-    click.echo()
+        table.add_row(model_name, tier, cells[0], *cells[1:], total_text)
+
+    # Summary row
+    pct_str = f"{grand_total * 100 / grand_target:.1f}" if grand_target > 0 else "0.0"
+    table.add_section()
+    table.add_row(
+        "[bold]TOTAL[/bold]", "",
+        "", "", "", "", "", "", "",
+        f"[bold]{grand_total}/{grand_target} ({pct_str}%)[/bold]",
+    )
+
+    return table
+
+
+@main.command()
+@click.option("--watch", "-w", is_flag=True, default=False, help="Auto-refresh every 30s.")
+def status(watch: bool) -> None:
+    """Show progress dashboard for all models."""
+    settings = Settings()
+    console = Console()
+
+    if not watch:
+        console.print(_build_status_table(settings))
+        return
+
+    with Live(
+        _build_status_table(settings),
+        console=console,
+        refresh_per_second=1,
+        screen=True,
+    ) as live:
+        try:
+            while True:
+                time.sleep(30)
+                live.update(_build_status_table(settings))
+        except KeyboardInterrupt:
+            pass
+
+
+@main.command("run-all")
+@click.option("--budget-per-model", type=float, default=10.0, help="Budget per model in USD.")
+@click.option("--dry-run", is_flag=True, default=False, help="Show estimates only.")
+@click.option(
+    "--skip", multiple=True,
+    type=click.Choice(sorted(MODEL_REGISTRY.keys()), case_sensitive=False),
+    help="Models to skip.",
+)
+def run_all(budget_per_model: float, dry_run: bool, skip: tuple[str, ...]) -> None:
+    """Run all 14 models sequentially with per-model budget caps."""
+    settings = Settings()
+    combined_path = settings.paths.combined_dataset
+
+    if not combined_path.exists():
+        click.echo("No dataset found. Run 'cot-faithfulness prep' first.")
+        raise SystemExit(1)
+
+    questions = load_questions(combined_path)
+    skip_set = {s.lower() for s in skip}
+    models_to_run = [m for m in sorted(MODEL_REGISTRY.keys()) if m not in skip_set]
+
+    console = Console()
+    console.print(f"\n[bold]Running {len(models_to_run)} models[/bold] "
+                  f"(budget ${budget_per_model:.2f}/model, {len(questions)} questions)")
+    if skip_set:
+        console.print(f"[dim]Skipping: {', '.join(sorted(skip_set))}[/dim]")
+    console.print()
+
+    if dry_run:
+        for model_name in models_to_run:
+            model_config = MODEL_REGISTRY[model_name]
+            avg_input, avg_output = 1000, 2000
+            est_cost = TOTAL_QUESTIONS * 7 * (
+                model_config.cost_per_million_input * avg_input / 1_000_000
+                + model_config.cost_per_million_output * avg_output / 1_000_000
+            )
+            console.print(f"  {model_name:<28} ~${est_cost:.2f}")
+        return
+
+    completed_models = []
+    failed_models = []
+
+    for i, model_name in enumerate(models_to_run, 1):
+        console.print(f"\n[bold cyan]{'='*60}")
+        console.print(f"[bold cyan]  [{i}/{len(models_to_run)}] {model_name}")
+        console.print(f"[bold cyan]{'='*60}")
+
+        try:
+            run_single_model(
+                model_name=model_name,
+                questions=questions,
+                hint_types=None,
+                settings=settings,
+                budget_usd=budget_per_model,
+            )
+            completed_models.append(model_name)
+        except BudgetExceededError as e:
+            console.print(f"[yellow]Budget exceeded for {model_name}: {e}[/yellow]")
+            failed_models.append((model_name, "budget"))
+        except Exception as e:
+            console.print(f"[red]Error on {model_name}: {e}[/red]")
+            failed_models.append((model_name, str(e)))
+
+    console.print(f"\n{'='*60}")
+    console.print(f"[bold green]Completed: {len(completed_models)}/{len(models_to_run)} models[/bold green]")
+    if failed_models:
+        console.print(f"[yellow]Failed: {', '.join(m for m, _ in failed_models)}[/yellow]")
+    console.print()
+    console.print(_build_status_table(settings))
+
+
+@main.command("run-fast")
+@click.option(
+    "--model", "-m",
+    required=True,
+    type=click.Choice(sorted(MODEL_REGISTRY.keys()), case_sensitive=False),
+    help="Model name from the registry.",
+)
+@click.option("--budget", type=float, default=25.0, help="Budget in USD.")
+@click.option("--concurrency", "-c", type=int, default=5, help="Parallel API calls (default: 5).")
+def run_fast(model: str, budget: float, concurrency: int) -> None:
+    """Run inference with concurrent API calls (5-10x faster)."""
+    import asyncio
+    from cot_faithfulness.async_runner import run_single_model_async
+
+    settings = Settings()
+    combined_path = settings.paths.combined_dataset
+
+    if not combined_path.exists():
+        click.echo("No dataset found. Run 'cot-faithfulness prep' first.")
+        raise SystemExit(1)
+
+    questions = load_questions(combined_path)
+    click.echo(f"Loaded {len(questions)} questions (concurrency={concurrency})")
+
+    try:
+        asyncio.run(run_single_model_async(
+            model_name=model,
+            questions=questions,
+            settings=settings,
+            budget_usd=budget,
+            concurrency=concurrency,
+        ))
+    except BudgetExceededError as e:
+        click.echo(f"\nBudget exceeded: {e}", err=True)
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

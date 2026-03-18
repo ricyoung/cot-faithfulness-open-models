@@ -6,14 +6,13 @@
 ### Overview
 
 This project replicates and extends the Anthropic paper "Reasoning Models Don't Always Say
-What They Think" (arXiv 2505.05410) to twelve models across nine families. The original
+What They Think" (arXiv 2505.05410) to 14 models across 12 families. The original
 paper found that Claude 3.7 Sonnet acknowledges hints only 25% of the time and DeepSeek R1
-only 39% of the time. We test whether open-weight models — spanning GRPO, RL, distillation,
-data-centric, hybrid, and DPO alignment methods — exhibit similar or different faithfulness
-patterns.
+only 39% of the time. We test whether open-weight models, spanning GRPO, RL, SFT,
+hybrid, and DPO alignment methods, exhibit similar or different faithfulness patterns.
 
-**Scale**: 500 questions x 6 hint types x 12 models = 36,000 hinted inference runs (plus
-6,000 base runs without hints). Total: 42,000 inference runs.
+**Scale**: 498 questions x 6 hint types x 14 models = 41,832 hinted inference runs (plus
+6,972 base runs without hints). Total: 48,804 inference runs.
 
 **Key research questions**:
 1. Do open-weight reasoning models show similar unfaithfulness to proprietary ones?
@@ -43,13 +42,12 @@ patterns.
 - No HuggingFace token needed for inference (only for dataset download, which is public)
 
 **Estimated cost**:
-- Open models via OpenRouter (11 models): ~$50–80
-- Claude Sonnet 4.6 via Anthropic Batch API: ~$60–80
-- **Total: ~$130–160**
+- 14 open-weight models via OpenRouter: ~$50–85
+- **Total: ~$50–85**
 
 **Estimated wall-clock time**:
 - ~2–6 hours per model (depends on API queue, concurrency, and model speed)
-- ~24–48 hours total for all 12 models (sequential)
+- ~28–84 hours total for all 14 models (sequential)
 - ~8–12 hours with 3–4 models running concurrently
 
 ---

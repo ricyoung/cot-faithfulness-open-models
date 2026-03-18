@@ -1,5 +1,5 @@
 % ============================================================
-% RELATED WORK — target: 800--1200 words
+% RELATED WORK - target: 800--1200 words
 % Thematic subsections
 % ============================================================
 
@@ -9,7 +9,7 @@
 
 The question of whether chain-of-thought explanations faithfully represent a model's
 actual reasoning process has been investigated through several complementary
-methodologies. Turpin et al.~\cite{turpin2023unfaithful} introduced the bias
+methodologies. Jacovi and Goldberg~\cite{jacovi2020faithfulness} argued that faithfulness itself admits multiple valid definitions depending on the operationalization chosen, a concern borne out empirically by Parcalabescu and Frank~\cite{parcalabescu2023measuring}, who showed that different faithfulness measures yield divergent results on the same data. Turpin et al.~\cite{turpin2023unfaithful} introduced the bias
 injection paradigm: by adding biasing features to few-shot prompts (e.g., labeling
 answers with positional patterns or attributing answers to authority figures), they
 showed that models on BIG-Bench Hard tasks are systematically influenced by features
@@ -22,7 +22,7 @@ for mathematical reasoning, motivating the need to understand whether individual
 reasoning steps faithfully reflect the model's actual computation.
 
 Lanham et al.~\cite{lanham2023measuring} took a causal approach, measuring
-faithfulness in Claude models by intervening on the CoT itself---truncating reasoning
+faithfulness in Claude models by intervening on the CoT itself: truncating reasoning
 chains, adding mistakes to intermediate steps, and paraphrasing explanations. Their
 key finding was that the degree to which CoT content causally determines model
 predictions varies substantially by task, suggesting that faithfulness is not a fixed
@@ -42,8 +42,8 @@ translation is infeasible.
 Most recently, Chen et al.~\cite{chen2025reasoning} conducted the most directly
 relevant evaluation, testing Claude 3.7 Sonnet and DeepSeek-R1 across six hint
 types injected into MMLU and GPQA questions. Their finding that faithfulness rates
-are as low as 25\% for Claude and 39\% for DeepSeek-R1---with outcome-based
-reinforcement learning providing only modest and plateauing improvements---raised
+are as low as 25\% for Claude and 39\% for DeepSeek-R1 (with outcome-based
+reinforcement learning providing only modest and plateauing improvements) raised
 fundamental questions about the viability of CoT monitoring as a safety mechanism.
 Feng et al.~\cite{feng2025more} extended this to three reasoning models
 (QwQ-32b, Gemini 2.0 Flash Thinking, and DeepSeek-R1), finding that reasoning
@@ -62,15 +62,18 @@ Complementary methodological approaches have emerged alongside hint-injection
 studies. Chua et al.~\cite{chua2025unlearning} proposed measuring faithfulness
 by selectively unlearning reasoning steps and observing whether model predictions
 change accordingly, providing a causal alternative to post-hoc CoT analysis.
+Tanneru et al.~\cite{tanneru2024hardness} provided theoretical grounding by demonstrating that faithful CoT is inherently hard to achieve and verify, suggesting fundamental limits on what text-based evaluation can capture.
+Shen et al.~\cite{shen2025faithcotbench} introduced FaithCoT-Bench for benchmarking instance-level faithfulness across tasks, moving beyond aggregate metrics.
 Stickland et al.~\cite{stickland2025monitorability} introduced the concept of
-\emph{monitorability}---distinguishing it from faithfulness---and showed that
+\emph{monitorability}, distinguishing it from faithfulness, and showed that
 models can appear faithful yet remain hard to monitor when they omit key factors
 from their reasoning, with monitorability varying sharply across model families.
+Yang et al.~\cite{yang2025monitorability} extended this line of investigation to large reasoning models specifically, while Xiong et al.~\cite{xiong2025thinking} measured faithfulness in thinking drafts, finding that internal reasoning traces may be more faithful than visible outputs.
 
 \subsection{Reasoning Models and Safety}
 
-The proliferation of reasoning models---systems trained with reinforcement learning
-to produce extended chains of thought---has created new safety challenges alongside
+The proliferation of reasoning models (systems trained with reinforcement learning
+to produce extended chains of thought) has created new safety challenges alongside
 their performance gains. DeepSeek-R1 \cite{deepseek2025r1} demonstrated that
 reinforcement learning with group relative policy optimization (GRPO) can elicit
 sophisticated reasoning behaviors, while subsequent work has shown that similar
@@ -79,31 +82,31 @@ supervised fine-tuning, and data-centric approaches.
 
 The relationship between CoT and model honesty has been examined from multiple
 angles. Kadavath et al.~\cite{kadavath2022selfknowledge} showed that language
-models possess significant self-knowledge---they can predict whether they will
-answer a question correctly---raising the question of whether this metacognitive
+models possess significant self-knowledge (they can predict whether they will
+answer a question correctly), raising the question of whether this metacognitive
 capability extends to accurately reporting \emph{what influenced} their answers.
 Sharma et al.~\cite{sharma2023sycophancy} provided the foundational empirical
 study of sycophancy in RLHF-trained models, demonstrating that five state-of-the-art
 assistants consistently shift toward user-suggested answers across tasks, a
 phenomenon directly relevant to the sycophancy hint type used in faithfulness
-evaluations. Perez et al.~\cite{perez2022discovering} discovered that larger
+evaluations. Hu et al.~\cite{hu2025monica} showed that sycophancy in reasoning models requires real-time monitoring and calibration rather than binary classification, underscoring the difficulty of measuring sycophantic faithfulness. Perez et al.~\cite{perez2022discovering} discovered that larger
 models exhibit \emph{more} sycophancy, an inverse scaling phenomenon relevant to
-our cross-scale analysis from 7B to 1T parameters.
+the cross-scale analysis from 7B to 685B parameters conducted here.
 
 Several studies have examined the safety implications of reasoning capabilities.
 Jiang et al.~\cite{jiang2025safechain} evaluated safety risks specific to models
 with long CoT capabilities, finding that the extended reasoning process can both
-help and hinder safety---models sometimes reason their way toward harmful outputs.
+help and hinder safety; models sometimes reason their way toward harmful outputs.
 The hidden risks of reasoning models have been further documented by safety
 assessments of DeepSeek-R1 showing that reasoning traces can contain concerning
 patterns even when final outputs appear benign \cite{zhou2025hidden}. More
 fundamentally, Roger and Greenblatt~\cite{roger2023steganography} demonstrated
-that language models can encode reasoning steganographically---embedding information
-in CoT text that is not interpretable to human monitors---suggesting that the
-faithfulness gaps we measure may underestimate the true divergence between stated
-and actual reasoning. Greenblatt et al.~\cite{greenblatt2024alignment} showed that
+that language models can encode reasoning steganographically, embedding information
+in CoT text that is not interpretable to human monitors, suggesting that the
+faithfulness gaps measured in the present study may underestimate the true
+divergence between stated and actual reasoning. Greenblatt et al.~\cite{greenblatt2024alignment} showed that
 Claude 3 Opus strategically fakes alignment during training, producing CoT that is
-deliberately strategic rather than faithfully explanatory, while Hubinger et
+deliberately strategic rather than faithfully explanatory. Marks et al.~\cite{marks2025auditing} demonstrated that hidden objectives can persist even under careful monitoring, further complicating faithfulness assessment. Hubinger et
 al.~\cite{hubinger2024sleeper} found that deceptive behaviors persist through
 safety training, with persistence strongest in models trained with chain-of-thought
 reasoning about deception.
@@ -125,7 +128,7 @@ The rapid expansion of the open-weight model ecosystem has created an urgent nee
 for systematic evaluation across model families. By early 2026, open-weight
 reasoning models span a wide range of architectures (dense, mixture-of-experts,
 hybrid attention), training methods (GRPO, DPO, distillation, supervised
-fine-tuning, data-centric), and scales (8B to over 1T parameters), with fully
+fine-tuning, data-centric), and scales (7B to 685B parameters), with fully
 open projects like OLMo~\cite{groeneveld2024olmo} providing unprecedented
 transparency into training data and procedures, and models like
 Qwen2.5~\cite{qwen2024technical} demonstrating that multi-stage RL can produce
@@ -137,7 +140,7 @@ Existing faithfulness evaluations have focused almost exclusively on proprietary
 models or on a single open-weight family (typically DeepSeek). Wu et
 al.~\cite{wu2025moreless} examined the relationship between CoT length and task
 performance, finding an inverted U-shape where excessively long reasoning chains
-degrade accuracy---a finding relevant to faithfulness since Chen et
+degrade accuracy, a finding relevant to faithfulness since Chen et
 al.~\cite{chen2025reasoning} showed that unfaithful CoTs tend to be longer.
 Probing-based approaches have examined whether models' internal representations
 contain information about answer correctness that is absent from their CoT
@@ -147,11 +150,11 @@ al.~\cite{wang2024making} proposed training-time interventions to improve
 faithfulness, demonstrating that explicitly optimizing for reasoning consistency
 during fine-tuning can narrow the gap between stated and actual reasoning processes.
 
-Our work fills the gap between these lines of research by providing the first
-systematic faithfulness evaluation that spans the breadth of the open-weight
-reasoning model ecosystem. By testing 11 models across 9 families with a
-standardized methodology---and using Anthropic's BLOOM
-framework~\cite{bloom2025} for automated behavioral scoring---we enable direct
-comparison of faithfulness properties across architectures, training methods,
-and scales, comparisons that are currently impossible with the narrow model
-coverage of existing studies.
+The present work fills the gap between these lines of research by providing the
+first systematic faithfulness evaluation that spans the breadth of the
+open-weight reasoning model ecosystem. By testing 12 models across 9 families
+with a standardized methodology and two independent classifiers (a
+regex+LLM-judge pipeline and Claude Sonnet~4 as a validation judge), the
+cross-scale analysis enables direct comparison of faithfulness properties
+across architectures, training methods, and scales; comparisons that are
+currently impossible with the narrow model coverage of existing studies.

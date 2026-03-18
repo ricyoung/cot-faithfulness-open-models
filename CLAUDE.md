@@ -4,16 +4,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Research project investigating **Chain-of-Thought (CoT) faithfulness in open-weight reasoning models**. Extends Anthropic's paper "Reasoning Models Don't Always Say What They Think" (arXiv 2505.05410) to 12 models across 9 families, spanning 8B to 1T parameters.
+Research project investigating **Chain-of-Thought (CoT) faithfulness in open-weight reasoning models**. Extends Anthropic's paper "Reasoning Models Don't Always Say What They Think" (arXiv 2505.05410) to 14 models across 12 families, spanning 7B to 1T parameters.
 
 **Core question**: When a model changes its answer due to an injected hint, does it acknowledge the hint in its CoT? The original paper found Claude 3.7 Sonnet acknowledges hints only 25% of the time; DeepSeek R1 only 39%.
 
-**Status**: Planning/pre-implementation. The `IMPLEMENTATION_PLAN.md` contains the original code specification (needs updating for API-based inference). No source code exists yet.
+**Status**: Pipeline complete, hardened, ready for full-scale run. Paper drafted with 33 references. BLOOM installed for faithfulness judgment.
 
 ## Project Structure (planned)
 
 - `src/cot_faithfulness/` — Python package (config, models, hints, runner, classifier, analysis, plots, CLI)
-- `data/sampled/` — 500 questions (300 MMLU + 200 GPQA Diamond), seed=103
+- `data/sampled/` — 498 questions (300 MMLU + 198 GPQA Diamond), seed=103
 - `results/` — base runs, hinted runs, classified results, analysis outputs
 - `tests/` — pytest suite
 - `calibration/` — 200 hand-labeled examples for classifier validation
@@ -30,16 +30,15 @@ Research project investigating **Chain-of-Thought (CoT) faithfulness in open-wei
 - **Build system**: Hatchling with `src/` layout
 - **Claude Sonnet 4.6**: Use Anthropic Batch API (50% discount) with extended thinking
 
-## Models Under Test (12 models)
+## Models Under Test (14 models, 12 families)
 
 ### Tier 1: Replication baselines
 | Model | Params | Family | Role |
 |---|---|---|---|
-| DeepSeek-R1 | 671B / 37B active MoE | DeepSeek | Anthropic tested this — direct replication |
+| DeepSeek-R1 | 671B / 37B active MoE | DeepSeek | Anthropic tested this, direct replication |
 | DeepSeek-V3.2-Speciale | 685B / 37B active MoE | DeepSeek | Newest DeepSeek reasoner (Dec 2025) |
-| Claude Sonnet 4.6 | Proprietary | Anthropic | Proprietary anchor, validates pipeline |
 
-### Tier 2: Current flagships (Q4 2025 – Q1 2026)
+### Tier 2: Current flagships (Q4 2025 - Q1 2026)
 | Model | Params | Family | Role |
 |---|---|---|---|
 | GLM-5 | 744B / 40B active MoE | Zhipu | Feb 2026, top open-source leaderboard |
@@ -51,17 +50,20 @@ Research project investigating **Chain-of-Thought (CoT) faithfulness in open-wei
 ### Tier 3: Scaling & diversity
 | Model | Params | Family | Role |
 |---|---|---|---|
-| Apriel-1.5-15B-Thinker | 15B dense | ServiceNow | No RL, pure data-centric training |
-| EXAONE-4.0-32B | 32B dense | LG AI | Hybrid reasoning/non-reasoning modes |
+| ERNIE-4.5-21B | 21B / 3B active MoE | Baidu | Baidu reasoner |
+| QwQ-32B | 32B dense | Qwen | Pre-3.5 reasoner, within-family comparison |
 | OLMo-3.1-32B-Think | 32B dense | AI2 | Fully open (data+code+weights) |
-| DeepSeek-R1-Distill-Qwen3-8B | 8B dense | DeepSeek | Smallest, for scaling analysis |
+| OLMo-3-7B-Think | 7B dense | AI2 | Smallest dense model |
+| Nemotron-Nano-9B | 9B dense | NVIDIA | Hybrid Transformer-Mamba architecture |
+| Step-3.5-Flash | 196B / 11B active MoE | StepFun | Chinese startup reasoner |
+| Seed-1.6-Flash | Undisclosed | ByteDance | Deep thinking model |
 
 ### Coverage
-- **9 model families**: DeepSeek, Qwen, OpenAI, Zhipu, Moonshot, MiniMax, ServiceNow, LG, AI2 + Anthropic
-- **Architectures**: Dense, MoE, hybrid-attention, depth-upscaled
-- **Training methods**: Distillation, RL, GRPO, DPO, SFT, data-centric, hybrid
-- **Scale**: 8B → 15B → 27B → 32B (dense); 5.1B → 10B → 32B → 40B active (MoE)
-- **Release dates**: Aug 2025 – Feb 2026
+- **12 model families**: DeepSeek, Qwen, OpenAI, Zhipu, Moonshot, MiniMax, Baidu, AI2, NVIDIA, StepFun, ByteDance
+- **Architectures**: Dense, MoE, hybrid Transformer-Mamba
+- **Training methods**: RL, GRPO, SFT, hybrid RL
+- **Scale**: 7B to 1T total parameters; 3B to 40B active (MoE)
+- **Release dates**: Mar 2025 - Feb 2026
 
 ## Six Hint Types
 
@@ -100,12 +102,12 @@ bash scripts/run_single_model.sh deepseek-r1
 ## Experiment Scale
 
 ```
-500 questions x 6 hint types x 12 models = 36,000 hinted inference runs
-500 questions x 12 models                =  6,000 baseline inference runs
-                                  Total  = 42,000 inference runs
+498 questions x 6 hint types x 14 models = 41,832 hinted inference runs
+498 questions x 14 models                =  6,972 baseline inference runs
+                                  Total  = 48,804 inference runs
 ```
 
-Estimated API cost: ~$50-80 (open models via OpenRouter) + ~$80 (Claude via Anthropic Batch API) = ~$130-160 total.
+Estimated API cost: ~$50-85 (all 14 open-weight models via OpenRouter).
 
 ## Key Files to Read First
 

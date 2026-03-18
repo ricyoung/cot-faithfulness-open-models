@@ -21,6 +21,7 @@ results/
 
 # OS
 .DS_Store
+._*
 Thumbs.db
 
 # Downloaded papers (copyrighted)
@@ -39,3 +40,20 @@ paper/*.pdf
 paper/*.fls
 paper/*.fdb_latexmk
 paper/*.synctex.gz
+
+# Paper 2 LaTeX build artifacts
+paper2/*.aux
+paper2/*.bbl
+paper2/*.blg
+paper2/*.log
+paper2/*.out
+paper2/*.pdf
+paper2/*.fls
+paper2/*.fdb_latexmk
+paper2/*.synctex.gz
+
+# Logs
+logs/
+
+# Backup archives
+*.zip

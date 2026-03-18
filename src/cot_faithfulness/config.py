@@ -64,14 +64,14 @@ class ModelConfig(BaseModel):
 
 
 # ---------------------------------------------------------------------------
-# The Model Registry — all 12 models via OpenRouter
+# The Model Registry — all 14 models via OpenRouter
 # ---------------------------------------------------------------------------
 
 MODEL_REGISTRY: dict[str, ModelConfig] = {
     # ── Tier 1: Replication baselines ──────────────────────────────────────
     "deepseek-r1": ModelConfig(
         name="deepseek-r1",
-        api_model_id="deepseek/deepseek-r1",
+        api_model_id="deepseek/deepseek-r1-0528",
         supports_reasoning=True,
         max_completion_tokens=16384,
         max_reasoning_tokens=8192,
@@ -80,10 +80,10 @@ MODEL_REGISTRY: dict[str, ModelConfig] = {
         active_param_billions=37.0,
         architecture=Architecture.MOE,
         family="DeepSeek",
-        release_date="2025-01",
+        release_date="2025-05",
         tier=1,
-        cost_per_million_input=0.70,
-        cost_per_million_output=2.50,
+        cost_per_million_input=0.45,
+        cost_per_million_output=2.15,
     ),
     "deepseek-v3.2-speciale": ModelConfig(
         name="deepseek-v3.2-speciale",
@@ -171,8 +171,8 @@ MODEL_REGISTRY: dict[str, ModelConfig] = {
         name="gpt-oss-120b",
         api_model_id="openai/gpt-oss-120b",
         supports_reasoning=True,
-        max_completion_tokens=16384,
-        max_reasoning_tokens=8192,
+        max_completion_tokens=32768,
+        max_reasoning_tokens=16384,
         alignment_method=AlignmentMethod.HYBRID_RL,
         param_billions=117.0,
         active_param_billions=5.1,
@@ -189,8 +189,8 @@ MODEL_REGISTRY: dict[str, ModelConfig] = {
         name="ernie-4.5-21b-thinking",
         api_model_id="baidu/ernie-4.5-21b-a3b-thinking",
         supports_reasoning=True,
-        max_completion_tokens=8192,
-        max_reasoning_tokens=4096,
+        max_completion_tokens=32768,
+        max_reasoning_tokens=16384,
         alignment_method=AlignmentMethod.HYBRID_RL,
         param_billions=21.0,
         active_param_billions=3.0,
@@ -220,8 +220,8 @@ MODEL_REGISTRY: dict[str, ModelConfig] = {
         name="olmo-3.1-32b-think",
         api_model_id="allenai/olmo-3.1-32b-think",
         supports_reasoning=True,
-        max_completion_tokens=8192,
-        max_reasoning_tokens=4096,
+        max_completion_tokens=32768,
+        max_reasoning_tokens=16384,
         alignment_method=AlignmentMethod.SFT_RL,
         param_billions=32.0,
         architecture=Architecture.DENSE,
@@ -235,8 +235,8 @@ MODEL_REGISTRY: dict[str, ModelConfig] = {
         name="olmo-3-7b-think",
         api_model_id="allenai/olmo-3-7b-think",
         supports_reasoning=True,
-        max_completion_tokens=8192,
-        max_reasoning_tokens=4096,
+        max_completion_tokens=32768,
+        max_reasoning_tokens=16384,
         alignment_method=AlignmentMethod.SFT_RL,
         param_billions=7.0,
         architecture=Architecture.DENSE,
@@ -245,6 +245,54 @@ MODEL_REGISTRY: dict[str, ModelConfig] = {
         tier=3,
         cost_per_million_input=0.12,
         cost_per_million_output=0.20,
+    ),
+
+    # ── Tier 3 (continued): New families ────────────────────────────────
+    "nemotron-nano-9b": ModelConfig(
+        name="nemotron-nano-9b",
+        api_model_id="nvidia/nemotron-nano-9b-v2",
+        supports_reasoning=True,
+        max_completion_tokens=32768,
+        max_reasoning_tokens=16384,
+        alignment_method=AlignmentMethod.SFT_RL,
+        param_billions=9.0,
+        architecture=Architecture.DENSE,
+        family="NVIDIA",
+        release_date="2025-10",
+        tier=3,
+        cost_per_million_input=0.04,
+        cost_per_million_output=0.16,
+    ),
+    "step-3.5-flash": ModelConfig(
+        name="step-3.5-flash",
+        api_model_id="stepfun/step-3.5-flash",
+        supports_reasoning=True,
+        max_completion_tokens=32768,
+        max_reasoning_tokens=16384,
+        alignment_method=AlignmentMethod.HYBRID_RL,
+        param_billions=196.0,
+        active_param_billions=11.0,
+        architecture=Architecture.MOE,
+        family="StepFun",
+        release_date="2025-12",
+        tier=3,
+        cost_per_million_input=0.10,
+        cost_per_million_output=0.30,
+    ),
+    "seed-1.6-flash": ModelConfig(
+        name="seed-1.6-flash",
+        api_model_id="bytedance-seed/seed-1.6-flash",
+        supports_reasoning=True,
+        max_completion_tokens=16384,
+        max_reasoning_tokens=8192,
+        alignment_method=AlignmentMethod.HYBRID_RL,
+        param_billions=0.0,  # undisclosed
+        architecture=Architecture.DENSE,  # architecture undisclosed
+        family="ByteDance",
+        release_date="2025-12",
+        tier=3,
+        cost_per_million_input=0.07,
+        cost_per_million_output=0.30,
     ),
 }
 

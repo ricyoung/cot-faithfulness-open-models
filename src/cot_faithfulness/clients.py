@@ -1,5 +1,5 @@
 """
-API client for OpenRouter. All 12 models use the same client.
+API client for OpenRouter. All 14 models use the same client.
 Uses the OpenAI SDK with OpenRouter's base URL.
 """
 from __future__ import annotations

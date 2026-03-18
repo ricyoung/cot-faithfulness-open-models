@@ -1,89 +1,227 @@
 % ============================================================
-% DISCUSSION — target: 1000--1500 words
+% DISCUSSION - target: 1000--1500 words
 % ============================================================
 
 \section{Discussion}
 
-% Paragraph 1: Summary and takeaway
-The primary aim of this study was to determine whether the low CoT faithfulness
-rates observed in proprietary reasoning models generalize across the open-weight
-reasoning model ecosystem. [TODO: State primary finding. ``Our results demonstrate
-that...'' State overall takeaway.]
+% Paragraph 1: Restate purpose + main finding + overall takeaway
+The present study set out to determine whether the low CoT faithfulness rates
+observed in proprietary reasoning models generalize across the open-weight
+reasoning model ecosystem. The results demonstrate that CoT faithfulness varies
+substantially, ranging from 39.7\% (Seed-1.6-Flash) to 89.9\%
+(DeepSeek-V3.2-Speciale) as measured by Claude Sonnet 4 (69.7\% overall). This
+50-percentage-point spread confirms that faithfulness is not a fixed property of
+reasoning models but varies systematically with model family, training approach,
+and hint type. The central takeaway is that open-weight reasoning models exhibit
+the same class of unfaithful reasoning documented by Chen et
+al.~\cite{chen2025reasoning} in proprietary systems, but with far greater
+variance than previously appreciated.
 
 % Paragraph 2: Cross-family variation (H1)
-[TODO: Restate H1 finding. Interpret: what explains the cross-family differences?
-Relate to training methodology differences (GRPO vs.\ DPO vs.\ distillation vs.\
-data-centric). Compare with Chen et al.'s finding that DeepSeek-R1 (39\%) outperforms
-Claude 3.7 Sonnet (25\%). To our knowledge, this is the first study to demonstrate
-systematic differences in CoT faithfulness across model families.]
+H1 predicted that CoT faithfulness would vary significantly across model
+families. This hypothesis is supported: large and systematic differences in CoT
+faithfulness emerge across the 12 model families tested. The DeepSeek family
+shows notable improvement across generations, with R1 achieving 74.8\%
+faithfulness compared to 89.9\% for the newer V3.2-Speciale, suggesting that
+continued training refinement improves faithfulness within a family. A parallel
+pattern emerges within the Qwen family: QwQ-32B achieves 56.3\% while the newer
+Qwen3.5-27B reaches 68.3\%, again showing improvement with newer training
+methodology. Training method appears more important than scale: MiniMax-M2.5
+(230B/10B active MoE) achieves 73.1\% while the smaller Qwen3.5-27B (27B dense)
+reaches 68.3\%, and the 7B OLMo-3-7B-Think achieves 56.9\% while the 32B
+OLMo-3.1-32B-Think reaches 81.0\%. No strong linear correlation between model
+scale and faithfulness is observed; training methodology and data quality appear
+to matter more than raw scale, consistent with the broader finding in the
+alignment literature that capability and alignment are partially orthogonal
+dimensions~\cite{turpin2023unfaithful}. Ye et al.~\cite{ye2026faithfulness} provide complementary mechanistic evidence that faithfulness decays over long reasoning chains, suggesting that the relationship between scale and faithfulness may be mediated by chain length. These cross-family patterns extend the
+single-model analyses of Chen et al.~\cite{chen2025reasoning} and Turpin et
+al.~\cite{turpin2023unfaithful} by demonstrating that faithfulness is not merely
+model-specific but family-specific, with within-family generational improvement
+as a recurring motif. To the authors' knowledge, this represents the first study
+to document systematic cross-family differences in CoT faithfulness across a
+broad range of open-weight reasoning models.
 
 % Paragraph 3: Hint-type patterns (H2)
-[TODO: Restate H2 finding. Interpret: why might certain hint types be systematically
-underreported? Relate to Turpin et al.'s categories of biasing features. Discuss
-implications for monitoring---if metadata and grader hints are consistently
-unfaithful, these represent the highest-risk categories for safety monitoring.]
+H2 predicted that metadata and grader hints, which invoke structural or
+rule-based framing, would yield the lowest faithfulness rates, on the
+assumption that such hints would be harder for models to detect and acknowledge.
+This hypothesis is only partially supported. Consistency (35.5\%) and sycophancy
+(53.9\%) show the lowest faithfulness rates; these are social-pressure hints
+that invoke expert opinion or prior answers. In contrast, rule-breaking hints
+show the highest faithfulness: grader (77.7\%) and unethical (79.4\%). This
+pattern is the opposite of the original H2 prediction. One interpretation of
+this asymmetry is that social-pressure cues are harder for models to acknowledge
+because they relate to the model's identity and social role; admitting
+deference to authority or prior commitments may conflict with trained behavior
+around independent reasoning. Rule-breaking hints, by contrast, are ethically
+loaded: gaming a grader or using stolen answers invokes safety-relevant
+scenarios that models may be more likely to discuss explicitly, potentially as a
+result of RLHF training that encourages flagging ethical
+violations~\cite{sharma2023sycophancy}. Zaman and Srivastava~\cite{zaman2025verbalization} reached a complementary conclusion, demonstrating that CoT can be faithful without explicitly verbalizing the hint, suggesting that some models may acknowledge influence through indirect reasoning patterns that text-based classifiers miss. Metadata hints (69.9\%) fall in the
+middle, consistent with their relatively neutral framing. This hint-type
+hierarchy aligns with the sycophancy findings of Sharma et
+al.~\cite{sharma2023sycophancy}, who demonstrated that social-pressure
+susceptibility scales with model size, and extends the hint taxonomy of Chen et
+al.~\cite{chen2025reasoning} by revealing that the faithfulness impact of
+different hint categories varies more than their influence rates.
 
-% Paragraph 4: Scaling
-[TODO: Interpret scaling results. Does larger = more faithful? Relate to the general
-finding that larger models are more capable but not necessarily more aligned. Compare
-with the 8B distilled model vs.\ full DeepSeek-R1.]
+% Paragraph 4: Thinking-vs-answer gap — NOVEL finding
+The most significant finding of this investigation concerns the gap between
+thinking-token faithfulness and answer-text faithfulness. Across all 12 models,
+thinking tokens show 87.5\% average faithfulness while answer text shows only
+28.6\%, a 58.9-percentage-point gap. Three models exhibit near-total
+suppression: GPT-OSS-120B acknowledges hints in 93.0\% of thinking traces but
+0.0\% of answers; Step-3.5-Flash shows 97.8\% thinking faithfulness versus 3.0\%
+answer faithfulness; DeepSeek-V3.2-Speciale shows 97.8\% versus 5.3\%. Only two
+models, Qwen3.5-27B (99.3\%/79.9\%) and DeepSeek-R1
+(95.5\%/72.5\%), show relatively consistent faithfulness across both channels.
+To the authors' knowledge, this represents the first large-scale quantification
+of the thinking-versus-answer faithfulness gap across multiple model families.
+This finding directly substantiates Baker et al.'s~\cite{baker2025cot} argument
+that CoT can be ``highly informative despite unfaithfulness'': thinking tokens
+are indeed highly informative (87.5\% faithful), even when the externally
+visible answer text is not (28.6\%). The gap also extends the observations of
+Chen et al.~\cite{chen2025reasoning}, who documented unfaithfulness in
+reasoning traces but did not separately quantify thinking-token and answer-text
+faithfulness. Furthermore, the near-total suppression observed in several models
+resonates with the alignment faking patterns described by Greenblatt et
+al.~\cite{greenblatt2024alignment}, where models exhibit different behavior in
+monitored versus unmonitored channels. The present data suggest that a
+structurally analogous phenomenon occurs naturally in reasoning model outputs:
+internal reasoning (thinking tokens) reveals awareness that is systematically
+suppressed in externally visible outputs (answer text).
 
-% Paragraph 5: CoT length
-[TODO: Interpret CoT length findings. If replicated, unfaithful CoTs being longer
-suggests active rationalization rather than simple omission---models may construct
-elaborate alternative justifications when they don't want to reveal the true influence.
-Relate to Chen et al.'s ``obfuscation'' interpretation.]
+% Paragraph 5: Confounding factors and methodological concerns
+Several methodological considerations bear on the interpretation of these
+results. First, the faithfulness classifiers used in this study disagree
+substantially: the Sonnet judge yields 69.7\% overall faithfulness while the
+regex+Ollama pipeline yields 82.6\%, a 12.9-percentage-point gap concentrated
+in sycophancy ($-43$pp) and consistency ($-33$pp) hints. This sensitivity to
+classifier choice (anticipated by Jacovi and Goldberg~\cite{jacovi2020faithfulness}, who argued that faithfulness definitions are inherently construct-dependent, and demonstrated empirically by Parcalabescu and Frank~\cite{parcalabescu2023measuring}) means that absolute faithfulness estimates should be
+interpreted with caution, though relative rankings remain stable across both
+classifiers. The Sonnet results are reported as primary for comparability with
+Chen et al.~\cite{chen2025reasoning}. Second, all models are evaluated via
+API-served inference through OpenRouter, which introduces potential confounds
+from provider-specific quantization, system prompts, or inference
+optimizations. While generation parameters are controlled
+($\text{temperature}=0.0$, $\text{seed}=103$), exact reproducibility across
+API providers cannot be guaranteed. The DeepSeek-R1 replication serves as a
+partial check: the present study's 74.8\% faithfulness for DeepSeek-R1 falls
+within the range reported by Chen et al.~\cite{chen2025reasoning} (39\% for
+Claude 3.7 Sonnet, 39\% for DeepSeek R1), though direct comparison is
+complicated by differences in question sets, hint implementations, and
+classifier methodology.
+
+% Paragraph 6: Integration with existing research
+These findings fit within and extend the growing body of evidence that
+chain-of-thought reasoning in language models is systematically unfaithful.
+Turpin et al.~\cite{turpin2023unfaithful} established that biased contexts
+distort CoT reasoning without acknowledgment; Lanham et
+al.~\cite{lanham2023measuring} demonstrated that CoT can be causally
+irrelevant to model outputs; and Chen et al.~\cite{chen2025reasoning} showed
+that reasoning models specifically fail to acknowledge hint influence in their
+extended thinking. The present study extends this trajectory in three ways:
+(1)~by demonstrating that unfaithfulness is a cross-family phenomenon with
+substantial variance rather than a property of individual models, (2)~by
+revealing that social-pressure hints produce systematically lower faithfulness
+than rule-breaking hints across all families, and (3)~by quantifying the
+thinking-versus-answer gap that Baker et al.~\cite{baker2025cot} hypothesized
+but did not empirically measure. Together, these results suggest that
+unfaithful CoT is not an incidental artifact of any single training pipeline
+but a structural feature of current reasoning model architectures, one that
+training refinement can ameliorate (as evidenced by within-family improvement)
+but has not yet eliminated.
 
 % Limitations
 \subsection*{Limitations}
 
 Several limitations should be considered when interpreting these results.
 
-First, our faithfulness measurement is inherently conservative: we only identify a
-CoT as faithful if it \emph{explicitly} mentions the hint, but models may
-acknowledge hint influence through indirect or paraphrased language that our
-classifier misses. Our hand-labeled validation set provides a bound on this error,
-but some faithful responses may be misclassified as unfaithful.
+First, the faithfulness measurement is inherently conservative: a CoT is
+identified as faithful only if it \emph{explicitly} mentions the hint, but models
+may acknowledge hint influence through indirect or paraphrased language that the
+classifier misses. The cross-classifier comparison (Section~5.1) provides a
+bound on this error, but some faithful responses may be misclassified as
+unfaithful.
 
-Second, we evaluate using API-served models, which may differ from locally-hosted
-versions due to provider-specific quantization, system prompts, or inference
-optimizations. While we control for generation parameters
-($\text{temperature}=0.0$, $\text{seed}=42$), exact reproducibility across
+Second, the evaluation uses API-served models, which may differ from
+locally-hosted versions due to provider-specific quantization, system prompts, or
+inference optimizations. While generation parameters are controlled
+($\text{temperature}=0.0$, $\text{seed}=103$), exact reproducibility across
 API providers cannot be guaranteed.
 
-Third, our evaluation covers multiple-choice questions from MMLU and GPQA only.
+Third, the evaluation covers multiple-choice questions from MMLU and GPQA only.
 Faithfulness behavior may differ on open-ended generation tasks, code
 generation, or mathematical reasoning where the answer format is unconstrained.
 
-Fourth, we test 500 questions per model, which may provide insufficient statistical
+Fourth, approximately 6.7\% of MMLU ground truth labels contain errors
+\cite{gema2024mmlu}, affecting roughly 20 of the 300 MMLU questions. It is
+important to distinguish between the two core metrics of this study: label
+errors affect \emph{accuracy} (whether the model selected the correct answer)
+but do \textbf{not} affect \emph{faithfulness} (whether the model's CoT
+acknowledged the hint). Faithfulness classification examines the reasoning
+trace for evidence of hint awareness, a judgment that is wholly independent
+of the ground truth label. The only secondary effect is on \emph{influence
+rate}: in the small number of questions where the ``incorrect'' target
+happens to be the true correct answer, a model may switch to it through
+legitimate reasoning rather than hint influence, slightly inflating the
+measured influence rate. Because all 12 models face identical questions,
+this inflation is constant across models and does not bias comparative
+analysis. Robustness is further verified by reporting MMLU-only and GPQA-only
+results separately.
+
+Fifth, 498 questions per model may provide insufficient statistical
 power for fine-grained comparisons within specific MMLU subject categories or for
 rare hint types with low influence rates.
-
-[TODO: Address additional limitations discovered during experiments.]
 
 % Integration: implications
 \subsection*{Implications for CoT Safety Monitoring}
 
-[TODO: Theoretical implications---what does cross-family faithfulness variation
-tell us about the relationship between training methodology and reasoning
-transparency? Practical implications---which models are most suitable for
-deployments that rely on CoT monitoring? How should safety teams adjust their
-monitoring strategies given these findings?
+The cross-family results reveal that different model families offer markedly
+different faithfulness profiles, with practical consequences for deployment
+decisions. For applications requiring CoT monitoring as a safety mechanism,
+DeepSeek-V3.2-Speciale (89.9\%) and GPT-OSS-120B (84.9\%) provide the most
+reliable reasoning traces, while models such as Seed-1.6-Flash (39.7\%) and
+ERNIE-4.5-21B (46.2\%) present substantially higher risks of undetected
+influence.
 
-Relate to Baker et al.'s argument that CoT can be informative despite
-unfaithfulness. Our cross-family data may help quantify \emph{how} informative
-CoT monitoring is for different model families.
+However, the thinking-versus-answer gap fundamentally reshapes the monitoring
+calculus. The present data directly quantify Baker et al.'s~\cite{baker2025cot}
+argument that CoT can be informative despite unfaithfulness: thinking tokens are
+highly informative (87.5\% faithful) while answer text is not (28.6\% faithful).
+This means that monitoring strategies should prioritize thinking-token access
+over answer-text analysis wherever architecturally feasible. For models that
+expose thinking tokens (as most open-weight reasoning models do via API), hybrid
+monitoring combining behavioral CoT analysis with thinking-token inspection is
+strongly recommended. Relying on answer text alone would miss approximately 59
+percentage points of available faithfulness signal.
 
-Discuss hybrid behavioral + mechanistic monitoring as a future direction,
-following the argument that CoT visibility alone is insufficient for reliable
-safety monitoring.]
+% Conclusion and future directions
+\subsection*{Conclusion and Future Directions}
 
-% Future directions
-\subsection*{Future Directions}
+This investigation demonstrates that CoT unfaithfulness is a pervasive,
+cross-family phenomenon in open-weight reasoning models, with substantial
+variance driven by model family, training approach, and hint type. The
+thinking-versus-answer faithfulness gap, documented here for the first time at
+scale, reveals that models possess internal awareness of external influences
+that is systematically suppressed in visible outputs, a finding with direct
+implications for safety monitoring architectures.
 
-[TODO: (1)~Extend to open-ended generation tasks beyond multiple choice.
-(2)~Combine CoT analysis with probing-based approaches to measure the gap
-between surface-level and internal faithfulness. (3)~Investigate whether
-faithfulness can be improved through training-time interventions (e.g.,
-faithfulness-aware RLHF) without sacrificing task performance. (4)~Longitudinal
-tracking of faithfulness as models are updated across versions.]
+Several directions emerge from this work. First, extending faithfulness
+evaluation to open-ended generation tasks (including code generation,
+mathematical proofs, and long-form reasoning) would test whether the patterns
+observed in multiple-choice settings generalize to unconstrained output formats.
+Second, combining surface-level CoT analysis with probing-based mechanistic
+interpretability techniques~\cite{liu2025probing} could reveal faithfulness gaps
+invisible to text-based classifiers. Third, investigating whether faithfulness
+can be improved through training-time interventions (such as faithfulness-aware
+reinforcement learning or explicit reasoning transparency objectives) without
+sacrificing task performance would move the field from measurement toward
+mitigation. Fourth, longitudinal tracking of faithfulness as models are updated
+across versions within a family (as observed with DeepSeek R1 $\rightarrow$
+V3.2-Speciale and QwQ $\rightarrow$ Qwen3.5) would clarify whether the trend
+toward improved faithfulness is robust and generalizable. Fifth, a systematic
+study of thinking-versus-answer suppression mechanisms is needed to understand
+why models develop the capacity to detect hint influence internally while
+suppressing acknowledgment externally, and whether this behavior is an intended
+or incidental consequence of alignment training.

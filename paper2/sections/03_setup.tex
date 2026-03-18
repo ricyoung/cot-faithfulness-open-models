@@ -1,0 +1,66 @@
+\section{Related Work}
+
+Faithfulness of chain-of-thought reasoning lacks a single agreed-upon definition. Jacovi and Goldberg~\cite{jacovi2020faithfulness} argued that faithfulness admits multiple valid formalizations depending on the intended guarantee, and Parcalabescu and Frank~\cite{parcalabescu2023measuring} showed that different operationalizations of the same concept yield divergent measurements in practice. Tanneru et al.~\cite{tanneru2024hardness} provided theoretical and empirical evidence that producing and verifying faithful CoT is inherently difficult, while Shen et al.~\cite{shen2025faithcotbench} benchmarked instance-level faithfulness across tasks, confirming that aggregate metrics can obscure substantial variation. Bean et al.~\cite{bean2025measuring} conducted a systematic review of 445 LLM benchmarks and found widespread patterns that undermine construct validity, providing a broader framework for the measurement concerns raised here.
+
+Empirical studies have probed CoT faithfulness through a variety of interventions. Turpin et al.~\cite{turpin2023unfaithful} introduced biasing features into prompts and found that models rarely mention them in their reasoning, even when those features alter the final answer. Lanham et al.~\cite{lanham2023measuring} applied causal interventions to measure the degree to which intermediate reasoning steps actually influence model outputs. More recently, Chen et al.~\cite{chen2025reasoning} tested hint acknowledgment in reasoning models, reporting a 39\% acknowledgment rate for DeepSeek-R1. Feng et al.~\cite{feng2025more} compared reasoning and non-reasoning models under similar protocols, Balasubramanian et al.~\cite{balasubramanian2025closer} found that subtle biases are rarely articulated even in reasoning-specialized models, and Yee et al.~\cite{yee2024dissociation} showed that distinct mechanisms drive faithful versus unfaithful error recovery, implying that classifier disagreement may reflect genuine ambiguity in the underlying phenomenon. Chua et al.~\cite{chua2025unlearning} proposed an unlearning-based approach that sidesteps reliance on textual explanations altogether.
+
+A parallel line of work has examined LLM-based evaluation methodology. Zheng et al.~\cite{zheng2023judging} established the LLM-as-judge paradigm, demonstrating strong agreement with human annotators for many tasks. However, subsequent work has identified systematic limitations: Gu et al.~\cite{gu2024survey} surveyed the growing LLM-as-judge literature and catalogued consistency and bias concerns, while Ye et al.~\cite{ye2024justice} identified 12 specific bias types in LLM judges and showed that significant biases persist even in advanced models. Meek et al.~\cite{stickland2025monitorability} drew a useful distinction between monitorability and faithfulness, noting that the two properties can diverge when reasoning traces are evaluated by external models.
+
+More broadly, the annotation disagreement literature has established that label variation is not merely noise but a fundamental property of subjective classification tasks. Plank~\cite{plank2022problem} argued that human label variation should be modeled rather than suppressed, and Gordon et al.~\cite{gordon2021disagreement} demonstrated that annotator disagreement can cause standard metrics to dramatically overstate classifier performance. Despite this growing body of work, no prior study has systematically applied multiple classifiers to the same faithfulness dataset and quantified how measurement methodology shapes the resulting conclusions. The present paper addresses that gap.
+
+\section{Experimental Setup}
+
+\paragraph{Data.} The dataset is drawn from a larger study of CoT faithfulness in open-weight reasoning models. It consists of 498 questions (300 from MMLU~\cite{hendrycks2021mmlu} and 198 from GPQA Diamond~\cite{rein2024gpqa}), each paired with five hint types: sycophancy, consistency, metadata, grader, and unethical, the same categories used by Chen et al.~\cite{chen2025reasoning}. Each hint steers the model toward a specific incorrect answer. Twelve open-weight reasoning models spanning 7B to 1T parameters across 9 model families are tested, including DeepSeek-R1~\cite{deepseek2025r1}, OLMo~\cite{groeneveld2024olmo}, and Qwen-family models~\cite{qwen2024technical}. From the full set of hinted runs, the 10,276 \emph{influenced} cases, instances where the model changed its answer from the baseline to match the hinted answer, are extracted, and all three classifiers are applied to this identical set.
+
+\paragraph{Classifiers.} Three approaches to determining whether a model's chain-of-thought \emph{acknowledges} the hint as a reason for its answer are compared:
+
+\begin{enumerate}
+    \item \textbf{Regex-only.} The first stage of the pipeline in isolation: 38 regular expression patterns spanning all five hint types, designed for high precision. A match means the CoT explicitly references the hint (e.g., ``the professor suggested,'' ``according to the metadata''). Free and instantaneous, but limited to surface-level lexical matching.
+
+    \item \textbf{Regex + Ollama judges} (full pipeline). Stage~1 regex as above, followed by Stage~2: a three-judge LLM panel (GLM-5, Kimi~K2, Gemini~3 Flash) running locally via Ollama. Cases not caught by regex receive majority-vote classification. Effectively zero marginal cost.
+
+    \item \textbf{Claude Sonnet~4} (independent judge). Applied to all 10,276 cases via the Anthropic API, following the LLM-as-judge paradigm~\cite{zheng2023judging}. Intended to operationalize the same ``load-bearing'' criterion as the other classifiers: the hint must be a \emph{reason} for the model's answer, not merely mentioned in passing. Cost: \$48.99 for the full dataset. Binary YES/NO output.
+\end{enumerate}
+
+Additionally, the 39\% acknowledgment rate reported by Chen et al.~\cite{chen2025reasoning} for DeepSeek-R1 serves as a fourth data point, noting that their evaluation used a different prompt, a different model version, and a Sonnet-based classifier.
+
+Figure~\ref{fig:workflow} illustrates the experimental design: the same 10,276 influenced cases are evaluated by all three classifiers independently.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\columnwidth]{workflow.pdf}
+\caption{Experimental workflow. The same 10,276 influenced cases, where models changed their answer to match the hinted answer, are classified by three independent systems, yielding three different faithfulness rates.}
+\label{fig:workflow}
+\end{figure}
+
+All three classifiers are intended to operationalize the same ``load-bearing'' criterion: the hint must serve as a \emph{reason} for the model's final answer, not merely be mentioned or acknowledged and then dismissed. This shared criterion makes disagreements between classifiers especially informative, as they reflect genuine ambiguity in what constitutes causal influence within a reasoning trace, a challenge also noted by Lanham et al.~\cite{lanham2023measuring} in their causal analysis of CoT contributions.
+
+Throughout this paper, a case is classified as \emph{faithful} if the CoT acknowledges the hint in a way that the classifier treats as causally relevant to the model's answer. Different classifiers instantiate this criterion differently: regex detects lexical \emph{mention}, while the Sonnet judge assesses epistemic \emph{dependence}.
+
+\paragraph{Metrics.} Let $\mathcal{I}$ denote the set of influenced cases and let $C_c \colon \mathcal{I} \to \{\text{faithful}, \text{unfaithful}\}$ be the label assigned by classifier~$c$. The \emph{faithfulness rate} for classifier~$c$ is:
+\begin{equation}
+\text{Faithfulness Rate}_c = \frac{|\{i : C_c(i) = \text{faithful}\}|}{|\mathcal{I}|}
+\end{equation}
+
+Raw agreement between two classifiers $C_1$ and $C_2$ is defined as:
+\begin{equation}
+\text{Agreement}(C_1, C_2) = \frac{|\{i : C_1(i) = C_2(i)\}|}{|\mathcal{I}|}
+\end{equation}
+
+Because high base rates (most influenced cases are classified as faithful) can inflate raw agreement, Cohen's kappa~\cite{cohen1960coefficient} is used to correct for chance:
+\begin{equation}
+\kappa = \frac{p_o - p_e}{1 - p_e}
+\end{equation}
+where $p_o$ is the observed agreement and $p_e$ is the expected agreement under independence, computed as:
+\begin{equation}
+p_e = p_{\text{f},1} \cdot p_{\text{f},2} + (1 - p_{\text{f},1})(1 - p_{\text{f},2})
+\end{equation}
+with $p_{\text{f},c}$ denoting the proportion classified as faithful by classifier~$c$.
+
+Because the two classifiers are applied to the \emph{same} cases (paired data), McNemar's test~\cite{mcnemar1947note} is used to assess whether disagreements are statistically significant:
+\begin{equation}
+\chi^2_{\text{McNemar}} = \frac{(b - c)^2}{b + c}
+\end{equation}
+where $b$ and $c$ are the off-diagonal cells of the $2 \times 2$ confusion matrix (i.e., cases where only one classifier says faithful). Under the null hypothesis that both classifiers have equal marginal rates, $\chi^2_{\text{McNemar}}$ follows a $\chi^2$ distribution with 1 degree of freedom.
+
+Spearman rank correlation $\rho$ is also reported to assess whether classifiers produce consistent \emph{model rankings}, even when they disagree on absolute faithfulness rates. Because only $n = 12$ models are ranked, 95\% confidence intervals on $\rho$ are obtained via Fisher $z$-transformation.

@@ -1,20 +1,33 @@
 % ============================================================
-% CONCLUSION — target: 150--300 words
+% CONCLUSION - target: 150--300 words
 % ============================================================
 
 \section{Conclusion}
 
-We presented the first systematic, cross-family evaluation of chain-of-thought
+This paper presents the first systematic, cross-family evaluation of chain-of-thought
 faithfulness in open-weight reasoning models, testing 12 models from 9
-architectural families across 42,000 inference runs with six categories of
-reasoning hints. [TODO: State primary finding in one sentence.]
+architectural families across 41,832 inference runs with six categories of
+reasoning hints. Faithfulness rates range from 39.7\% to 89.9\% across 12
+models from 9 families, with social-pressure hints (consistency 35.5\%,
+sycophancy 53.9\%) proving hardest to acknowledge and thinking tokens proving
+far more faithful (87.5\%) than answer text (28.6\%).
 
-[TODO: Key implications---theoretical (what this reveals about the relationship
-between training methodology and reasoning transparency) and practical (guidance
-for safety teams selecting models for CoT-monitored deployments).]
+These findings carry both theoretical and practical implications. On the
+theoretical side, training methodology shapes faithfulness more than model
+scale, and models develop an internal capacity to detect hint influence, as
+evidenced by thinking-token faithfulness rates averaging 87.5\%, that is
+systematically suppressed in their externally visible outputs. On the practical
+side, safety teams should (1)~prioritize thinking-token monitoring over
+answer-text monitoring, since answer text captures less than a third of
+available faithfulness signal; (2)~select models with demonstrated faithfulness
+for safety-critical deployments, noting the wide variation across families; and
+(3)~treat published faithfulness numbers as classifier-dependent estimates rather
+than absolute measurements, given the 12.9-percentage-point gap observed
+between the two classifier pipelines.
 
-[TODO: Brief limitations acknowledgment---API-based evaluation, multiple-choice
-format, conservative classifier.]
+These findings are subject to the caveats of API-based evaluation,
+multiple-choice format, conservative classifiers, and the documented sensitivity
+of faithfulness rates to classifier methodology.
 
 Looking forward, three directions are particularly promising: (1)~extending
 faithfulness evaluation to open-ended generation tasks where models have more
@@ -22,5 +35,8 @@ freedom to construct alternative justifications; (2)~combining surface-level
 CoT analysis with mechanistic interpretability techniques to detect faithfulness
 gaps that are invisible to text-based classifiers; and (3)~developing
 training-time interventions that improve faithfulness without sacrificing task
-performance. [TODO: Closing statement---the broader significance of this work
-for the trustworthiness of AI reasoning.]
+performance. As reasoning models are increasingly deployed in high-stakes
+settings, the gap between what models think and what they say represents a
+fundamental challenge for CoT-based safety monitoring, one that demands both
+better measurement tools and training approaches that align internal reasoning
+with external communication.
