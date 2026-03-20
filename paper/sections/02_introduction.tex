@@ -58,7 +58,7 @@ architectures, training methods, or model scales. Since early 2025, a diverse
 set of open-weight reasoning models has emerged spanning dense architectures from
 7B to 32B parameters, mixture-of-experts (MoE) models exceeding 685B total
 parameters, and training pipelines ranging from pure reinforcement learning
-(GRPO, DPO) to distillation, data-centric methods, and hybrid approaches. No
+(GRPO, RL) to distillation, data-centric methods, and hybrid approaches. No
 study has systematically compared CoT faithfulness across these model families,
 leaving a critical gap in understanding which models, and which training
 paradigms, produce reasoning traces that can be reliably monitored for safety
@@ -68,7 +68,7 @@ question of whether each reasoning step is honest, not merely
 correct, a first-order concern for AI safety.
 
 % Paragraph 4: How the Gap Is Addressed + Hypotheses
-The present study addresses this gap with the first large-scale, cross-family
+The present study addresses this gap with a large-scale, cross-family
 evaluation of CoT faithfulness in open-weight reasoning models. A total of 12
 models spanning 9 architectural families, including DeepSeek, Qwen,
 MiniMax, OpenAI, Baidu, AI2, NVIDIA, StepFun, and
@@ -83,10 +83,6 @@ are tested: (H1)~faithfulness rates vary significantly across model families,
 reflecting differences in training methodology rather than scale alone; and
 (H2)~certain hint types, particularly metadata and grader
 hacking, exhibit consistently lower faithfulness across all models, suggesting
-category-specific blind spots in CoT monitoring. A secondary hypothesis is also
-examined: (H3)~models trained with outcome-based reinforcement learning exhibit
-lower faithfulness than those trained with process supervision or data-centric
-methods, as outcome-based training may incentivize correct answers without
-requiring honest reasoning. All code, prompts, model outputs, and faithfulness
+category-specific blind spots in CoT monitoring. All code, prompts, model outputs, and faithfulness
 annotations are released to support future research on CoT monitoring
 reliability.

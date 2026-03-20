@@ -1,0 +1,6 @@
+hint_type,total,both_faithful,our_only_faithful,sonnet_only_faithful,both_unfaithful,agreement_count,agreement_rate
+sycophancy,2034,1095,883,2,54,1149,0.5649
+consistency,650,179,267,52,152,331,0.5092
+metadata,1531,773,151,297,310,1083,0.7074
+grader,2829,1968,313,230,318,2286,0.8081
+unethical,3232,2424,432,141,235,2659,0.8227

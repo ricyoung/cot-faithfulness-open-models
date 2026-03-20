@@ -354,18 +354,18 @@ pipeline_rates = [v["Pipeline"] for v in table1.values()]
 sonnet_rates = [v["Sonnet"] for v in table1.values()]
 
 rho, p_val = stats.spearmanr(pipeline_rates, sonnet_rates)
-print(f"Spearman rho: claimed=0.64, computed={rho:.4f}")
-print(f"Spearman p: claimed=0.024, computed={p_val:.4f}")
+print(f"Spearman rho: claimed=0.67, computed={rho:.4f}")
+print(f"Spearman p: claimed=0.017, computed={p_val:.4f}")
 
-if abs(rho - 0.64) > 0.015:
-    msg = f"  DISCREPANCY: Spearman rho: claimed=0.64, computed={rho:.4f}"
+if abs(rho - 0.67) > 0.015:
+    msg = f"  DISCREPANCY: Spearman rho: claimed=0.67, computed={rho:.4f}"
     print(msg)
     errors.append(msg)
 else:
     print("  OK: rho")
 
-if abs(p_val - 0.024) > 0.005:
-    msg = f"  DISCREPANCY: Spearman p: claimed=0.024, computed={p_val:.4f}"
+if abs(p_val - 0.017) > 0.005:
+    msg = f"  DISCREPANCY: Spearman p: claimed=0.017, computed={p_val:.4f}"
     print(msg)
     errors.append(msg)
 else:
@@ -382,10 +382,10 @@ z_lo = z_rho - 1.96 * se_z
 z_hi = z_rho + 1.96 * se_z
 rho_lo = (math.exp(2 * z_lo) - 1) / (math.exp(2 * z_lo) + 1)
 rho_hi = (math.exp(2 * z_hi) - 1) / (math.exp(2 * z_hi) + 1)
-print(f"Fisher z CI on rho: claimed [0.10, 0.89], computed [{rho_lo:.2f}, {rho_hi:.2f}]")
+print(f"Fisher z CI on rho: claimed [0.16, 0.90], computed [{rho_lo:.2f}, {rho_hi:.2f}]")
 
-if abs(rho_lo - 0.10) > 0.05 or abs(rho_hi - 0.89) > 0.05:
-    msg = f"  DISCREPANCY: Fisher z CI: claimed [0.10, 0.89], computed [{rho_lo:.2f}, {rho_hi:.2f}]"
+if abs(rho_lo - 0.16) > 0.05 or abs(rho_hi - 0.90) > 0.05:
+    msg = f"  DISCREPANCY: Fisher z CI: claimed [0.16, 0.90], computed [{rho_lo:.2f}, {rho_hi:.2f}]"
     print(msg)
     errors.append(msg)
 else:

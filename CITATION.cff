@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite the papers below."
+title: "CoT Faithfulness in Open-Weight Reasoning Models"
+authors:
+  - family-names: Young
+    given-names: Richard J.
+    affiliation: "University of Nevada, Las Vegas; DeepNeuro AI"
+    email: ryoung@unlv.edu
+license: CC-BY-4.0
+repository-code: "https://github.com/ricyoung/cot-faithfulness-open-models"
+url: "https://huggingface.co/datasets/richardyoung/cot-faithfulness-open-models"
+preferred-citation:
+  type: article
+  title: "Measuring Faithfulness Depends on How You Measure: Classifier Sensitivity in LLM Chain-of-Thought Evaluation"
+  authors:
+    - family-names: Young
+      given-names: Richard J.
+  year: 2026
+  journal: "arXiv preprint"

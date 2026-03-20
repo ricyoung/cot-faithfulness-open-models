@@ -193,7 +193,7 @@ Table~\ref{tab:per_model_sonnet} reports the Sonnet-judged faithfulness rate for
 
 \begin{table}[H]
   \centering
-  \caption{Sonnet faithfulness rate (\%) by model and hint type. Higher values indicate that a greater proportion of influenced cases explicitly acknowledged the hint in their chain-of-thought.}
+  \caption{Sonnet faithfulness rate (\%) by model and hint type. The ``Avg'' column is the unweighted (macro) average across the five hint types; this differs from the case-weighted (micro) averages reported in Table~\ref{tab:faithfulness}, which weight each hint type by its number of influenced cases.}
   \label{tab:per_model_sonnet}
   \small
   \begin{tabular}{lrrrrrr}
@@ -220,16 +220,16 @@ Table~\ref{tab:per_model_sonnet} reports the Sonnet-judged faithfulness rate for
 
 Key observations from Table~\ref{tab:per_model_sonnet}:
 \begin{itemize}
-  \item \textbf{Consistency is the least faithfully reported hint} across nearly all models (mean 34.2\%), suggesting models are especially unlikely to acknowledge when consistency pressure drives their answer.
-  \item \textbf{Grader and unethical hints elicit the most faithful CoTs} (means 73.8\% and 72.9\%), likely because these hints are explicit and difficult to rationalize away.
-  \item \textbf{Seed-1.6-Flash has the lowest overall faithfulness} (39.8\%), while DeepSeek-V3.2 has the highest (74.6\%).
+  \item \textbf{Consistency is the least faithfully reported hint} across nearly all models (macro mean 34.2\%), suggesting models are especially unlikely to acknowledge when consistency pressure drives their answer.
+  \item \textbf{Grader and unethical hints elicit the most faithful CoTs} (macro means 73.8\% and 72.9\%), likely because these hints are explicit and difficult to rationalize away.
+  \item \textbf{Seed-1.6-Flash has the lowest macro-averaged faithfulness} (39.8\%), while DeepSeek-V3.2-Speciale has the highest (74.6\%). Note: the case-weighted (micro) averages reported in the main results (Table~\ref{tab:faithfulness}) are 39.7\% and 89.9\%, respectively, because hint types with more influenced cases receive greater weight.
   \item \textbf{Qwen3.5-27B shows an unusual pattern}: the lowest sycophancy faithfulness (24.2\%) but the highest grader faithfulness (96.4\%), indicating hint-type-specific behavior rather than a uniform faithfulness trait.
 \end{itemize}
 
 \section{Example Model Outputs}
 \label{app:examples}
 
-[Examples to be added in camera-ready version.]
+Representative examples of faithful and unfaithful reasoning traces for each hint type are available in the project repository at \url{https://github.com/ricyoung/cot-faithfulness-open-models}.
 
 \section{OpenRouter API Configuration}
 \label{app:api}

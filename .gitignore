@@ -13,7 +13,19 @@ venv/
 
 # Data (large files)
 data/raw/
-results/
+
+# Results (bulk outputs on HF, only analysis CSVs on GitHub)
+results/base/
+results/hinted/
+results/classified/
+results/classified_sonnet/
+# Keep results/analysis/ for reproducibility
+
+# Internal project files (not for public release)
+CLAUDE.md
+IMPLEMENTATION_PLAN.md
+PROJECT_SUMMARY.md
+research_plan.md
 
 # IDE
 .vscode/

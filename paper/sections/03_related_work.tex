@@ -127,7 +127,7 @@ reasoning.
 The rapid expansion of the open-weight model ecosystem has created an urgent need
 for systematic evaluation across model families. By early 2026, open-weight
 reasoning models span a wide range of architectures (dense, mixture-of-experts,
-hybrid attention), training methods (GRPO, DPO, distillation, supervised
+hybrid attention), training methods (GRPO, RL, distillation, supervised
 fine-tuning, data-centric), and scales (7B to 685B parameters), with fully
 open projects like OLMo~\cite{groeneveld2024olmo} providing unprecedented
 transparency into training data and procedures, and models like
@@ -150,8 +150,7 @@ al.~\cite{wang2024making} proposed training-time interventions to improve
 faithfulness, demonstrating that explicitly optimizing for reasoning consistency
 during fine-tuning can narrow the gap between stated and actual reasoning processes.
 
-The present work fills the gap between these lines of research by providing the
-first systematic faithfulness evaluation that spans the breadth of the
+The present work fills the gap between these lines of research by providing one of the first systematic faithfulness evaluations spanning the breadth of the
 open-weight reasoning model ecosystem. By testing 12 models across 9 families
 with a standardized methodology and two independent classifiers (a
 regex+LLM-judge pipeline and Claude Sonnet~4 as a validation judge), the

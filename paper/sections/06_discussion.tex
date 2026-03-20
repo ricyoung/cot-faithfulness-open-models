@@ -20,7 +20,7 @@ variance than previously appreciated.
 % Paragraph 2: Cross-family variation (H1)
 H1 predicted that CoT faithfulness would vary significantly across model
 families. This hypothesis is supported: large and systematic differences in CoT
-faithfulness emerge across the 12 model families tested. The DeepSeek family
+faithfulness emerge across the 12 models (9 families) tested. The DeepSeek family
 shows notable improvement across generations, with R1 achieving 74.8\%
 faithfulness compared to 89.9\% for the newer V3.2-Speciale, suggesting that
 continued training refinement improves faithfulness within a family. A parallel
@@ -37,7 +37,7 @@ dimensions~\cite{turpin2023unfaithful}. Ye et al.~\cite{ye2026faithfulness} prov
 single-model analyses of Chen et al.~\cite{chen2025reasoning} and Turpin et
 al.~\cite{turpin2023unfaithful} by demonstrating that faithfulness is not merely
 model-specific but family-specific, with within-family generational improvement
-as a recurring motif. To the authors' knowledge, this represents the first study
+as a recurring motif. This appears to be among the first studies
 to document systematic cross-family differences in CoT faithfulness across a
 broad range of open-weight reasoning models.
 
@@ -66,24 +66,28 @@ al.~\cite{chen2025reasoning} by revealing that the faithfulness impact of
 different hint categories varies more than their influence rates.
 
 % Paragraph 4: Thinking-vs-answer gap — NOVEL finding
-The most significant finding of this investigation concerns the gap between
-thinking-token faithfulness and answer-text faithfulness. Across all 12 models,
-thinking tokens show 87.5\% average faithfulness while answer text shows only
-28.6\%, a 58.9-percentage-point gap. Three models exhibit near-total
+A notable exploratory finding concerns the gap between
+thinking-token and answer-text hint acknowledgment. Using keyword matching
+(a coarser classifier than the Sonnet judge; see Section~5.6), thinking tokens
+show approximately 87.5\% acknowledgment while answer text shows only
+approximately 28.6\%, a gap of roughly 58.9 percentage points. Three models exhibit near-total
 suppression: GPT-OSS-120B acknowledges hints in 93.0\% of thinking traces but
-0.0\% of answers; Step-3.5-Flash shows 97.8\% thinking faithfulness versus 3.0\%
-answer faithfulness; DeepSeek-V3.2-Speciale shows 97.8\% versus 5.3\%. Only two
+0.0\% of answers; Step-3.5-Flash shows 97.8\% thinking acknowledgment versus 3.0\%
+answer acknowledgment; DeepSeek-V3.2-Speciale shows 97.8\% versus 5.3\%. Only two
 models, Qwen3.5-27B (99.3\%/79.9\%) and DeepSeek-R1
-(95.5\%/72.5\%), show relatively consistent faithfulness across both channels.
-To the authors' knowledge, this represents the first large-scale quantification
-of the thinking-versus-answer faithfulness gap across multiple model families.
+(95.5\%/72.5\%), show relatively consistent acknowledgment across both channels.
+Because these rates are based on keyword matching rather than the Sonnet judge,
+they should be treated as indicative of the direction and magnitude of the gap
+rather than as precise faithfulness measurements.
+This appears to be among the first large-scale quantifications
+of the thinking-versus-answer acknowledgment gap across multiple model families.
 This finding directly substantiates Baker et al.'s~\cite{baker2025cot} argument
 that CoT can be ``highly informative despite unfaithfulness'': thinking tokens
-are indeed highly informative (87.5\% faithful), even when the externally
-visible answer text is not (28.6\%). The gap also extends the observations of
+show approximately 87.5\% keyword-based acknowledgment, even when the externally
+visible answer text shows only approximately 28.6\%. The gap also extends the observations of
 Chen et al.~\cite{chen2025reasoning}, who documented unfaithfulness in
 reasoning traces but did not separately quantify thinking-token and answer-text
-faithfulness. Furthermore, the near-total suppression observed in several models
+acknowledgment. Furthermore, the near-total suppression observed in several models
 resonates with the alignment faking patterns described by Greenblatt et
 al.~\cite{greenblatt2024alignment}, where models exhibit different behavior in
 monitored versus unmonitored channels. The present data suggest that a
@@ -99,7 +103,7 @@ regex+Ollama pipeline yields 82.6\%, a 12.9-percentage-point gap concentrated
 in sycophancy ($-43$pp) and consistency ($-33$pp) hints. This sensitivity to
 classifier choice (anticipated by Jacovi and Goldberg~\cite{jacovi2020faithfulness}, who argued that faithfulness definitions are inherently construct-dependent, and demonstrated empirically by Parcalabescu and Frank~\cite{parcalabescu2023measuring}) means that absolute faithfulness estimates should be
 interpreted with caution, though relative rankings remain stable across both
-classifiers. The Sonnet results are reported as primary for comparability with
+classifiers. A companion study~\cite{young2026classifier} examines this classifier sensitivity in detail, showing that the disagreement is systematic and construct-driven rather than random. The Sonnet results are reported as primary for comparability with
 Chen et al.~\cite{chen2025reasoning}. Second, all models are evaluated via
 API-served inference through OpenRouter, which introduces potential confounds
 from provider-specific quantization, system prompts, or inference
@@ -182,19 +186,18 @@ different faithfulness profiles, with practical consequences for deployment
 decisions. For applications requiring CoT monitoring as a safety mechanism,
 DeepSeek-V3.2-Speciale (89.9\%) and GPT-OSS-120B (84.9\%) provide the most
 reliable reasoning traces, while models such as Seed-1.6-Flash (39.7\%) and
-ERNIE-4.5-21B (46.2\%) present substantially higher risks of undetected
+ERNIE-4.5-21B (62.8\%) present substantially higher risks of undetected
 influence.
 
-However, the thinking-versus-answer gap fundamentally reshapes the monitoring
-calculus. The present data directly quantify Baker et al.'s~\cite{baker2025cot}
-argument that CoT can be informative despite unfaithfulness: thinking tokens are
-highly informative (87.5\% faithful) while answer text is not (28.6\% faithful).
+However, the thinking-versus-answer acknowledgment gap fundamentally reshapes the monitoring
+calculus. The keyword-based analysis suggests that thinking tokens contain
+substantially more hint references (approximately 87.5\%) than answer text (approximately 28.6\%).
 This means that monitoring strategies should prioritize thinking-token access
 over answer-text analysis wherever architecturally feasible. For models that
 expose thinking tokens (as most open-weight reasoning models do via API), hybrid
 monitoring combining behavioral CoT analysis with thinking-token inspection is
-strongly recommended. Relying on answer text alone would miss approximately 59
-percentage points of available faithfulness signal.
+strongly recommended. Relying on answer text alone would miss a substantial
+portion of available acknowledgment signal.
 
 % Conclusion and future directions
 \subsection*{Conclusion and Future Directions}

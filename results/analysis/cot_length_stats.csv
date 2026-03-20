@@ -1,0 +1,13 @@
+model,median_output_tokens,median_reasoning_tokens,median_input_tokens,n
+deepseek-r1,1614.0,1393.0,133.0,498
+deepseek-v3.2-speciale,1050.5,1026.5,132.0,498
+ernie-4.5-21b-thinking,2734.5,2304.5,176.5,498
+gpt-oss-120b,968.0,950.5,197.5,498
+minimax-m2.5,866.0,827.0,144.0,498
+nemotron-nano-9b,1470.5,1208.5,144.0,498
+olmo-3-7b-think,3980.0,3818.0,156.5,498
+olmo-3.1-32b-think,3370.5,3289.5,161.0,498
+qwen3.5-27b,3332.0,2887.5,150.5,498
+qwq-32b,1591.5,1389.5,147.5,498
+seed-1.6-flash,1433.0,992.5,222.5,498
+step-3.5-flash,1567.0,1627.0,145.0,498

@@ -19,7 +19,7 @@ More broadly, the annotation disagreement literature has established that label 
 
     \item \textbf{Regex + Ollama judges} (full pipeline). Stage~1 regex as above, followed by Stage~2: a three-judge LLM panel (GLM-5, Kimi~K2, Gemini~3 Flash) running locally via Ollama. Cases not caught by regex receive majority-vote classification. Effectively zero marginal cost.
 
-    \item \textbf{Claude Sonnet~4} (independent judge). Applied to all 10,276 cases via the Anthropic API, following the LLM-as-judge paradigm~\cite{zheng2023judging}. Intended to operationalize the same ``load-bearing'' criterion as the other classifiers: the hint must be a \emph{reason} for the model's answer, not merely mentioned in passing. Cost: \$48.99 for the full dataset. Binary YES/NO output.
+    \item \textbf{Claude Sonnet~4} (independent judge). Applied to all 10,276 cases via the Anthropic Batch API, following the LLM-as-judge paradigm~\cite{zheng2023judging}. Intended to assess whether the hint served as a \emph{reason} for the model's answer, not merely mentioned in passing. Cost: \$48.99 for the full dataset. Binary YES/NO output.
 \end{enumerate}
 
 Additionally, the 39\% acknowledgment rate reported by Chen et al.~\cite{chen2025reasoning} for DeepSeek-R1 serves as a fourth data point, noting that their evaluation used a different prompt, a different model version, and a Sonnet-based classifier.
@@ -33,7 +33,7 @@ Figure~\ref{fig:workflow} illustrates the experimental design: the same 10,276 i
 \label{fig:workflow}
 \end{figure}
 
-All three classifiers are intended to operationalize the same ``load-bearing'' criterion: the hint must serve as a \emph{reason} for the model's final answer, not merely be mentioned or acknowledged and then dismissed. This shared criterion makes disagreements between classifiers especially informative, as they reflect genuine ambiguity in what constitutes causal influence within a reasoning trace, a challenge also noted by Lanham et al.~\cite{lanham2023measuring} in their causal analysis of CoT contributions.
+All three classifiers are intended as alternative operationalizations of a related faithfulness construct: whether the hint played a role in the model's reasoning. However, they instantiate this construct at different levels of stringency. The regex detector is a surface-level lexical-mention classifier by design; the pipeline adds LLM judgment for ambiguous cases; and the Sonnet judge independently assesses epistemic dependence. These differences make the classifiers' disagreements especially informative, as they reveal how much the resulting faithfulness number depends on the operationalization chosen, a challenge also noted by Lanham et al.~\cite{lanham2023measuring} in their causal analysis of CoT contributions.
 
 Throughout this paper, a case is classified as \emph{faithful} if the CoT acknowledges the hint in a way that the classifier treats as causally relevant to the model's answer. Different classifiers instantiate this criterion differently: regex detects lexical \emph{mention}, while the Sonnet judge assesses epistemic \emph{dependence}.
 
@@ -64,3 +64,5 @@ Because the two classifiers are applied to the \emph{same} cases (paired data), 
 where $b$ and $c$ are the off-diagonal cells of the $2 \times 2$ confusion matrix (i.e., cases where only one classifier says faithful). Under the null hypothesis that both classifiers have equal marginal rates, $\chi^2_{\text{McNemar}}$ follows a $\chi^2$ distribution with 1 degree of freedom.
 
 Spearman rank correlation $\rho$ is also reported to assess whether classifiers produce consistent \emph{model rankings}, even when they disagree on absolute faithfulness rates. Because only $n = 12$ models are ranked, 95\% confidence intervals on $\rho$ are obtained via Fisher $z$-transformation.
+
+\paragraph{Ethics.} This study analyzes model outputs on publicly available benchmark questions and did not involve human participants.

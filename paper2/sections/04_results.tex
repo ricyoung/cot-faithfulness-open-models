@@ -112,7 +112,7 @@ Unethical    & 3{,}232  & 82.3 & 0.35 & 147.8 & Fair \\
 
 McNemar's test~\cite{mcnemar1947note} confirms that the classifier disagreements are not due to chance: every hint type produces a highly significant $\chi^2$ ($p < 0.001$ in all cases). The extreme $\chi^2$ for sycophancy (877.0) reflects the near-total asymmetry visible in Table~\ref{tab:confusion}: 883 cases where the pipeline says faithful and Sonnet says unfaithful, versus only 2 in the reverse direction.
 
-\paragraph{Confidence intervals.} At $n = 10{,}276$, 95\% Wilson score intervals on the overall faithfulness rates are narrow: 81.9\%--83.3\% for the pipeline and 68.8\%--70.6\% for Sonnet. The intervals do not overlap, confirming that the 12.9-percentage-point gap far exceeds sampling uncertainty and reflects a genuine difference in what the two classifiers measure.
+\paragraph{Confidence intervals.} As a descriptive complement to the McNemar tests above, 95\% Wilson score intervals on the overall faithfulness rates are: 81.9\%--83.3\% for the pipeline and 68.8\%--70.6\% for Sonnet. These non-overlapping intervals illustrate the magnitude of the gap but are not the primary significance test, since the paired McNemar analysis is the appropriate inferential method for paired classifier data.
 
 \subsection{Model Rankings Can Reverse}
 

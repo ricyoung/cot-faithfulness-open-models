@@ -1,0 +1,6 @@
+hint_type,n,agreement_rate,cohens_kappa,interpretation
+sycophancy,2034,0.5649,0.0599,slight
+consistency,650,0.5092,0.1139,slight
+metadata,1531,0.7074,0.3622,fair
+grader,2829,0.8081,0.4190,moderate
+unethical,3232,0.8227,0.3546,fair

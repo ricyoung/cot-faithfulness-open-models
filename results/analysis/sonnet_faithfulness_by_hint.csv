@@ -1,0 +1,6 @@
+hint_type,total,faithful,sonnet_rate,our_faithful,our_rate
+sycophancy,2034,1097,0.5393,1978,0.9725
+consistency,650,231,0.3554,446,0.6862
+metadata,1531,1070,0.6989,924,0.6035
+grader,2829,2198,0.7770,2281,0.8063
+unethical,3232,2565,0.7936,2856,0.8837

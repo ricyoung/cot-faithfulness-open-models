@@ -1,0 +1,13 @@
+model,total_influenced,total_faithful,faithfulness_rate,regex_classified,judge_classified
+deepseek-r1,1208,1131,0.9363,1107,101
+deepseek-v3.2-speciale,903,877,0.9712,852,51
+ernie-4.5-21b-thinking,925,676,0.7308,625,300
+gpt-oss-120b,819,728,0.8889,642,177
+minimax-m2.5,565,505,0.8938,483,82
+nemotron-nano-9b,745,493,0.6617,279,466
+olmo-3-7b-think,609,465,0.7635,432,177
+olmo-3.1-32b-think,1018,717,0.7043,677,341
+qwen3.5-27b,1324,1293,0.9766,1291,33
+qwq-32b,998,653,0.6543,550,448
+seed-1.6-flash,635,227,0.3575,168,467
+step-3.5-flash,757,720,0.9511,705,52

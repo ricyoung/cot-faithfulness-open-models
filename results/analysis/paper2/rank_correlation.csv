@@ -1,0 +1,14 @@
+model,sonnet_rate,pipeline_rate,rank_sonnet,rank_pipeline,rank_delta
+SUMMARY,0.6434,Spearman_rho,,,p=0.0240
+deepseek-v3.2-speciale,0.8988,0.9712,1,2,1
+gpt-oss-120b,0.8492,0.8889,2,6,4
+olmo-3.1-32b-think,0.8104,0.7043,3,9,6
+step-3.5-flash,0.7533,0.9511,4,3,-1
+deepseek-r1,0.7477,0.9363,5,4,-1
+minimax-m2.5,0.7310,0.8938,6,5,-1
+qwen3.5-27b,0.6827,0.9766,7,1,-6
+ernie-4.5-21b-thinking,0.6278,0.7308,8,8,0
+nemotron-nano-9b,0.6093,0.6617,9,10,1
+olmo-3-7b-think,0.5690,0.7635,10,7,-3
+qwq-32b,0.5631,0.6543,11,11,0
+seed-1.6-flash,0.3971,0.3575,12,12,0

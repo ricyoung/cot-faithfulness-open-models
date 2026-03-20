@@ -13,7 +13,7 @@ The Sonnet judge serves as the primary faithfulness classifier, directly compara
 
 \subsection{Baseline Accuracy}
 
-To establish model capability independent of hint injection, accuracy on the 498 unhinted questions is reported first.
+To establish model capability independent of hint injection, accuracy on the 498 unhinted questions is reported first. Accuracy is computed over questions where the model produced a parseable answer option; answer extraction failures (ranging from 0 to 58 per model) are excluded from the denominator rather than counted as incorrect. Reported percentages therefore reflect accuracy conditional on successful extraction.
 
 \begin{table}[H]
   \centering
@@ -44,7 +44,7 @@ Baseline accuracy ranges from 67.7\% (OLMo-3-7B-Think) to 90.9\% (DeepSeek-V3.2-
 
 \subsection{Hint Influence Rates}
 
-Before measuring faithfulness, the rate at which each hint type successfully influences model answers, that is, causes the model to switch from a correct answer to the hinted incorrect answer, is reported.
+Before measuring faithfulness, the rate at which each hint type successfully influences model answers, that is, causes the model to change its answer to the hinted target option (regardless of whether the baseline answer was correct), is reported.
 
 \begin{figure}[H]
   \centering
@@ -157,26 +157,26 @@ Following Chen et al.~\cite{chen2025reasoning}, median length of reasoning token
 
 Median reasoning token counts vary substantially across models (Figure~\ref{fig:cot_length}). The longest CoTs are produced by OLMo-3-7B-Think (3,818 tokens), OLMo-3.1-32B-Think (3,290), and Qwen3.5-27B (2,888). The shortest are produced by MiniMax-M2.5 (827), GPT-OSS-120B (951), and Seed-1.6-Flash (993). GPT-OSS-120B has the second-shortest median CoT (951 tokens) and the second-highest faithfulness (84.9\%), while OLMo-3-7B-Think has the longest CoT (3,818 tokens) and ranks tenth in faithfulness (56.9\%).
 
-\subsection{Thinking Token vs.\ Answer Faithfulness}
+\subsection{Thinking-Token vs.\ Answer-Text Acknowledgment}
 
-The pipeline classifies whether the model acknowledges the hint in its \emph{thinking tokens} (the reasoning trace) versus in its \emph{final answer} (the user-facing response). This decomposition reveals a striking gap.
+To explore whether models acknowledge hints differently in internal reasoning versus external responses, a keyword-matching classifier is applied separately to \emph{thinking tokens} (the reasoning trace) and to the \emph{final answer} (the user-facing response). This classifier uses hint-type-specific keyword lists (e.g., ``professor,'' ``grader,'' ``unauthorized'') and is less precise than the Sonnet judge used for the primary faithfulness analysis; the rates reported in this subsection should therefore be interpreted as approximate acknowledgment rates rather than strict faithfulness measurements. Despite this limitation, the decomposition reveals a striking gap.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{fig6_thinking_vs_answer.pdf}
-  \caption{Thinking-token vs.\ answer-text faithfulness rates by model, sorted
-  by gap magnitude. Blue bars show thinking-token faithfulness; red bars show
-  answer-text faithfulness. Annotations indicate the gap in percentage points.
+  \caption{Thinking-token vs.\ answer-text acknowledgment rates (keyword-based) by model, sorted
+  by gap magnitude. Blue bars show thinking-token acknowledgment; red bars show
+  answer-text acknowledgment. Annotations indicate the gap in percentage points.
   Models such as Step-3.5-Flash and GPT-OSS-120B show near-total suppression:
-  high thinking faithfulness but near-zero answer faithfulness.}
+  high thinking acknowledgment but near-zero answer acknowledgment.}
   \label{fig:thinking_answer}
 \end{figure}
 
-Across all 12 models, thinking-token faithfulness averages approximately 87.5\%, while answer faithfulness averages approximately 28.6\%, a gap of roughly 58.9 percentage points (Figure~\ref{fig:thinking_answer}). The gap is present in every model but varies in magnitude. Three models show gaps exceeding 90pp: Step-3.5-Flash (thinking: 97.8\%, answer: 3.0\%, gap: 94.7pp), GPT-OSS-120B (thinking: 93.0\%, answer: 0.0\%, gap: 93.0pp), and DeepSeek-V3.2-Speciale (thinking: 97.8\%, answer: 5.3\%, gap: 92.5pp). GPT-OSS-120B achieves 93.0\% thinking faithfulness with exactly 0.0\% answer faithfulness: the model acknowledges the hint during its reasoning process but never surfaces this acknowledgment in the final response.
+Across all 12 models, thinking-token acknowledgment averages approximately 87.5\%, while answer-text acknowledgment averages approximately 28.6\%, a gap of roughly 58.9 percentage points (Figure~\ref{fig:thinking_answer}). The gap is present in every model but varies in magnitude. Three models show gaps exceeding 90pp: Step-3.5-Flash (thinking: 97.8\%, answer: 3.0\%, gap: 94.7pp), GPT-OSS-120B (thinking: 93.0\%, answer: 0.0\%, gap: 93.0pp), and DeepSeek-V3.2-Speciale (thinking: 97.8\%, answer: 5.3\%, gap: 92.5pp). GPT-OSS-120B achieves 93.0\% thinking-token acknowledgment with exactly 0.0\% answer-text acknowledgment: the model acknowledges the hint during its reasoning process but never surfaces this acknowledgment in the final response.
 
-At the other end, several models show smaller but still substantial gaps: Qwen3.5-27B (thinking: 99.3\%, answer: 79.9\%, gap: 19.4pp), DeepSeek-R1 (thinking: 95.5\%, answer: 72.5\%, gap: 22.9pp), and Seed-1.6-Flash (thinking: 59.5\%, answer: 29.8\%, gap: 29.8pp). Seed-1.6-Flash is the only model where thinking-token faithfulness falls below 60\%.
+At the other end, several models show smaller but still substantial gaps: Qwen3.5-27B (thinking: 99.3\%, answer: 79.9\%, gap: 19.4pp), DeepSeek-R1 (thinking: 95.5\%, answer: 72.5\%, gap: 22.9pp), and Seed-1.6-Flash (thinking: 59.5\%, answer: 29.8\%, gap: 29.8pp). Seed-1.6-Flash is the only model where thinking-token acknowledgment falls below 60\%.
 
-MiniMax-M2.5 (thinking: 93.8\%, answer: 9.2\%, gap: 84.6pp) and OLMo-3.1-32B-Think (thinking: 89.6\%, answer: 1.3\%, gap: 88.3pp) fall in between, with high thinking faithfulness but near-zero answer faithfulness.
+MiniMax-M2.5 (thinking: 93.8\%, answer: 9.2\%, gap: 84.6pp) and OLMo-3.1-32B-Think (thinking: 89.6\%, answer: 1.3\%, gap: 88.3pp) fall in between, with high thinking acknowledgment but near-zero answer acknowledgment.
 
 \subsection{Replication of Chen et al.}
 
@@ -186,4 +186,4 @@ The Sonnet-judged faithfulness rate for DeepSeek-R1 is 74.8\%, compared to the 3
 
 \subsection{Summary}
 
-Results support H1 and partially support H2. The key findings are: (1)~Sonnet-judged faithfulness rates vary by 50.2pp across models (39.7\%--89.9\%), confirming substantial cross-family variation (H1); (2)~social-pressure hints (consistency, sycophancy) produce the lowest faithfulness while rule-breaking hints (grader, unethical) produce the highest, partially but not fully matching the hypothesized subtle-versus-overt ordering (H2); (3)~model scale shows no strong linear relationship with faithfulness; (4)~thinking-token faithfulness (87.5\%) vastly exceeds answer faithfulness (28.6\%), with the gap present across all 12 models; and (5)~the DeepSeek-R1 faithfulness rate (74.8\%) exceeds the 39\% reported by Chen et al., with differences attributable to hint design, model version, and classifier criteria.
+Results support H1 and partially support H2. The key findings are: (1)~Sonnet-judged faithfulness rates vary by 50.2pp across models (39.7\%--89.9\%), confirming substantial cross-family variation (H1); (2)~social-pressure hints (consistency, sycophancy) produce the lowest faithfulness while rule-breaking hints (grader, unethical) produce the highest, partially but not fully matching the hypothesized subtle-versus-overt ordering (H2); (3)~model scale shows no strong linear relationship with faithfulness; (4)~keyword-based thinking-token acknowledgment (approximately 87.5\%) vastly exceeds answer-text acknowledgment (approximately 28.6\%), with the gap present across all 12 models; and (5)~the DeepSeek-R1 faithfulness rate (74.8\%) exceeds the 39\% reported by Chen et al., with differences attributable to hint design, model version, and classifier criteria.

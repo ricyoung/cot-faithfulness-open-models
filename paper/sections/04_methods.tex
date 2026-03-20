@@ -53,8 +53,8 @@ both the reasoning trace and the final response are captured.
   \caption{Models under evaluation. \emph{Active params} refers to per-token
   parameter count for MoE architectures; \emph{Total params} gives the full
   model size. Training methods: RL = reinforcement learning,
-  GRPO = group relative policy optimization, DPO = direct preference
-  optimization, SFT = supervised fine-tuning, Distill = knowledge distillation.}
+  GRPO = group relative policy optimization,
+  SFT = supervised fine-tuning, Distill = knowledge distillation.}
   \label{tab:models}
   \small
   \begin{tabular}{llllll}
@@ -100,7 +100,7 @@ undisclosed-architecture deep thinking model, respectively.
 
 The 12 models span 9 distinct families (DeepSeek, Qwen,
 MiniMax, OpenAI, Baidu, AI2, NVIDIA, StepFun, ByteDance), 7B to 685B total
-parameters, and training methods including GRPO, DPO, SFT, and hybrid RL
+parameters, and training methods including GRPO, SFT, and hybrid RL
 approaches.
 
 \subsection{Hint Injection}
@@ -278,13 +278,10 @@ Secondary metrics include:
 
 Results are analyzed along three dimensions: \emph{by model family} (12 models,
 9 families), \emph{by hint type} (6 categories), and \emph{by scale} (7B--685B
-parameters). For each faithfulness rate, 95\% bootstrap confidence intervals are
-computed via 10,000 resamples. Pairwise differences between models on the same
-question set are assessed using McNemar's test with Bonferroni correction for
-multiple comparisons. For scaling analysis, log-linear regressions of
-faithfulness rate against active parameter count are fitted separately for dense
-and MoE architectures, and Spearman's rank correlation is reported. Effect sizes
-are reported as Cohen's $h$ for proportional differences between model pairs.
+parameters). For scaling analysis, a linear regression of faithfulness rate
+against log-transformed active parameter count is fitted, and $R^2$ is reported.
+A companion study~\cite{young2026classifier} reports formal inter-classifier
+agreement statistics (Cohen's $\kappa$, McNemar's test) on the same dataset.
 
 \subsection{Reproducibility}
 
