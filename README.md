@@ -14,7 +14,6 @@ Research project investigating Chain-of-Thought (CoT) faithfulness in 12 open-we
 - Three classifiers produce faithfulness rates of 74.4%, 82.6%, and 69.7% on identical data
 - Classifier choice can reverse model rankings (Qwen3.5-27B: 1st vs. 7th)
 - Source: `paper2/`
-- arXiv: submit/7389027
 
 ## Repository Structure
 
