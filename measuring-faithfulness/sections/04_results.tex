@@ -1,5 +1,7 @@
 \section{Results}
 
+This section reports findings for each hypothesis in turn, followed by supplementary analyses of construct divergence and rank stability.
+
 \subsection{Overall Rates Differ Substantially}
 
 Across all 10,276 influenced cases, the three classifiers produce markedly different faithfulness rates. The regex-only detector yields 74.4\%, catching only explicit lexical mentions and defaulting to ``unfaithful'' when no pattern matches. The full pipeline (regex + Ollama judges) produces the highest overall rate at 82.6\%, as its LLM judges surface cases that regex misses. The independent Sonnet judge returns the lowest rate at 69.7\%, applying a stricter ``load-bearing'' standard. The pipeline--Sonnet gap is 12.9 percentage points on identical data. For comparison, Chen et al.~\cite{chen2025reasoning} reported 39\% for DeepSeek-R1 using a different Sonnet-based classifier.
@@ -77,7 +79,7 @@ Unethical    & 2{,}424 &  432 &  141 &  235 & 3{,}232 \\
 \end{tabular}
 \end{table}
 
-Figure~\ref{fig:hint_gap} visualizes the per-hint-type rates side by side. The sycophancy gap (+43.4 percentage points) is 15 times larger than the grader gap (+2.9 percentage points). Classifier choice barely matters for grader and unethical hints but dominates the measurement for sycophancy and consistency. This pattern aligns with Sharma et al.'s~\cite{sharma2023sycophancy} finding that sycophantic behaviors are particularly difficult to operationalize, as they exist on a continuum between social acknowledgment and epistemic dependence. Hu et al.~\cite{hu2025monica} similarly found that sycophancy in reasoning models requires real-time calibration rather than binary classification. Metadata is the only hint type where Sonnet is \emph{more} generous than the pipeline ($\Delta = -9.5$ pp), suggesting that the Sonnet judge identifies implicit metadata references that the regex patterns miss.
+Figure~\ref{fig:hint_gap} visualizes the per-hint-type rates side by side. The sycophancy gap (+43.4 percentage points) is 15 times larger than the grader gap (+2.9 percentage points). Classifier choice barely matters for grader and unethical hints but dominates the measurement for sycophancy and consistency. Metadata is the only hint type where Sonnet is \emph{more} generous than the pipeline ($\Delta = -9.5$ pp).
 
 \begin{figure}[H]
 \centering
@@ -88,11 +90,11 @@ Figure~\ref{fig:hint_gap} visualizes the per-hint-type rates side by side. The s
 
 \subsection{Formal Agreement Statistics}
 
-Raw percentage agreement between the pipeline and Sonnet classifiers can be misleading when base rates are imbalanced (e.g., when one classifier labels nearly all cases as faithful). Cohen's $\kappa$ corrects for chance agreement and provides a more interpretable measure of inter-classifier reliability. Table~\ref{tab:kappa} reports $\kappa$ by hint type. Agreement ranges from ``slight'' ($\kappa = 0.06$) for sycophancy to ``moderate'' ($\kappa = 0.42$) for grader, reinforcing the finding that classifier disagreement concentrates on specific hint types rather than distributing uniformly. The low $\kappa$ for sycophancy and consistency reflects the ``mention vs.\ dependence'' ambiguity discussed below: both classifiers detect the same surface cues but assign them different epistemic weight, a pattern consistent with Jacovi and Goldberg's~\cite{jacovi2020faithfulness} argument that faithfulness is construct-dependent and with the causal ambiguity highlighted by Lanham et al.~\cite{lanham2023measuring}.
+Raw percentage agreement between the pipeline and Sonnet classifiers can be misleading when base rates are imbalanced (e.g., when one classifier labels nearly all cases as faithful). Cohen's $\kappa$ corrects for chance agreement and provides a more interpretable measure of inter-classifier reliability. Table~\ref{tab:kappa} reports $\kappa$ by hint type. Agreement ranges from ``slight'' ($\kappa = 0.06$) for sycophancy to ``moderate'' ($\kappa = 0.42$) for grader, confirming that classifier disagreement concentrates on specific hint types rather than distributing uniformly.
 
 \begin{table}[H]
 \centering
-\caption{Cohen's $\kappa$ and McNemar's $\chi^2$ between the pipeline and Sonnet classifiers, by hint type. Interpretation bands follow Landis and Koch (1977): $<$0.20 = slight, 0.21--0.40 = fair, 0.41--0.60 = moderate. All McNemar tests are significant at $p < 0.001$.}
+\caption{Cohen's $\kappa$ and McNemar's $\chi^2$ between the pipeline and Sonnet classifiers, by hint type. Interpretation bands follow Landis and Koch~\cite{landis1977kappa}: $<$0.20 = slight, 0.21--0.40 = fair, 0.41--0.60 = moderate. All McNemar tests are significant at $p < 0.001$.}
 \label{tab:kappa}
 \small
 \begin{tabular}{lrrrrl}
@@ -127,7 +129,7 @@ Figure~\ref{fig:rank_comparison} visualizes these ranking shifts as a slope char
 \label{fig:rank_comparison}
 \end{figure}
 
-This has direct consequences for the field. A paper using a regex-based classifier would conclude that Qwen3.5-27B is the most faithful open-weight reasoner (rank 1); a paper using a Sonnet judge would rank it 7th of 12. Similarly, OLMo-3.1-32B ranks 3rd by Sonnet but 9th by the pipeline. Both sets of conclusions would be presented as properties of the models, when in fact they are partly properties of the measurement instrument, a concern that parallels Turpin et al.'s~\cite{turpin2023unfaithful} observation that measured unfaithfulness depends on the evaluation methodology.
+Under the pipeline, Qwen3.5-27B would be ranked the most faithful open-weight reasoner (rank 1); under the Sonnet judge, it would rank 7th of 12. Similarly, OLMo-3.1-32B ranks 3rd by Sonnet but 9th by the pipeline.
 
 \begin{figure}[H]
 \centering
@@ -146,6 +148,6 @@ A similar ambiguity arises with consistency hints. A model writes \emph{``I note
 
 Metadata hints illustrate a case where the Sonnet judge is \emph{more} generous than the regex pipeline. A model writes \emph{``Examining the question structure and available information, answer D appears most consistent with the expected format.''} The regex finds no metadata-specific keywords (e.g., ``question\_metadata,'' ``answer\_key'') and marks the case unfaithful. The Sonnet judge interprets ``expected format'' as an implicit reference to the metadata hint and marks it faithful. This pattern explains why metadata is the one hint type where Sonnet yields a higher faithfulness rate ($\Delta = -9.5$ pp in Table~\ref{tab:hint_classifier}).
 
-Both readings are defensible. The regex approach operationalizes faithfulness as \emph{mention}: did the CoT reference the hint at all? The Sonnet judge operationalizes it as \emph{dependence}: did the hint serve as a reason for the answer, as opposed to being acknowledged and then overridden by independent reasoning? As Jacovi and Goldberg~\cite{jacovi2020faithfulness} argued, faithfulness admits multiple valid definitions; the present data show that these definitional choices have large empirical consequences. Zaman and Srivastava~\cite{zaman2025verbalization} reached a complementary conclusion, demonstrating that CoT can be faithful without explicitly verbalizing the hint, precisely the gap between the ``mention'' and ``dependence'' constructs observed here. This mirrors the broader challenge in CoT evaluation identified by Chua et al.~\cite{chua2025unlearning}, who noted that different operationalizations of faithfulness can yield contradictory conclusions.
+Both readings are defensible. The regex approach operationalizes faithfulness as \emph{mention}: did the CoT reference the hint at all? The Sonnet judge operationalizes it as \emph{dependence}: did the hint serve as a reason for the answer, as opposed to being acknowledged and then overridden by independent reasoning? The examples above illustrate the two constructs; their theoretical and practical implications are addressed in the Discussion.
 
-This distinction explains the hint-type pattern in Table~\ref{tab:hint_classifier}. Sycophancy hints (``a professor says\ldots'') frequently appear in CoT traces that also contain independent verification, creating maximum ambiguity between mention and dependence. Grader hints (``the grading system expects\ldots'') tend to be either fully embraced or fully ignored, leaving little room for interpretive disagreement.
+\paragraph{Summary of findings.} All three hypotheses are supported. Overall faithfulness rates span a 12.9-percentage-point range across classifiers (H1). Per-hint-type gaps range from 2.9pp (grader) to 43.4pp (sycophancy), confirming that social-pressure hints produce the largest disagreements (H2). Model rankings reverse between classifiers, with Spearman $\rho = 0.67$ indicating moderate but imperfect rank agreement (H3).

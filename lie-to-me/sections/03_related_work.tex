@@ -9,7 +9,7 @@
 
 The question of whether chain-of-thought explanations faithfully represent a model's
 actual reasoning process has been investigated through several complementary
-methodologies. Jacovi and Goldberg~\cite{jacovi2020faithfulness} argued that faithfulness itself admits multiple valid definitions depending on the operationalization chosen, a concern borne out empirically by Parcalabescu and Frank~\cite{parcalabescu2023measuring}, who showed that different faithfulness measures yield divergent results on the same data. Turpin et al.~\cite{turpin2023unfaithful} introduced the bias
+methodologies. Jacovi and Goldberg~\cite{jacovi2020faithfulness} argued that faithfulness itself admits multiple valid definitions depending on the operationalization chosen, a concern borne out empirically by Parcalabescu and Frank~\cite{parcalabescu2023measuring}, who showed that different faithfulness measures yield divergent results on the same data. Young~\cite{young2026classifier} demonstrated that this divergence extends to automated classifiers: three classification methodologies applied to the same 10,276 cases produce faithfulness rates spanning a 12.9-percentage-point range, with inter-classifier agreement as low as $\kappa = 0.06$ for sycophancy hints. Turpin et al.~\cite{turpin2023unfaithful} introduced the bias
 injection paradigm: by adding biasing features to few-shot prompts (e.g., labeling
 answers with positional patterns or attributing answers to authority figures), they
 showed that models on BIG-Bench Hard tasks are systematically influenced by features
@@ -64,7 +64,7 @@ by selectively unlearning reasoning steps and observing whether model prediction
 change accordingly, providing a causal alternative to post-hoc CoT analysis.
 Tanneru et al.~\cite{tanneru2024hardness} provided theoretical grounding by demonstrating that faithful CoT is inherently hard to achieve and verify, suggesting fundamental limits on what text-based evaluation can capture.
 Shen et al.~\cite{shen2025faithcotbench} introduced FaithCoT-Bench for benchmarking instance-level faithfulness across tasks, moving beyond aggregate metrics.
-Stickland et al.~\cite{stickland2025monitorability} introduced the concept of
+Meek et al.~\cite{meek2025monitorability} introduced the concept of
 \emph{monitorability}, distinguishing it from faithfulness, and showed that
 models can appear faithful yet remain hard to monitor when they omit key factors
 from their reasoning, with monitorability varying sharply across model families.
@@ -144,9 +144,9 @@ degrade accuracy, a finding relevant to faithfulness since Chen et
 al.~\cite{chen2025reasoning} showed that unfaithful CoTs tend to be longer.
 Probing-based approaches have examined whether models' internal representations
 contain information about answer correctness that is absent from their CoT
-\cite{liu2025probing}, suggesting that faithfulness gaps may be detectable through
+\cite{zhang2025probing}, suggesting that faithfulness gaps may be detectable through
 mechanistic interpretability even when CoT analysis alone fails. Wang et
-al.~\cite{wang2024making} proposed training-time interventions to improve
+al.~\cite{paul2024making} proposed training-time interventions to improve
 faithfulness, demonstrating that explicitly optimizing for reasoning consistency
 during fine-tuning can narrow the gap between stated and actual reasoning processes.
 

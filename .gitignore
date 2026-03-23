@@ -43,26 +43,30 @@ papers/*.pdf
 .ipynb_checkpoints/
 
 # LaTeX build artifacts
-paper/*.aux
-paper/*.bbl
-paper/*.blg
-paper/*.log
-paper/*.out
-paper/*.pdf
-paper/*.fls
-paper/*.fdb_latexmk
-paper/*.synctex.gz
+lie-to-me/*.aux
+lie-to-me/*.bbl
+lie-to-me/*.blg
+lie-to-me/*.log
+lie-to-me/*.out
+lie-to-me/*.pdf
+lie-to-me/*.fls
+lie-to-me/*.fdb_latexmk
+lie-to-me/*.synctex.gz
 
 # Paper 2 LaTeX build artifacts
-paper2/*.aux
-paper2/*.bbl
-paper2/*.blg
-paper2/*.log
-paper2/*.out
-paper2/*.pdf
-paper2/*.fls
-paper2/*.fdb_latexmk
-paper2/*.synctex.gz
+measuring-faithfulness/*.aux
+measuring-faithfulness/*.bbl
+measuring-faithfulness/*.blg
+measuring-faithfulness/*.log
+measuring-faithfulness/*.out
+measuring-faithfulness/*.pdf
+measuring-faithfulness/*.fls
+measuring-faithfulness/*.fdb_latexmk
+measuring-faithfulness/*.synctex.gz
+
+# arXiv submission artifacts
+*_arxiv_*.zip
+*_arxiv_*.md
 
 # Logs
 logs/

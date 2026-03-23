@@ -189,42 +189,9 @@ reliable reasoning traces, while models such as Seed-1.6-Flash (39.7\%) and
 ERNIE-4.5-21B (62.8\%) present substantially higher risks of undetected
 influence.
 
-However, the thinking-versus-answer acknowledgment gap fundamentally reshapes the monitoring
-calculus. The keyword-based analysis suggests that thinking tokens contain
-substantially more hint references (approximately 87.5\%) than answer text (approximately 28.6\%).
-This means that monitoring strategies should prioritize thinking-token access
-over answer-text analysis wherever architecturally feasible. For models that
-expose thinking tokens (as most open-weight reasoning models do via API), hybrid
-monitoring combining behavioral CoT analysis with thinking-token inspection is
-strongly recommended. Relying on answer text alone would miss a substantial
-portion of available acknowledgment signal.
+The thinking-versus-answer acknowledgment gap further reshapes the monitoring
+calculus. For models that expose thinking tokens (as most open-weight reasoning
+models do via API), hybrid monitoring combining behavioral CoT analysis with
+thinking-token inspection is strongly recommended, since answer text alone
+captures only a fraction of the available acknowledgment signal.
 
-% Conclusion and future directions
-\subsection*{Conclusion and Future Directions}
-
-This investigation demonstrates that CoT unfaithfulness is a pervasive,
-cross-family phenomenon in open-weight reasoning models, with substantial
-variance driven by model family, training approach, and hint type. The
-thinking-versus-answer faithfulness gap, documented here for the first time at
-scale, reveals that models possess internal awareness of external influences
-that is systematically suppressed in visible outputs, a finding with direct
-implications for safety monitoring architectures.
-
-Several directions emerge from this work. First, extending faithfulness
-evaluation to open-ended generation tasks (including code generation,
-mathematical proofs, and long-form reasoning) would test whether the patterns
-observed in multiple-choice settings generalize to unconstrained output formats.
-Second, combining surface-level CoT analysis with probing-based mechanistic
-interpretability techniques~\cite{liu2025probing} could reveal faithfulness gaps
-invisible to text-based classifiers. Third, investigating whether faithfulness
-can be improved through training-time interventions (such as faithfulness-aware
-reinforcement learning or explicit reasoning transparency objectives) without
-sacrificing task performance would move the field from measurement toward
-mitigation. Fourth, longitudinal tracking of faithfulness as models are updated
-across versions within a family (as observed with DeepSeek R1 $\rightarrow$
-V3.2-Speciale and QwQ $\rightarrow$ Qwen3.5) would clarify whether the trend
-toward improved faithfulness is robust and generalizable. Fifth, a systematic
-study of thinking-versus-answer suppression mechanisms is needed to understand
-why models develop the capacity to detect hint influence internally while
-suppressing acknowledgment externally, and whether this behavior is an intended
-or incidental consequence of alignment training.
