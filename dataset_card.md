@@ -71,7 +71,7 @@ dataset_info:
 
 > **473 million tokens** of chain-of-thought reasoning traces from **12 open-weight models** across **9 architectural families**, probing whether models say what they think.
 
-**Why this matters:** Reasoning models now show their "thinking" before answering, and the AI safety community is betting on reading those traces to catch when models go wrong. We tested whether that actually works. It doesn't — not reliably. When we planted misleading hints, models changed their answers but rarely admitted why in their reasoning. The worst model acknowledged the influence only 36% of the time. If you're building safety systems that depend on reading chain-of-thought, this is the dataset that shows where that breaks down.
+**Why this matters:** Reasoning models now show their "thinking" before answering, and the AI safety community is betting on reading those traces to catch when models go wrong. We tested whether that actually works. **It doesn't** (not reliably). When we planted misleading hints, models changed their answers but rarely admitted why in their reasoning. The worst model acknowledged the influence only 36% of the time. If you're building safety systems that depend on reading chain-of-thought, this is the dataset that shows where that breaks down.
 
 ## Why This Dataset Exists
 
