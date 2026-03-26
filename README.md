@@ -72,6 +72,8 @@ dataset_info:
 
 > **473 million tokens** of chain-of-thought reasoning traces from **12 open-weight models** across **9 architectural families**, probing whether models say what they think.
 
+**Why this matters:** Reasoning models now show their "thinking" before answering, and the AI safety community is betting on reading those traces to catch when models go wrong. We tested whether that actually works. It doesn't — not reliably. When we planted misleading hints, models changed their answers but rarely admitted why in their reasoning. The worst model acknowledged the influence only 36% of the time. If you're building safety systems that depend on reading chain-of-thought, this is the dataset that shows where that breaks down.
+
 This repository contains the code, sampled evaluation questions, analysis tables, and paper sources for two companion papers on chain-of-thought faithfulness in open-weight reasoning models. The full raw inference artifacts (~916 MB of JSONL) live on [Hugging Face](https://huggingface.co/datasets/richardyoung/cot-faithfulness-open-models) because they are too large for GitHub.
 
 ## Key Findings
