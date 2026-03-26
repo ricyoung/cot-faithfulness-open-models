@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use this software or data, please cite the associated papers."
+message: "If you use this software, dataset, or analysis artifacts, please cite the associated papers."
 title: "CoT Faithfulness in Open-Weight Reasoning Models"
 authors:
   - family-names: Young
@@ -8,6 +8,7 @@ authors:
     email: ryoung@unlv.edu
 license: CC-BY-4.0
 repository-code: "https://github.com/ricyoung/cot-faithfulness-open-models"
+repository-artifact: "https://huggingface.co/datasets/richardyoung/cot-faithfulness-open-models"
 date-released: "2026-03-23"
 preferred-citation:
   type: article
@@ -17,7 +18,9 @@ preferred-citation:
       given-names: Richard J.
       affiliation: "University of Nevada, Las Vegas; DeepNeuro AI"
   year: 2026
-  journal: "arXiv preprint"
+  journal: "arXiv preprint arXiv:2603.22582"
+  doi: "10.48550/arXiv.2603.22582"
+  url: "https://arxiv.org/abs/2603.22582"
 references:
   - type: article
     title: "Lie to Me: How Faithful Is Chain-of-Thought Reasoning in Reasoning Models?"
@@ -26,8 +29,9 @@ references:
         given-names: Richard J.
         affiliation: "University of Nevada, Las Vegas; DeepNeuro AI"
     year: 2026
-    journal: "arXiv preprint"
-    notes: "Submitted to arXiv; ID pending."
+    journal: "arXiv preprint arXiv:2603.22582"
+    doi: "10.48550/arXiv.2603.22582"
+    url: "https://arxiv.org/abs/2603.22582"
   - type: article
     title: "Measuring Faithfulness Depends on How You Measure: Classifier Sensitivity in LLM Chain-of-Thought Evaluation"
     authors:

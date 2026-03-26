@@ -63,7 +63,8 @@ dataset_info:
 # CoT Faithfulness in Open-Weight Reasoning Models
 
 <p align="center">
-  <a href="https://arxiv.org/abs/2603.20172"><img alt="Paper 2 on arXiv" src="https://img.shields.io/badge/arXiv-2603.20172-b31b1b.svg"></a>
+  <a href="https://arxiv.org/abs/2603.22582"><img alt="Paper 1 on arXiv" src="https://img.shields.io/badge/arXiv-2603.22582_(Lie_to_Me)-b31b1b.svg"></a>
+  <a href="https://arxiv.org/abs/2603.20172"><img alt="Paper 2 on arXiv" src="https://img.shields.io/badge/arXiv-2603.20172_(Classifier_Sensitivity)-b31b1b.svg"></a>
   <a href="https://huggingface.co/datasets/richardyoung/cot-faithfulness-open-models"><img alt="Dataset on HF" src="https://img.shields.io/badge/%F0%9F%A4%97-Dataset-yellow"></a>
   <a href="https://github.com/ricyoung/cot-faithfulness-open-models"><img alt="GitHub" src="https://img.shields.io/badge/GitHub-Code-blue?logo=github"></a>
   <a href="https://creativecommons.org/licenses/by/4.0/"><img alt="License: CC BY 4.0" src="https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg"></a>
@@ -84,7 +85,7 @@ This repository contains the code, sampled evaluation questions, analysis tables
 
 | Paper | Title | Status |
 |-------|-------|--------|
-| **Paper 1** | *Lie to Me: How Faithful Is Chain-of-Thought Reasoning in Open-Weight Reasoning Models?* | Submitted to arXiv (March 2026) |
+| **Paper 1** | *Lie to Me: How Faithful Is Chain-of-Thought Reasoning in Reasoning Models?* | [arXiv:2603.22582](https://arxiv.org/abs/2603.22582) |
 | **Paper 2** | *Measuring Faithfulness Depends on How You Measure: Classifier Sensitivity in LLM Chain-of-Thought Evaluation* | [arXiv:2603.20172](https://arxiv.org/abs/2603.20172) |
 
 Source: `lie-to-me/` (Paper 1), `measuring-faithfulness/` (Paper 2)
@@ -293,9 +294,9 @@ mypy src
 ```bibtex
 @article{young2026lietome,
   title   = {Lie to Me: How Faithful Is Chain-of-Thought Reasoning in
-             Open-Weight Reasoning Models?},
+             Reasoning Models?},
   author  = {Young, Richard J.},
-  journal = {arXiv preprint},
+  journal = {arXiv preprint arXiv:2603.22582},
   year    = {2026}
 }
 
