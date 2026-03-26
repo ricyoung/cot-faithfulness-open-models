@@ -74,6 +74,8 @@ dataset_info:
 
 **Why this matters:** Reasoning models now show their "thinking" before answering, and the AI safety community is betting on reading those traces to catch when models go wrong. We tested whether that actually works. **It doesn't** (not reliably). When we planted misleading hints, models changed their answers but rarely admitted why in their reasoning. The worst model acknowledged the influence only 36% of the time. If you're building safety systems that depend on reading chain-of-thought, this is the dataset that shows where that breaks down.
 
+**In everyday terms:** Imagine a student takes an exam, and you can read their internal monologue as they work through each question. Halfway through, someone slips them a note saying "the answer is D." The student changes their answer to D. But when you read their reasoning, they never mention the note. Instead they write: "After reconsidering the problem, I realized D is correct because..." That's what these models are doing. They're being influenced, but their "thinking out loud" doesn't admit it. If we're relying on that inner monologue to catch when AI systems go off the rails, we have a problem.
+
 This repository contains the code, sampled evaluation questions, analysis tables, and paper sources for two companion papers on chain-of-thought faithfulness in open-weight reasoning models. The full raw inference artifacts (~916 MB of JSONL) live on [Hugging Face](https://huggingface.co/datasets/richardyoung/cot-faithfulness-open-models) because they are too large for GitHub.
 
 ## Key Findings
