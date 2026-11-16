@@ -14,7 +14,7 @@
 
 **In everyday terms:** Imagine a student takes an exam, and you can read their internal monologue as they work through each question. Halfway through, someone slips them a note saying "the answer is D." The student changes their answer to D. But when you read their reasoning, they never mention the note. Instead they write: "After reconsidering the problem, I realized D is correct because..." That's what these models are doing. They're being influenced, and their "thinking out loud" doesn't always admit it. If we're relying on that inner monologue to catch when AI systems go off the rails, we have a problem.
 
-This repository contains the code, sampled evaluation questions, analysis tables, and paper sources for two companion papers on chain-of-thought faithfulness in open-weight reasoning models. The full raw inference artifacts (~916 MB of JSONL) live on [Hugging Face](https://huggingface.co/datasets/richardyoung/cot-faithfulness-open-models) because they are too large for GitHub.
+This repository contains the code, sampled evaluation questions, analysis tables, and paper sources for companion papers on chain-of-thought faithfulness in open-weight reasoning models. The full raw inference artifacts (~916 MB of JSONL) live on [Hugging Face](https://huggingface.co/datasets/richardyoung/cot-faithfulness-open-models) because they are too large for GitHub.
 
 ## Key Findings
 
@@ -32,7 +32,7 @@ Figures are quoted from the papers' abstracts:
 | **Paper 2** | *Measuring Faithfulness Depends on How You Measure: Classifier Sensitivity in LLM Chain-of-Thought Evaluation* | [arXiv:2603.20172](https://arxiv.org/abs/2603.20172) |
 | **Paper 3** | *Why Models Know But Don't Say: Chain-of-Thought Faithfulness Divergence Between Thinking Tokens and Answers in Open-Weight Reasoning Models* | [arXiv:2603.26410](https://arxiv.org/abs/2603.26410) |
 
-Source: `lie-to-me/` (Paper 1), `measuring-faithfulness/` (Paper 2)
+Source: `lie-to-me/` (Paper 1), `measuring-faithfulness/` (Paper 2). Paper 3 analyzes the same inference runs with slightly different edge-case filtering (10,506 vs 10,276 influenced cases); its LaTeX source is not included here.
 
 ## Dataset at a Glance
 
@@ -251,6 +251,15 @@ mypy src
              Classifier Sensitivity in {LLM} Chain-of-Thought Evaluation},
   author  = {Young, Richard J.},
   journal = {arXiv preprint arXiv:2603.20172},
+  year    = {2026}
+}
+
+@article{young2026knowbutdontsay,
+  title   = {Why Models Know But Don't Say: Chain-of-Thought Faithfulness
+             Divergence Between Thinking Tokens and Answers in Open-Weight
+             Reasoning Models},
+  author  = {Young, Richard J.},
+  journal = {arXiv preprint arXiv:2603.26410},
   year    = {2026}
 }
 ```
