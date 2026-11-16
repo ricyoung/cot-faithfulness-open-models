@@ -24,8 +24,6 @@ Figures are quoted from the papers' abstracts:
 - **Thinking traces and answers diverge.** In 55.4% of hint-influenced cases, hint-related keywords appear in the thinking tokens but not in the answer; the reverse happens in 0.5%. *(Why Models Know But Don't Say)*
 - **The measurement depends on the classifier.** Three classifiers applied to the same 10,276 influenced traces give 74.4%, 82.6% and 69.7% faithfulness, and model rankings can reverse (Qwen3.5-27B ranks 1st under one classifier and 7th under another). *(Measuring Faithfulness)*
 
-> **[TODO, Ric: reconcile before publishing]** The per-model "Faithfulness (Pipeline)" column below (e.g. 97.7% for Qwen3.5-27B, 97.1% for DeepSeek-V3.2-Speciale) and the earlier summary figures (35.7%–97.7%, an 11.1 pp classifier gap, visual pattern 0%) don't match the published abstracts. Update the table to the paper versions, or label it with the analysis version it came from.
-
 ## Papers
 
 | Paper | Title | Status |
@@ -55,20 +53,22 @@ Source: `lie-to-me/` (Paper 1), `measuring-faithfulness/` (Paper 2)
 
 All 12 models are open-weight reasoning models accessed through OpenRouter. Inference uses `temperature=0.0` and `seed=103`.
 
-| Model | Family | Architecture | Parameters | Faithfulness (Pipeline) |
-|-------|--------|-------------|------------|------------------------|
-| DeepSeek-R1 | DeepSeek | MoE | 671B / 37B active | 93.6% |
-| DeepSeek-V3.2-Speciale | DeepSeek | MoE | 685B / 37B active | 97.1% |
-| Qwen3.5-27B | Qwen | Dense | 27B | 97.7% |
-| QwQ-32B | Qwen | Dense | 32B | 65.4% |
-| MiniMax-M2.5 | MiniMax | MoE | 230B / 10B active | 89.4% |
-| GPT-OSS-120B | OpenAI | MoE | 117B / 5.1B active | 88.9% |
-| ERNIE-4.5-21B | Baidu | MoE | 21B / 3B active | 73.1% |
-| OLMo-3.1-32B-Think | AI2 | Dense | 32B | 70.4% |
-| OLMo-3-7B-Think | AI2 | Dense | 7B | 76.4% |
-| Nemotron-Nano-9B | NVIDIA | Dense | 9B | 66.2% |
-| Step-3.5-Flash | StepFun | MoE | 196B / 11B active | 95.1% |
-| Seed-1.6-Flash | ByteDance | Dense | Undisclosed | 35.7% |
+| Model | Family | Architecture | Parameters | Faithfulness: Sonnet judge (primary) | Faithfulness: two-stage pipeline |
+|-------|--------|-------------|------------|------|------|
+| DeepSeek-R1 | DeepSeek | MoE | 671B / 37B active | 74.8% | 94.8% |
+| DeepSeek-V3.2-Speciale | DeepSeek | MoE | 685B / 37B active | 89.9% | 97.6% |
+| Qwen3.5-27B | Qwen | Dense | 27B | 68.3% | 98.9% |
+| QwQ-32B | Qwen | Dense | 32B | 56.3% | 66.5% |
+| MiniMax-M2.5 | MiniMax | MoE | 230B / 10B active | 73.1% | 91.2% |
+| GPT-OSS-120B | OpenAI | MoE | 117B / 5.1B active | 84.9% | 94.7% |
+| ERNIE-4.5-21B | Baidu | MoE | 21B / 3B active | 62.8% | 75.1% |
+| OLMo-3.1-32B-Think | AI2 | Dense | 32B | 81.0% | 71.9% |
+| OLMo-3-7B-Think | AI2 | Dense | 7B | 56.9% | 80.2% |
+| Nemotron-Nano-9B | NVIDIA | Dense | 9B | 60.9% | 67.4% |
+| Step-3.5-Flash | StepFun | MoE | 196B / 11B active | 75.3% | 96.0% |
+| Seed-1.6-Flash | ByteDance | Dense | Undisclosed | 39.7% | 37.1% |
+
+Rates are from Table 2 of *Lie to Me* (arXiv:2603.22582). The Sonnet judge is the paper's primary classifier and is comparable to Chen et al. (2025). `results/analysis/faithfulness_summary.csv` holds an earlier run of the two-stage pipeline, so its values differ slightly (e.g. Qwen3.5-27B 97.7%). See *Measuring Faithfulness Depends on How You Measure* (arXiv:2603.20172) for why the classifiers disagree.
 
 ## Hint Types
 
