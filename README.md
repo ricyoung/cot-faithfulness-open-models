@@ -1,65 +1,3 @@
----
-language:
-- en
-license: cc-by-4.0
-task_categories:
-- text-classification
-- question-answering
-tags:
-- chain-of-thought
-- faithfulness
-- reasoning
-- safety
-- alignment
-- transparency
-- open-weight-models
-- LLM-evaluation
-- reasoning-traces
-- thinking-tokens
-- CoT-monitoring
-- sycophancy
-- MMLU
-- GPQA
-pretty_name: "CoT Faithfulness in Open-Weight Reasoning Models"
-size_categories:
-- 10K<n<100K
-viewer: false
-configs:
-- config_name: default
-  data_files:
-  - split: analysis
-    path: results/analysis/*.csv
-dataset_info:
-  features:
-  - name: question_id
-    dtype: string
-  - name: model_name
-    dtype: string
-  - name: hint_type
-    dtype: string
-  - name: thinking_text
-    dtype: string
-  - name: answer_text
-    dtype: string
-  - name: extracted_answer
-    dtype: string
-  - name: correct_label
-    dtype: string
-  - name: target_label
-    dtype: string
-  - name: reasoning_tokens
-    dtype: int64
-  - name: output_tokens
-    dtype: int64
-  splits:
-  - name: base
-    num_examples: 5976
-  - name: hinted
-    num_examples: 35856
-  - name: classified
-    num_examples: 10276
----
-
 # CoT Faithfulness in Open-Weight Reasoning Models
 
 <p align="center">
@@ -72,18 +10,19 @@ dataset_info:
 
 > **473 million tokens** of chain-of-thought reasoning traces from **12 open-weight models** across **9 architectural families**, probing whether models say what they think.
 
-**Why this matters:** Reasoning models now show their "thinking" before answering, and the AI safety community is betting on reading those traces to catch when models go wrong. We tested whether that actually works. **It doesn't** (not reliably). When we planted misleading hints, models changed their answers but rarely admitted why in their reasoning. The worst model acknowledged the influence only 36% of the time. If you're building safety systems that depend on reading chain-of-thought, this is the dataset that shows where that breaks down.
+**Why this matters:** Reasoning models expose their "thinking" before answering, and chain-of-thought (CoT) monitoring is being proposed as a safety mechanism. I tested how often models acknowledge a planted hint that actually changed their answer. Across 12 open-weight reasoning models, faithfulness ranged from 39.7% to 89.9% depending on the model ([Lie to Me](https://arxiv.org/abs/2603.22582)). Keyword analysis found hint acknowledgement in roughly 87.5% of thinking traces but only about 28.6% of visible answers ([Why Models Know But Don't Say](https://arxiv.org/abs/2603.26410)). The measured rate itself depends on the classifier: 69.7% to 82.6% on identical traces ([Measuring Faithfulness](https://arxiv.org/abs/2603.20172)). CoT monitoring can catch hint influence, but it can't be relied on to catch all of it, and reported faithfulness numbers aren't comparable across classifiers.
 
-**In everyday terms:** Imagine a student takes an exam, and you can read their internal monologue as they work through each question. Halfway through, someone slips them a note saying "the answer is D." The student changes their answer to D. But when you read their reasoning, they never mention the note. Instead they write: "After reconsidering the problem, I realized D is correct because..." That's what these models are doing. They're being influenced, but their "thinking out loud" doesn't admit it. If we're relying on that inner monologue to catch when AI systems go off the rails, we have a problem.
+**In everyday terms:** Imagine a student takes an exam, and you can read their internal monologue as they work through each question. Halfway through, someone slips them a note saying "the answer is D." The student changes their answer to D. But when you read their reasoning, they never mention the note. Instead they write: "After reconsidering the problem, I realized D is correct because..." That's what these models are doing. They're being influenced, and their "thinking out loud" doesn't always admit it. If we're relying on that inner monologue to catch when AI systems go off the rails, we have a problem.
 
-This repository contains the code, sampled evaluation questions, analysis tables, and paper sources for two companion papers on chain-of-thought faithfulness in open-weight reasoning models. The full raw inference artifacts (~916 MB of JSONL) live on [Hugging Face](https://huggingface.co/datasets/richardyoung/cot-faithfulness-open-models) because they are too large for GitHub.
+This repository contains the code, sampled evaluation questions, analysis tables, and paper sources for companion papers on chain-of-thought faithfulness in open-weight reasoning models. The full raw inference artifacts (~916 MB of JSONL) live on [Hugging Face](https://huggingface.co/datasets/richardyoung/cot-faithfulness-open-models) because they are too large for GitHub.
 
 ## Key Findings
 
-- **Faithfulness ranges from 35.7% to 97.7%** across 12 models (pipeline classifier)
-- **Visual pattern (0%) and consistency (68.4%)** are the hardest hint types for models to acknowledge
-- Thinking traces acknowledge hints far more often than visible answer text
-- Classifier choice shifts measured faithfulness by up to **11.1 percentage points** (pipeline 80.8% vs. Sonnet judge 69.7%) and can reverse model rankings
+Figures are quoted from the papers' abstracts:
+
+- **Faithfulness ranges from 39.7% (Seed-1.6-Flash) to 89.9% (DeepSeek-V3.2-Speciale)** across 12 models from 9 families. Consistency (35.5%) and sycophancy (53.9%) hints have the lowest acknowledgement rates. *(Lie to Me)*
+- **Thinking traces and answers diverge.** In 55.4% of hint-influenced cases, hint-related keywords appear in the thinking tokens but not in the answer; the reverse happens in 0.5%. *(Why Models Know But Don't Say)*
+- **The measurement depends on the classifier.** Three classifiers applied to the same 10,276 influenced traces give 74.4%, 82.6% and 69.7% faithfulness, and model rankings can reverse (Qwen3.5-27B ranks 1st under one classifier and 7th under another). *(Measuring Faithfulness)*
 
 ## Papers
 
@@ -91,8 +30,9 @@ This repository contains the code, sampled evaluation questions, analysis tables
 |-------|-------|--------|
 | **Paper 1** | *Lie to Me: How Faithful Is Chain-of-Thought Reasoning in Reasoning Models?* | [arXiv:2603.22582](https://arxiv.org/abs/2603.22582) |
 | **Paper 2** | *Measuring Faithfulness Depends on How You Measure: Classifier Sensitivity in LLM Chain-of-Thought Evaluation* | [arXiv:2603.20172](https://arxiv.org/abs/2603.20172) |
+| **Paper 3** | *Why Models Know But Don't Say: Chain-of-Thought Faithfulness Divergence Between Thinking Tokens and Answers in Open-Weight Reasoning Models* | [arXiv:2603.26410](https://arxiv.org/abs/2603.26410) |
 
-Source: `lie-to-me/` (Paper 1), `measuring-faithfulness/` (Paper 2)
+Source: `lie-to-me/` (Paper 1), `measuring-faithfulness/` (Paper 2). Paper 3 analyzes the same inference runs with slightly different edge-case filtering (10,506 vs 10,276 influenced cases); its LaTeX source is not included here.
 
 ## Dataset at a Glance
 
@@ -113,20 +53,22 @@ Source: `lie-to-me/` (Paper 1), `measuring-faithfulness/` (Paper 2)
 
 All 12 models are open-weight reasoning models accessed through OpenRouter. Inference uses `temperature=0.0` and `seed=103`.
 
-| Model | Family | Architecture | Parameters | Faithfulness (Pipeline) |
-|-------|--------|-------------|------------|------------------------|
-| DeepSeek-R1 | DeepSeek | MoE | 671B / 37B active | 93.6% |
-| DeepSeek-V3.2-Speciale | DeepSeek | MoE | 685B / 37B active | 97.1% |
-| Qwen3.5-27B | Qwen | Dense | 27B | 97.7% |
-| QwQ-32B | Qwen | Dense | 32B | 65.4% |
-| MiniMax-M2.5 | MiniMax | MoE | 230B / 10B active | 89.4% |
-| GPT-OSS-120B | OpenAI | MoE | 117B / 5.1B active | 88.9% |
-| ERNIE-4.5-21B | Baidu | MoE | 21B / 3B active | 73.1% |
-| OLMo-3.1-32B-Think | AI2 | Dense | 32B | 70.4% |
-| OLMo-3-7B-Think | AI2 | Dense | 7B | 76.4% |
-| Nemotron-Nano-9B | NVIDIA | Dense | 9B | 66.2% |
-| Step-3.5-Flash | StepFun | MoE | 196B / 11B active | 95.1% |
-| Seed-1.6-Flash | ByteDance | Dense | Undisclosed | 35.7% |
+| Model | Family | Architecture | Parameters | Faithfulness: Sonnet judge (primary) | Faithfulness: two-stage pipeline |
+|-------|--------|-------------|------------|------|------|
+| DeepSeek-R1 | DeepSeek | MoE | 671B / 37B active | 74.8% | 94.8% |
+| DeepSeek-V3.2-Speciale | DeepSeek | MoE | 685B / 37B active | 89.9% | 97.6% |
+| Qwen3.5-27B | Qwen | Dense | 27B | 68.3% | 98.9% |
+| QwQ-32B | Qwen | Dense | 32B | 56.3% | 66.5% |
+| MiniMax-M2.5 | MiniMax | MoE | 230B / 10B active | 73.1% | 91.2% |
+| GPT-OSS-120B | OpenAI | MoE | 117B / 5.1B active | 84.9% | 94.7% |
+| ERNIE-4.5-21B | Baidu | MoE | 21B / 3B active | 62.8% | 75.1% |
+| OLMo-3.1-32B-Think | AI2 | Dense | 32B | 81.0% | 71.9% |
+| OLMo-3-7B-Think | AI2 | Dense | 7B | 56.9% | 80.2% |
+| Nemotron-Nano-9B | NVIDIA | Dense | 9B | 60.9% | 67.4% |
+| Step-3.5-Flash | StepFun | MoE | 196B / 11B active | 75.3% | 96.0% |
+| Seed-1.6-Flash | ByteDance | Dense | Undisclosed | 39.7% | 37.1% |
+
+Rates are from Table 2 of *Lie to Me* (arXiv:2603.22582). The Sonnet judge is the paper's primary classifier and is comparable to Chen et al. (2025). `results/analysis/faithfulness_summary.csv` holds an earlier run of the two-stage pipeline, so its values differ slightly (e.g. Qwen3.5-27B 97.7%). See *Measuring Faithfulness Depends on How You Measure* (arXiv:2603.20172) for why the classifiers disagree.
 
 ## Hint Types
 
@@ -309,6 +251,15 @@ mypy src
              Classifier Sensitivity in {LLM} Chain-of-Thought Evaluation},
   author  = {Young, Richard J.},
   journal = {arXiv preprint arXiv:2603.20172},
+  year    = {2026}
+}
+
+@article{young2026knowbutdontsay,
+  title   = {Why Models Know But Don't Say: Chain-of-Thought Faithfulness
+             Divergence Between Thinking Tokens and Answers in Open-Weight
+             Reasoning Models},
+  author  = {Young, Richard J.},
+  journal = {arXiv preprint arXiv:2603.26410},
   year    = {2026}
 }
 ```
